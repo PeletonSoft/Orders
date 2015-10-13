@@ -58,10 +58,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="..\..\Secure\CorniceConnection.config">
-      <Link>CorniceConnection.config</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -81,7 +77,20 @@
       <Name>CorniceGraph</Name>
     </ProjectReference>
   </ItemGroup>
+  
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
+  <PropertyGroup>
+    <PrepareForRunDependsOn>$(PrepareForRunDependsOn);ExternalConfig</PrepareForRunDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ExternalConfig">
+    <Copy 
+        SourceFiles="..\..\Secure\CorniceConnection.config" 
+        DestinationFolder="$(OutDir)" 
+        ContinueOnError="true" />
+  </Target>
+
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

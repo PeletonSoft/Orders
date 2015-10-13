@@ -416,14 +416,6 @@
     <EmbeddedResource Include="_UpdateDictionary.resx">
       <DependentUpon>_UpdateDictionary.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="..\..\Secure\JalousieSettings.config">
-      <Link>JalousieSettings.config</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\Secure\JalousieConnection.config">
-      <Link>JalousieConnection.config</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Datasets\dsAdvPrice.xsc">
       <DependentUpon>dsAdvPrice.xsd</DependentUpon>
     </None>
@@ -611,6 +603,13 @@
     <Content Include="Jalousie.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PrepareForRunDependsOn>$(PrepareForRunDependsOn);ExternalConfig</PrepareForRunDependsOn>
+  </PropertyGroup>
+  <Target Name="ExternalConfig">
+    <Copy SourceFiles="..\..\Secure\JalousieConnection.config" DestinationFolder="$(OutDir)" ContinueOnError="true" />
+    <Copy SourceFiles="..\..\Secure\JalousieSettings.config" DestinationFolder="$(OutDir)" ContinueOnError="true" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
