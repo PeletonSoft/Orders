@@ -1,2308 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using CorniceGraph.Datasets;
 using System.Collections;
-using System.IO;
+using CorniceGraph.Logic;
 
 namespace CorniceGraph
 {
     public partial class TfMain : Form
     {
-        public class View
-        {
-            public double X;
-            public double Y;
-            public double Phi;
-            public double Zoom;
-            public bool Mirrow;
-
-            public View(double X, double Y, double Phi, double Zoom, bool Mirrow)
-            {
-                this.X = X;
-                this.Y = Y;
-                this.Phi = Phi;
-                this.Zoom = Zoom;
-                this.Mirrow = Mirrow;
-            }
-
-            public View(double X, double Y, double Phi, double Zoom)
-            {
-                this.X = X;
-                this.Y = Y;
-                this.Phi = Phi;
-                this.Zoom = Zoom;
-                this.Mirrow = false;                
-            }
-
-            public View(double X, double Y, double Phi)
-            {
-                this.X = X;
-                this.Y = Y;
-                this.Phi = Phi;
-                this.Zoom = 1;
-                this.Mirrow = false;
-            }
-
-            public View(double X, double Y)
-            {
-                this.X = X;
-                this.Y = Y;
-                this.Phi = 0;
-                this.Zoom = 1;
-                this.Mirrow = false;
-            }
-
-            public View()
-            {
-                this.X = 0;
-                this.Y = 0;
-                this.Phi = 0;
-                this.Zoom = 1;
-                this.Mirrow = false;
-            }
-
-            public PointF TranslateF(Pointer Pointer)
-            {
-                return Translate(Pointer).PointF;
-            }
-
-            public PointF TranslateF(PointF Point)
-            {
-                return TranslateF((float)Point.X, (float)Point.Y);
-            }
-
-            public PointF TranslateF(double X, double Y)
-            {
-                return Translate(X,Y,0).PointF;
-            }
-
-            public Pointer Translate(Pointer Pointer)
-            {
-                return Translate(Pointer.X, Pointer.Y, Pointer.Phi);
-            }
-
-            public Pointer Translate(double X, double Y, double Phi)
-            {
-                Pointer p = new Pointer();
-                p.X = (float)(this.X + Zoom * (X * Math.Cos(this.Phi) + Y * Math.Sin(this.Phi)));
-                p.Y = (float)(this.Y + (Mirrow ? -1 : 1) *
-                    Zoom * (X * Math.Sin(this.Phi) - Y * Math.Cos(this.Phi)));
-                p.Phi = (Mirrow ? -1 : 1) * (this.Phi + Phi);
-                return p;
-            }
-
-            public View AutoZoom(RectangleF RectangleF, double Width, double Height, double cx, double cy)
-            {
-                double kx = 0;
-                if (RectangleF.Right - RectangleF.Left > 0.1)
-                    kx = (RectangleF.Right - RectangleF.Left) / (Width * (1 - cx));
-                double ky = 0;
-                if (RectangleF.Bottom - RectangleF.Top > 0.1)
-                    ky = (RectangleF.Bottom - RectangleF.Top) / (Height * (1 - cy));
-
-                return new View(this.X, this.Y, this.Phi, this.Zoom / Math.Max(kx, ky), this.Mirrow);
-
-            }
-
-            public View AutoStart(RectangleF RectangleF, double Width, double Height)
-            {
-                return new View(
-                    this.X - (RectangleF.Left + RectangleF.Right) / 2 + Width / 2, 
-                    this.Y - (RectangleF.Bottom + RectangleF.Top) / 2 + Height / 2, 
-                    this.Phi, this.Zoom, this.Mirrow);
-            }
-        }
-
-        public class Pointer
-        {
-            public double X;
-            public double Y;
-            public double Phi;
-
-            public Pointer()
-            {
-                this.X = 0;
-                this.Y = 0;
-                this.Phi = 0;
-            }
-
-            public Pointer(double X, double Y)
-            {
-                this.X = X;
-                this.Y = Y;
-                this.Phi = 0;
-            }
-
-            public Pointer(double X, double Y, double Phi)
-            {
-                this.X = X;
-                this.Y = Y;
-                this.Phi = Phi;
-            }
-
-            public PointF PointF
-            {
-                get
-                {
-                    return new PointF((float)X, (float)Y);
-                }
-            }
-
-            public Pointer ClearancePointer(double Clearance)
-            {
-                Pointer P = new Pointer();
-                P.Phi = Phi;
-                P.X = this.X - Clearance * Math.Sin(P.Phi);
-                P.Y = this.Y + Clearance * Math.Cos(P.Phi);
-                return P;
-
-            }
-        }
-
-        public class WallSections
-        {
-
-            public enum WallType { Corner = 0, Arc = 1, Wall = 2, Line = 3 };
-
-            public static void FillNode(TreeNode nd, WallType Type, dsWall dsWall, int ID)
-            {
-                switch (Type)
-                {
-                    case WallType.Wall:
-                        nd.Tag = new Wall(dsWall, ID);
-                        break;
-                    case WallType.Arc:
-                        nd.Tag = new Arc(dsWall, ID);
-                        break;
-                    case WallType.Line:
-                        nd.Tag = new Line(dsWall, ID);
-                        break;
-                    case WallType.Corner:
-                        nd.Tag = new Corner(dsWall, ID);
-                        break;
-                }
-
-                nd.Text = (nd.Tag as Section).FullName;
-                nd.ImageKey = (nd.Tag as Section).Type.ToString();
-                nd.SelectedImageKey = (nd.Tag as Section).Type.ToString();
-            }
-
-            public static WallType TypeByID(dsWall dsWall, int ID)
-            {
-                dsWall.tbWallSegmentRow rw = dsWall.tbWallSegment.FindByКод(ID);
-
-                if (rw == null)
-                    return WallType.Wall;
-                if (rw.Длина < 1e-6)
-                    return WallType.Corner;
-
-                if (Math.Abs(rw.Угол)<1e-6)
-                    return WallType.Line;
-                return WallType.Arc;
-                
-            }
-
-            public static Section SectionByID(dsWall dsWall, int ID)
-            {
-                switch (TypeByID(dsWall, ID))
-                {
-                    case WallType.Arc:
-                        return new Arc(dsWall, ID);
-                    case WallType.Corner:
-                        return new Corner(dsWall, ID);
-                    case WallType.Line:
-                        return new Line(dsWall, ID);
-                }
-                return null;
-            }
-
-            public class Walls : IEnumerable
-            {
-                protected dsWall dsWall;
-
-                public int Count
-                {
-                    get
-                    {
-                        return dsWall.tbWall.Rows.Count;
-                    }
-                }
-
-                public void FillNode(TreeNode nd)
-                {
-                    nd.Tag = this;
-                    nd.Text = Name;
-                    nd.ImageKey = "walls";
-                    nd.SelectedImageKey = "walls";
-                }
-
-
-                #region IEnumerable Members
-                public Walls(dsWall dsWall)
-                {
-                    this.dsWall = dsWall;
-                }
-
-                public IEnumerator GetEnumerator()
-                {
-                    return new Enumerator(dsWall);
-                }
-
-                #endregion
-
-                private class Enumerator : IEnumerator
-                {
-                    private int Index;
-                    private dsWall dsWall;
-
-                    public Enumerator(dsWall dsWall)
-                    {
-                        this.dsWall = dsWall;
-                        Reset();
-                    }
-                    #region IEnumerator Members
-
-                    public object Current
-                    {
-                        get
-                        {
-                            dsWall.tbWallRow rw = 
-                                dsWall.tbWall.Select("","[Номер] ASC")[Index] as dsWall.tbWallRow;
-                            return new Wall(dsWall, rw.Код);
-                        }
-                    }
-
-                    public bool MoveNext()
-                    {
-                        Index++;
-                        return (Index < dsWall.tbWall.Rows.Count);
-                    }
-
-                    public void Reset()
-                    {
-                        Index = -1;
-                    }
-
-                    #endregion
-                }
-
-                public Wall FirstWall
-                {
-                    get
-                    {
-                        foreach (Wall Wall in this)
-                            return Wall;
-                        return null;
-                    }
-                }
-
-                public Wall LastWall
-                {
-                    get
-                    {
-                        Wall L = null;
-                        foreach (Wall Wall in this)
-                            L = Wall;
-                        return L;
-                    }
-                }
-
-                public double Length
-                {
-                    get
-                    {
-                        double L=0;
-                        foreach (Wall Wall in this)
-                            L += Wall.Length;
-                        return L;
-                    }
-                }
-
-                public string Name
-                {
-                    get
-                    {
-                        return String.Format("Стена [L={0:N2}]", Length);
-                    }
-                }
-            }
-
-            public abstract class Section
-            {
-                protected int Its_ID;
-                protected dsWall dsWall;
-                protected WallType WallType;
-
-                public int ID
-                {
-                    get
-                    {
-                        return Its_ID;
-                    }
-                }
-                public string Name
-                {
-                    get
-                    {
-                        Calc();
-                        return Get_Name();
-                    }
-                }
-
-                public WallType Type
-                {
-                    get
-                    {
-                        return WallType;
-                    }
-                }
-
-                public string FullName
-                {
-                    get
-                    {
-                        Calc();
-                        return Get_FullName();
-                    }
-                }
-
-                public Wall Wall
-                {
-                    get
-                    {
-                        return Get_Wall();
-                    }
-                }
-
-                public abstract Pointer Finish(Pointer Start);
-
-                public Section(dsWall dsWall, int ID)
-                {
-                    Its_ID = ID;
-                    this.dsWall = dsWall;
-                    Calc();
-                }
-
-                protected abstract void Calc();
-                protected abstract string Get_Name();
-                protected abstract string Get_FullName();
-                protected abstract Wall Get_Wall();
-            }
-
-            public abstract class LengthSection : Section
-            {
-                protected double L;
-                protected int start;
-                protected int finish;
-
-                public double Length
-                {
-                    get
-                    {
-                        Calc();
-                        return L;
-                    }
-                }
-
-                public Point StartPoint
-                {
-                    get
-                    {
-                        Calc();
-                        return new Point(dsWall, start);
-                    }
-                }
-
-                public Point FinishPoint
-                {
-                    get
-                    {
-                        Calc();
-                        return new Point(dsWall,finish);
-                    }
-                }
-                public LengthSection(dsWall dsWall, int ID)
-                    : base(dsWall, ID)
-                {
-                }
-
-                protected override string Get_Name()
-                {
-                    return String.Format("{0:G}-{1:G}", StartPoint.Numer, FinishPoint.Numer);
-                }
-
-                
-
-                public abstract void Draw(Graphics Graphics, Pen Pen, View View);
-
-            }
-
-            public abstract class WallPartSection : LengthSection
-            {
-                public int Index
-                {
-                    get
-                    {
-                        int i = -1;
-                        bool find = false;
-                        foreach (WallPartSection Section in this.Wall)
-                        {
-                            if (!find)
-                                i++;
-                            if (Section.Type == Type && Section.ID==ID)
-                                find = true;
-                        }
-                        return i;
-                    }
-                }
-
-                public virtual double Alpha
-                {
-                    get
-                    {
-                        return 0;
-                    }
-                }
-                public WallPartSection(dsWall dsWall, int ID)
-                    : base(dsWall, ID)
-                {
-                }
-
-                public virtual void DrawNumer(Graphics Graphics, View View, Font Font, Brush Brush)
-                {
-                    StartPoint.Draw(Graphics, View, Font, Brush);
-                    FinishPoint.Draw(Graphics, View, Font, Brush);
-                }
-
-            }
-
-            public class Wall : LengthSection, IEnumerable
-            {
-                private double theta;
-                private double d;
-                private double h;
-                private double phi;
-                private int count;
-
-                public double Theta
-                {
-                    get
-                    {
-                        Calc();
-                        return theta;
-                    }
-                }
-
-                public double Diameter
-                {
-                    get
-                    {
-                        Calc();
-                        return d;
-                    }
-                }
-
-                public double Count
-                {
-                    get
-                    {
-                        Calc();
-                        return count;
-                    }
-                }
-
-                public Wall(dsWall dsWall, int ID)
-                    : base(dsWall, ID)
-                {
-                }
-
-                public Corner PrevCorner
-                {
-                    get
-                    {
-                        Calc();
-                        if (StartPoint.Numer == 1)
-                            return null;
-                        DataRow[] rc = dsWall.tbWallSegment.Select("[Номер]=" + (start - 1).ToString());
-                        if (rc.Length<=0)
-                            return null;
-                        return new Corner(dsWall, (rc[0] as dsWall.tbWallSegmentRow).Код);
-                    }
-                }
-
-                public Corner NextCorner
-                {
-                    get
-                    {
-                        if (StartPoint.Numer == dsWall.tbWallSegment.Rows.Count)
-                            return null;
-                        DataRow[] rc = dsWall.tbWallSegment.Select("[Номер]=" + finish.ToString());
-                        if (rc.Length <= 0)
-                            return null;
-                        return new Corner(dsWall, (rc[0] as dsWall.tbWallSegmentRow).Код);
-                    }
-                }
-
-                protected override void Calc()
-                {
-                    WallType = WallType.Wall;
-                    
-                    dsWall.tbWallDetailRow[] rwwc = (dsWall.tbWallDetailRow[])
-                        dsWall.tbWallDetail.Select(String.Format("[Код стены]={0:G}", ID));
-                    start = dsWall.tbWallSegment.FindByКод((rwwc[0]).Код_сегмента).Номер;
-                    finish = dsWall.tbWallSegment.FindByКод((rwwc[rwwc.Length - 1]).Код_сегмента).Номер + 1;
-                    count = rwwc.Length;
-
-                    L = 0;
-                    Pointer F = new Pointer();
-                    foreach (WallPartSection Section in this)
-                    {
-                        L += Section.Length;
-                        F = Section.Finish(F);
-                    }
-                    phi = Math.Atan2(F.Y, F.X);
-                    theta = F.Phi - phi;
-                    d = Math.Sqrt(F.X * F.X + F.Y * F.Y);
-
-                    F = new Pointer();
-                    Pointer S = new Pointer(0, 0, phi);
-                    foreach (WallPartSection Section in this)
-                    {
-                        if ((phi - F.Phi) * (phi - Section.Finish(F).Phi) <= 0)
-                        {
-                            if (Section is Line)
-                            {
-                                S.X = F.X; S.Y = F.Y;
-                            }
-                            else
-                            {
-                                double alpha = phi - F.Phi;
-                                S.X = F.X + (Section as Arc).Radius * (1 - Math.Cos(alpha));
-                                S.Y = F.Y + (Section as Arc).Radius * Math.Sin(alpha);
-                            }
-                            h = S.X * Math.Sin(phi) - S.Y * Math.Cos(phi);
-                        }
-                        
-                        F = Section.Finish(F);
-                    }
-
-                }
-
-                protected override string Get_FullName()
-                {
-                    return String.Format("{0:G} [L={1:N2} d={2:N2} h={4:N2} \u03B8={3:N1}\u00B0]",
-                           Name, L, d, theta * 180 / Math.PI, h);
-                }
-
-                protected override Wall Get_Wall()
-                {
-                    return this;
-                }
-
-                #region IEnumerable Members
-
-                public IEnumerator GetEnumerator()
-                {
-                    return new Enumerator(dsWall, ID);
-                }
-
-                private class Enumerator : IEnumerator
-                {
-                    #region IEnumerator Members
-
-                    private int Index;
-                    private dsWall dsWall;
-                    private int WallId;
-
-                    public Enumerator(dsWall dsWall, int WallId)
-                    {
-                        Index = -1;
-                        this.dsWall = dsWall;
-                        this.WallId = WallId;
-                    }
-
-                    public object Current
-                    {
-                        get
-                        {
-                            DataRow[] rwwc = dsWall.tbWallDetail.Select
-                                (String.Format("[Код стены]={0:G}", WallId));
-                            return SectionByID
-                                (dsWall, (rwwc[Index] as dsWall.tbWallDetailRow).Код_сегмента);
-                        }
-                    }
-
-                    public bool MoveNext()
-                    {
-                        Index++;
-                        DataRow[] rwwc = dsWall.tbWallDetail.Select
-                            (String.Format("[Код стены]={0:G}", WallId));
-                        return (Index < rwwc.Length);
-                    }
-
-                    public void Reset()
-                    {
-                        Index = -1;
-                    }
-
-                    #endregion
-                }
-                #endregion
-
-                public override Pointer Finish(Pointer Start)
-                {
-                    Pointer F = Start;
-                    foreach (Section Section in this)
-                        F = Section.Finish(F);
-                    return F;
-                }
-
-                public override void Draw(Graphics Graphics, Pen Pen, View View)
-                {
-                    foreach (WallPartSection Section in this)
-                        Section.Draw(Graphics, Pen, View);
-                }
-
-                public void DrawNumer(Graphics Graphics, View View, Font Font, Brush Brush)
-                {
-                    foreach (WallPartSection Section in this)
-                        Section.DrawNumer(Graphics, View, Font, Brush);
-                }
-
-                public WallPartSection FirstSection
-                {
-                    get
-                    {
-                        foreach (WallPartSection WallPartSection in this)
-                            return WallPartSection;
-                        return null;
-                    }
-                }
-
-                public WallPartSection LastSection
-                {
-                    get
-                    {
-                        WallPartSection L = null;
-                        foreach (WallPartSection WallPartSection in this)
-                            L = WallPartSection;
-                        return L;
-                    }
-                }
-
-            }
-
-            public class Corner : Section
-            {
-                private double phi;
-                private double beta;
-                private int point;
-
-                public double Phi
-                {
-                    get
-                    {
-                        Calc();
-                        return phi;
-                    }
-                }
-
-                public double Beta
-                {
-                    get
-                    {
-                        Calc();
-                        return beta;
-                    }
-                }
-
-                public Point Point
-                {
-                    get
-                    {
-                        Calc();
-                        return new Point(dsWall, point);
-                    }
-                }
-
-                public Wall NextWall
-                {
-                    get
-                    {
-                        Calc();
-                        DataRow[] rc = dsWall.tbWallSegment.Select
-                            ("[Номер]>" + dsWall.tbWallSegment.FindByКод(ID).Номер.ToString(),
-                            "[Номер] ASC");
-                        if (rc.Length <= 0)
-                            return null;
-                        return SectionByID(dsWall, (rc[0] as dsWall.tbWallSegmentRow).Код).Wall;
-                    }
-                }
-
-
-                public Corner(dsWall dsWall, int ID)
-                    : base(dsWall, ID)
-                {
-                }
-
-                protected override void Calc()
-                {
-                    WallType = WallType.Corner;
-                    phi = dsWall.tbWallSegment.FindByКод(ID).Угол;
-                    beta = phi > 0 ? 180 - phi : -phi - 180;
-                    phi = phi / 180 * Math.PI;
-                    point = dsWall.tbWallSegment.FindByКод(ID).Номер;
-                }
-
-                protected override string Get_Name()
-                {
-                    return Point.Numer.ToString();
-                }
-
-                protected override string Get_FullName()
-                {
-                    return String.Format("{0:G} [\u03B2={1:N1}\u00B0]", Point.Numer, Beta);
-                }
-
-                protected override Wall Get_Wall()
-                {
-                    Calc();
-                    DataRow[] rc = dsWall.tbWallSegment.Select
-                        ("[Номер]<" + dsWall.tbWallSegment.FindByКод(ID).Номер.ToString(), 
-                        "[Номер] DESC");
-                    if (rc.Length <= 0)
-                        return null;
-                    return SectionByID(dsWall,(rc[0] as dsWall.tbWallSegmentRow).Код).Wall;
-                }
-
-                public override Pointer Finish(Pointer Start)
-                {
-                    return new Pointer(Start.X, Start.Y, Start.Phi+Phi);
-                }
-            }
-
-            public class Arc : WallPartSection
-            {
-                private double r;
-                private double alpha;
-
-                public override double Alpha
-                {
-                    get
-                    {
-                        Calc();
-                        return alpha;
-                    }
-                }
-
-                public double Radius
-                {
-                    get
-                    {
-                        Calc();
-                        return r;
-                    }
-                }
-
-                public Pointer Center
-                {
-                    get
-                    {
-                        Pointer C = new Pointer();
-                        C.X = StartPoint.Pointer.X - Length / Alpha * Math.Sin(StartPoint.Pointer.Phi);
-                        C.Y = StartPoint.Pointer.Y + Length / Alpha * Math.Cos(StartPoint.Pointer.Phi);
-                        if (Alpha > 0)
-                            C.Phi = Math.PI / 2 - StartPoint.Pointer.Phi;
-                        else
-                            C.Phi = -Math.PI / 2 - StartPoint.Pointer.Phi;
-
-                        return C;
-                    }
-                }
-
-                public Arc(dsWall dsWall, int ID)
-                    : base(dsWall, ID)
-                {
-                }
-
-                protected override void Calc()
-                {
-                    WallType = WallType.Arc;
-                    dsWall.tbWallSegmentRow rw = dsWall.tbWallSegment.FindByКод(ID);
-                    L = rw.Длина;
-                    alpha = rw.Угол * Math.PI / 180;
-                    r = Math.Abs(L / alpha);
-                    start = rw.Номер;
-                    finish = rw.Номер + 1;
-                }
-
-                protected override string Get_FullName()
-                {
-                    return String.Format("{0:G} [L={1:N2} R={2:N2} \u03B1={3:N1}\u00B0]",
-                        Name, L, r, alpha * 180 / Math.PI);
-                }
-
-                protected override Wall Get_Wall()
-                {
-                    DataRow[] rc = dsWall.tbWallDetail.Select
-                        ("[Код сегмента]=" + ID.ToString());
-
-                    if (rc.Length <= 0)
-                        return null;
-                    return new Wall(dsWall, (rc[0] as dsWall.tbWallDetailRow).Код_стены);
-
-                }
-
-                public override Pointer Finish(Pointer Start)
-                {
-                    double Si = Math.Sin(Alpha / 2) / (Alpha / 2);
-                    return new Pointer(
-                        Start.X + Length * Math.Cos(Start.Phi + Alpha / 2) * Si,
-                        Start.Y + Length * Math.Sin(Start.Phi + Alpha / 2) * Si,
-                        Start.Phi + Alpha);
-                }
-
-                public Pointer Middle
-                {
-                    get
-                    {
-                        double Si = Math.Sin(Alpha / 4) / (Alpha / 4);
-                        return new Pointer(
-                            StartPoint.Pointer.X + Length / 2 * Math.Cos(StartPoint.Pointer.Phi + Alpha / 4) * Si,
-                            StartPoint.Pointer.Y + Length / 2 * Math.Sin(StartPoint.Pointer.Phi + Alpha / 4) * Si,
-                            StartPoint.Pointer.Phi + Alpha / 2);
-                    }
-                }
-
-                public override void Draw(Graphics Graphics, Pen Pen, View View)
-                    
-                {
-                    float R = (float)(Radius * View.Zoom);
-                    PointF C = View.TranslateF(Center);
-                    RectangleF RectangleF = new RectangleF(C.X - R, C.Y - R, 2 * R, 2 * R);
-
-                    Graphics.DrawArc(Pen, RectangleF,
-                        (float)(View.Translate(Center).Phi * 180 / Math.PI),
-                        -(View.Mirrow ? -1 : 1) * (float)(Alpha * 180 / Math.PI));
-                    //DrawNumer(Graphics,View);
-                }
-            }
-
-            public class Line : WallPartSection
-            {
-
-                public Line(dsWall dsWall, int ID) :
-                    base(dsWall, ID)
-                {
-                }
-
-                protected override void Calc()
-                {
-                    WallType = WallType.Line;
-                    dsWall.tbWallSegmentRow rw = dsWall.tbWallSegment.FindByКод(ID);
-                    L = rw.Длина;
-                    start = rw.Номер;
-                    finish = rw.Номер + 1;
-                }
-
-                protected override string Get_FullName()
-                {
-                    return String.Format("{0:G} [L={1:N2}]", Name, Length);
-                }
-
-                protected override Wall Get_Wall()
-                {
-                    DataRow[] rc = dsWall.tbWallDetail.Select
-                        ("[Код сегмента]=" + ID.ToString());
-
-                    if (rc.Length<=0)
-                        return null;
-                    return new Wall(dsWall, (rc[0] as dsWall.tbWallDetailRow).Код_стены);
-                }
-
-                public override Pointer Finish(Pointer Start)
-                {
-                    return new Pointer(
-                        Start.X + Length * Math.Cos(Start.Phi),
-                        Start.Y + Length * Math.Sin(Start.Phi),
-                        Start.Phi);
-                }
-
-                public override void Draw(Graphics Graphics, Pen Pen, View View)
-                {
-                    PointF StartF = View.TranslateF(StartPoint.Pointer);
-                    PointF FinishF = View.TranslateF(this.Finish(StartPoint.Pointer));
-                    Graphics.DrawLine(Pen, StartF, FinishF);
-                }
-            }
-
-            public class Point
-            {
-                private dsWall dsWall;
-                private double x;
-                private double y;
-                private double phi;
-                private int N;
-
-                public int SegnentNumer
-                {
-                    get
-                    {
-                        return N;
-                    }
-                }
-
-                public int Numer
-                {
-                    get
-                    {
-                        int n = 0;
-                        DataRow[] rc = dsWall.tbWallSegment.Select("", "[Номер] ASC");
-                        if (rc.Length < 0)
-                            return 1;
-
-                        foreach (dsWall.tbWallSegmentRow rw in rc)
-                        {
-                            if (rw.Номер < N && rw.Длина > 1e-6 || rw.Номер == N)
-                                n++;
-                        }
-                        if ((rc[rc.Length - 1] as dsWall.tbWallSegmentRow).Номер + 1 == N)
-                            n++;
-                        return n;
-                    }
-                }
-
-                public double X
-                {
-                    get
-                    {
-                        Calc();
-                        return x;
-                    } 
-                }
-
-                public double Y
-                {
-                    get
-                    {
-                        Calc();
-                        return y;
-                    }
-                }
-
-                public PointF PointF
-                {
-                    get
-                    {
-                        return Pointer.PointF;
-                    }
-                }
-
-                public Pointer Pointer
-                {
-                    get
-                    {
-                        return new Pointer(X, Y, Phi);
-                    }
-                }
-
-                public double Phi
-                {
-                    get
-                    {
-                        Calc();
-                        return phi;
-                    }
-                }
-            
-                public Point(dsWall dsWall, int Numer)
-                {
-                    this.dsWall = dsWall;
-                    N = Numer;
-                    Calc();
-                }
-
-                private void Calc()
-                {
-                    x = 0;
-                    y = 0;
-                    phi = 0;
-
-                    DataRow[] rc = dsWall.tbWallSegment.Select
-                        ("[Номер]<" + N.ToString(),"[Номер] ASC");
-
-                    foreach (dsWall.tbWallSegmentRow rw in rc)
-                    {
-                        double l = rw.Длина;
-                        double alpha = rw.Угол / 180 * Math.PI;
-                        x += l * Math.Cos(phi + alpha / 2) * sinx(alpha / 2);
-                        y += l * Math.Sin(phi + alpha / 2) * sinx(alpha / 2);
-                        phi += alpha;
-                    }
-                }
-
-                public void Draw(Graphics Graphics, View View, Font Font, Brush Brush)
-                {
-                    PointF p = View.TranslateF(PointF);
-                    p.X += 0;
-                    p.Y += 0;
-                    Graphics.DrawString(Numer.ToString(), Font, Brush, p);
-                }
-            }
-
-        }
-
-        public class LineSections
-        {
-            public enum LineSectionType { Line = 0, Arc = 1, Junct = 2 };
-
-            public abstract class Section
-            {
-                protected dsLines dsLines;
-                protected int Its_ID;
-                protected double alpha;
-                protected double length;
-
-
-                public abstract LineSectionType Type
-                {
-                    get;
-                }
-
-                public int ID
-                {
-                    get
-                    {
-                        return Its_ID;
-                    }
-                }
-
-                public double Alpha
-                {
-                    get
-                    {
-                        Calc();
-                        return alpha;
-                    }
-                }
-
-                public double Length
-                {
-                    get
-                    {
-                        Calc();
-                        return length;
-                    }
-                }
-
-                public Section(dsLines dsLines, int ID)
-                {
-                    Its_ID = ID;
-                    this.dsLines = dsLines;
-                    Calc();
-                }
-
-                public abstract Pointer Finish(Pointer Start);
-
-                private void Calc()
-                {
-                    dsLines.tbLineSectionsRow rw = (dsLines.tbLineSectionsRow)
-                        dsLines.tbLineSections.Select("[Код]=" + ID.ToString())[0];
-                    length = rw.Длина;
-                    alpha = rw.Угол * Math.PI / 180;
-                }
-
-                public void FillNode(TreeNode nd)
-                {
-                    nd.Text = FullName;
-                    nd.Tag = this;
-                    nd.SelectedImageKey = Type.ToString();
-                    nd.ImageKey = Type.ToString();
-                }
-
-                private int LineId
-                {
-                    get
-                    {
-                        return dsLines.tbLineSections.FindByКод(ID).Код_линии;
-                    }
-                }
-
-                public int Numer
-                {
-                    get
-                    {
-                        return dsLines.tbLineSections.FindByКод(ID).Номер;
-                    }
-                }
-
-                public Point StartPoint
-                {
-                    get
-                    {
-                        int N = dsLines.tbLineSections.Select
-                            (String.Format(
-                                "[Код линии]={0:G} AND [Номер]<={1:G}", LineId,
-                                dsLines.tbLineSections.FindByКод(ID).Номер)).Length;
-                        return new Point(dsLines, LineId, N);
-                    }
-                }
-
-                public Point FinishPiont
-                {
-                    get
-                    {
-                        int N = dsLines.tbLineSections.Select
-                            (String.Format(
-                                "[Код линии]={0:G} AND [Номер]<={1:G}", LineId,
-                                dsLines.tbLineSections.FindByКод(ID).Номер)).Length;
-                        return new Point(dsLines, LineId, N + 1);
-                    }
-                }
-
-                public abstract string Name
-                {
-                    get;
-                }
-
-                public abstract string FullName
-                {
-                    get;
-                }
-
-                public Line Line
-                {
-                    get
-                    {
-                        return new Line(dsLines, null, LineId);
-                    }
-                }
-
-                public abstract void Draw(Graphics Graphics, Pen Pen, View View);
-
-                public abstract void DrawNumer(Graphics Graphics, View View, Font Font, Brush Brush);
-
-            }
-
-            public class JunctSection : Section
-            {
-                public override LineSectionType Type
-                {
-                    get 
-                    {
-                        return LineSectionType.Junct;
-                    }
-                }
-
-                public override Pointer Finish(Pointer Start)
-                {
-                    return new Pointer(Start.X, Start.Y, Start.Phi + Alpha);
-                }
-
-                public JunctSection(dsLines dsLines, int ID) :
-                    base(dsLines, ID)
-                {
-                }
-
-                public override string Name
-                {
-                    get
-                    {
-                        return StartPoint.Numer.ToString();
-                    }
-                }
-
-                public override string FullName
-                {
-                    get
-                    {
-                        return String.Format("{0:G} [\u03B1={1:N1}\u00B0]",
-                            Name, Alpha >= 0 ? 180 - Alpha * 180 / Math.PI : -180 - Alpha * 180 / Math.PI);
-
-                    }
-
-                }
-
-                public override void Draw(Graphics Graphics, Pen Pen, View View)
-                {
-                    Pen.Width += 2;
-                    PointF PointF = View.TranslateF(StartPoint.Pointer);
-                    Graphics.DrawLine(Pen, PointF.X - 5, PointF.Y - 5, PointF.X + 5, PointF.Y + 5);
-                    Graphics.DrawLine(Pen, PointF.X - 5, PointF.Y + 5, PointF.X + 5, PointF.Y - 5);
-                    Pen.Width -= 2;
-                }
-
-                public override void DrawNumer(Graphics Graphics, View View, Font Font, Brush Brush)
-                {
-                }
-            }
-
-            public abstract class LengthSection: Section
-            {
-
-                public override string Name
-                {
-                    get
-                    {
-                        return String.Format("{0:G}-{1:G}", StartPoint.Name, FinishPiont.Name);
-                    }
-                }
-
-                public override string FullName
-                {
-                    get
-                    {
-                        return String.Format("{0:G} [L={1:N2}]", Name, Length);
-                    }
-                }
-
-                public LengthSection(dsLines dsLines, int ID) :
-                    base(dsLines, ID)
-                {
-                }
-
-                public override void DrawNumer(Graphics Graphics, View View, Font Font, Brush Brush)
-                {
-                    StartPoint.Draw(Graphics, View, Font, Brush);
-                    FinishPiont.Draw(Graphics, View, Font, Brush);
-                }
-
-            }
-
-            public class LineSection : LengthSection
-            {
-                public override LineSectionType Type
-                {
-                    get
-                    {
-                        return LineSectionType.Line;
-                    }
-                }
-                public override Pointer Finish(Pointer Start)
-                {
-                    return new Pointer(
-                        Start.X + Length * Math.Cos(Start.Phi),
-                        Start.Y + Length * Math.Sin(Start.Phi),
-                        Start.Phi);
-                }
-
-                public LineSection(dsLines dsLines, int ID) :
-                    base(dsLines, ID)
-                {
-                }
-
-                public override void Draw(Graphics Graphics, Pen Pen, View View)
-                {
-                    PointF StartF = View.TranslateF(StartPoint.Pointer);
-                    PointF FinishF = View.TranslateF(FinishPiont.Pointer);
-                    Graphics.DrawLine(Pen, StartF, FinishF);
-                }
-            }
-
-            public class ArcSection : LengthSection
-            {
-                public override LineSectionType Type
-                {
-                    get
-                    {
-                        return LineSectionType.Arc;
-                    }
-                }
-
-                public override Pointer Finish(Pointer Start)
-                {
-                    return new Pointer(
-                        Start.X + 2 * Length * Math.Cos(Start.Phi + Alpha / 2) * Math.Sin(Alpha / 2) / Alpha,
-                        Start.Y + 2 * Length * Math.Sin(Start.Phi + Alpha / 2) * Math.Sin(Alpha / 2) / Alpha,
-                        Start.Phi + Alpha);
-                }
-
-                public override string FullName
-                {
-                    get
-                    {
-                        return String.Format("{0:G} [L={1:N2} R={2:N2} \u03B1={3:N1}\u00B0]",
-                            Name, Length, Math.Abs(Radius), 
-                            Alpha > 0 ? 180 - Alpha * 180 / Math.PI : -180 - Alpha * 180 / Math.PI);
-                    }
-                }
-
-                public double Radius
-                {
-                    get
-                    {
-                        return Math.Abs(Length / Alpha);
-                    }
-                }
-
-                public ArcSection(dsLines dsLines, int ID) :
-                    base(dsLines, ID)
-                {
-                }
-
-                public Pointer Center
-                {
-                    get
-                    {
-                        Pointer C = new Pointer();
-                        C.X = StartPoint.Pointer.X - Length / Alpha * Math.Sin(StartPoint.Pointer.Phi);
-                        C.Y = StartPoint.Pointer.Y + Length / Alpha * Math.Cos(StartPoint.Pointer.Phi);
-                        
-                        if (Alpha > 0)
-                            C.Phi = Math.PI / 2 - StartPoint.Pointer.Phi;
-                        else
-                            C.Phi = - Math.PI / 2 - StartPoint.Pointer.Phi;
-                        return C;
-                    }
-                }
-
-                public override void Draw(Graphics Graphics, Pen Pen, View View)
-                {
-                    float R = (float)(Radius * View.Zoom);
-                    PointF C = View.TranslateF(Center);
-                    RectangleF RectangleF = new RectangleF(C.X - R, C.Y - R, 2 * R, 2 * R);
-
-                    Graphics.DrawArc(Pen, RectangleF,
-                        (float)(View.Translate(Center).Phi * 180 / Math.PI),
-                        -(View.Mirrow ? -1 : 1) * (float)(Alpha * 180 / Math.PI));
-
-                }
-            }
-
-            public static Section SectionByID(dsLines dsLines, int ID)
-            {
-                dsLines.tbLineSectionsRow rw = dsLines.tbLineSections.FindByКод(ID);
-                if (rw == null)
-                    return null;
-                if (rw.Длина < 0.001)
-                    return new JunctSection(dsLines, ID);
-                if (Math.Abs(rw.Угол) < 0.01)
-                    return new LineSection(dsLines, ID);
-                return new ArcSection(dsLines, ID);
-            }
-
-            public class Line : IEnumerable
-            {
-                private dsLines dsLines;
-                private dsSplints dsSplints;
-
-                private int LineId;
-
-                public int Numer
-                {
-                    get
-                    {
-                        return dsLines.tbLine.FindByКод(LineId).Номер_линии;
-                    }
-                }
-
-                public string Profile
-                {
-                    get
-                    {
-                        return dsLines.tbLine.FindByКод(LineId).Название;
-                    }
-                }
-
-                public int ProfileId
-                {
-                    get
-                    {
-                        return dsLines.tbLine.FindByКод(LineId).Код_профиля;
-                    }
-                }
-
-                public double Clearance
-                {
-                    get
-                    {
-                        return dsLines.tbLine.FindByКод(LineId).Отлет;
-                    }
-                }
-
-                public string Name
-                {
-                    get
-                    {
-                        return String.Format("Линия-{0:G}",Numer);
-                    }
-
-                }
-
-                public string FullName
-                {
-                    get
-                    {
-                        if (CorniceType != 3)
-                        {
-                            string Side = "";
-                            if (FirstSide.IsSide)
-                                Side += " " + FirstSide.Name;
-                            if (LastSide.IsSide)
-                                Side += " " + LastSide.Name;
-
-                            return String.Format("{0:G} [L={1:N2} О=({2:N2} {3:N2}){4:G} C={5:N2}]",
-                                Name, Length, FirstSide.Step, FirstSide.Step, Side, Clearance);
-                        }
-                        return String.Format("{0:G}", Name);
-
-                    }
-
-                }
-
-                public void FillNode(TreeNode nd)
-                {
-                    nd.Text = FullName;
-                    nd.Tag = this;
-                    nd.SelectedImageKey = "curve";
-                    nd.ImageKey = "curve";
-                }
-
-                #region IEnumerable Members
-
-                public IEnumerator GetEnumerator()
-                {
-                    return new Enumerator(dsLines,dsSplints, LineId);
-                }
-
-                #endregion
-
-                public int ID
-                {
-                    get
-                    {
-                        return LineId;
-                    }
-                }
-
-                public int Count
-                {
-                    get
-                    {
-                        int C=0;
-                        foreach (object Section in this)
-                            C++;
-                        return C;
-                    }
-                }
-
-                public double Length
-                {
-                    get
-                    {
-                        double L = 0;
-                        if (CorniceType != 3)
-                            foreach (Section Section in this)
-                                L += Section.Length;
-                        return L;
-                    }
-                }
-
-                public Line(dsLines dsLines, dsSplints dsSplints, int ID)
-                {
-                    this.dsLines = dsLines;
-                    this.dsSplints = dsSplints;
-                    LineId = ID;
-                }
-
-                public Pointer Start
-                {
-                    get
-                    {
-                        dsLines.tbStartLineRow rw = dsLines.tbStartLine.FindByКод(StartId);
-                        return new Pointer(rw.X, rw.Y, rw.Phi * Math.PI / 180);
-                    }
-                }
-
-                public int StartId
-                {
-                    get
-                    {
-                        DataRow[] rc = dsLines.tbStartLine.Select("[Код линии]=" + ID.ToString());
-                        dsLines.tbStartLineRow rw = (dsLines.tbStartLineRow)rc[0];
-                        return rw.Код;
-                    }
-                }
-                public double ClearanceByWall(WallSections.Wall Wall)
-                {
-                    dsLines.tbClearanceRow rwc = (dsLines.tbClearanceRow)
-                        (dsLines.tbClearance.Select
-                        (String.Format("[Код стены]={0:G} AND [Код линии]={1:G}",
-                        Wall.ID, ID))[0]);
-                    return rwc.Отлет;
-                }
-
-                public Side FirstSide
-                {
-                    get
-                    {
-                        dsLines.tbSideRow rws = (dsLines.tbSideRow)
-                            dsLines.tbSide.Select
-                                (String.Format("[Код линии]={0:G} AND [Положение]=0", ID))[0];
-                        return new Side(dsLines, rws.Код);
-                    }
-                }
-
-                public Side LastSide
-                {
-                    get
-                    {
-                        dsLines.tbSideRow rws = (dsLines.tbSideRow)
-                            dsLines.tbSide.Select
-                                (String.Format("[Код линии]={0:G} AND [Положение]=1", ID))[0];
-                        return new Side(dsLines, rws.Код);
-                    }
-                }
-
-                public class Enumerator : IEnumerator
-                {
-                    #region IEnumerator Members
-                    private int Index;
-                    private int LineId;
-                    private dsLines dsLines;
-                    private dsSplints dsSplints;
-
-                    public object Current
-                    {
-                        get 
-                        {
-                            if (CorniceType != 3)
-                            {
-                                DataRow[] rc = dsLines.tbLineSections.Select
-                                    ("[Код линии]=" + LineId.ToString(), "[Номер] ASC");
-                                return SectionByID(dsLines, (rc[Index] as dsLines.tbLineSectionsRow).Код);
-                            }
-
-                            DataRow[] rcSplint = dsLines.tbSplintSections.Select
-                                ("[Код линии]=" + LineId.ToString(), "[Номер] ASC");
-                            SplintSections.SplintContourType StartType = SplintSections.SplintContourType.PreCork;
-                            SplintSections.SplintComponent SptintCompontent = null;
-                            for (int i = 0; i <= Index; i++)
-                            {
-                                StartType = SplintSections.ReverseSplintContourType(StartType);
-                                dsLines.tbSplintSectionsRow rw = (dsLines.tbSplintSectionsRow)rcSplint[i];
-                                SptintCompontent = new SplintSections.SplintComponent
-                                        (dsSplints, dsLines, rw.Код_компоненты, StartType, 
-                                        rw.Значение, rw.Номер, LineId);
-                                StartType = SptintCompontent.FinishType;
-                            }
-
-                            return SptintCompontent;
-
-                        }
-                    }
-
-                    public bool MoveNext()
-                    {
-                        ++Index;
-                        if (CorniceType != 3)
-                            return Index < dsLines.tbLineSections.Select("[Код линии]=" + LineId.ToString()).Length;
-                        return Index < dsLines.tbSplintSections.Select("[Код линии]=" + LineId.ToString()).Length;
-                    }
-
-                    public void Reset()
-                    {
-                        Index = -1;
-                    }
-
-                    public Enumerator(dsLines dsLines, dsSplints Splints, int LineId)
-                    {
-                        this.dsLines = dsLines;
-                        this.LineId = LineId;
-                        this.dsSplints = Splints;
-                        Index = -1;
-                    }
-
-                    #endregion
-
-                }
-
-                public Section FirstSection
-                {
-                    get
-                    {
-                        foreach (Section FirstSection in this)
-                            return FirstSection;
-                        return null;
-                    }
-                }
-
-                public Section LastSection
-                {
-                    get
-                    {
-                        Section L = null;
-                        foreach (Section FirstSection in this)
-                            L = FirstSection;
-                        return L;
-                    }
-                }
-            }
-
-            public class Lines : IEnumerable
-            {
-                dsLines dsLines;
-                dsSplints dsSplints;
-
-                #region IEnumerable Members
-
-                public IEnumerator GetEnumerator()
-                {
-                    return new Enumerator(dsLines, dsSplints);
-                }
-
-                #endregion
-
-                public Lines(dsLines dsLines, dsSplints dsSplints)
-                {
-                    this.dsLines = dsLines;
-                    this.dsSplints = dsSplints;
-                }
-
-                private class Enumerator : IEnumerator
-                {
-                    int Index;
-                    dsLines dsLines;
-                    dsSplints dsSplints;
-
-                    #region IEnumerator Members
-
-                    public object Current
-                    {
-                        get 
-                        {
-                            dsLines.tbLineRow rw = (dsLines.tbLineRow)
-                                dsLines.tbLine.Select("", "[Номер линии] ASC")[Index];
-                            return new Line(dsLines, dsSplints, rw.Код);
-                        }
-                    }
-
-                    public bool MoveNext()
-                    {
-                        Index++;
-                        return Index < dsLines.tbLine.Rows.Count;
-                    }
-
-                    public void Reset()
-                    {
-                        Index = -1;
-                    }
-
-                    public Enumerator(dsLines dsLines, dsSplints dsSplints)
-                    {
-                        Index = -1;
-                        this.dsLines = dsLines;
-                        this.dsSplints = dsSplints;
-                    }
-                    #endregion
-                }
-
-            }
-
-            public class Point
-            {
-                private dsLines dsLines;
-                private int Its_LineId;
-
-                private int N;
-
-                public int Numer
-                {
-                    get
-                    {
-
-                        if (PrevSection == null)
-                            return 1;
-                        DataRow[] rc =
-                            dsLines.tbLineSections.Select(String.Format(
-                            "[Код линии]={0:G} AND [Номер]<={1:G} AND [Длина]>0.001",
-                            Line.ID, PrevSection.Numer), "[Номер] ASC");
-                        return rc.Length + 1;
-
-                    }
-                }
-
-                public string Name
-                {
-                    get
-                    {
-                        return Numer.ToString();
-                    }
-                }
-
-                public Point(dsLines dsLines, int LineId, int Numer)
-                {
-                    this.dsLines=dsLines;
-                    Its_LineId=LineId;
-                    N=Numer;
-                }
-
-                public Section PrevSection
-                {
-                    get
-                    {
-                        DataRow[] rc =
-                            dsLines.tbLineSections.Select
-                                ("[Код линии]=" + Line.ID,"[Номер] ASC");
-                        if (N <= 1 || N > rc.Length + 1)
-                            return null;
-                        return SectionByID(dsLines, (rc[N - 2] as dsLines.tbLineSectionsRow).Код);
-                    }
-                }
-
-                public Pointer Pointer
-                {
-                    get
-                    {
-                        if (PrevSection == null)
-                            return Line.Start;
-                        return PrevSection.Finish(PrevSection.StartPoint.Pointer);
-                    }
-
-                }
-
-
-
-                public Line Line
-                {
-                    get
-                    {
-                        return new Line(dsLines, null, Its_LineId);
-                    }
-                }
-
-                public void Draw(Graphics Graphics, View View, Font Font, Brush Brush)
-                {
-                    PointF p = View.TranslateF(Pointer.PointF);
-                    p.X += 0;
-                    p.Y += 0;
-                    Graphics.DrawString(Numer.ToString(), Font, Brush, p);
-                }
-
-            }
-
-            public class Side
-            {
-                protected dsLines dsLines;
-                protected int Its_Id;
-                protected bool siSide;
-                protected bool pos;
-                protected double size;
-                protected double alpha;
-                protected double step;
-
-                public int ID
-                {
-                    get
-                    {
-                        return Its_Id;
-                    }
-                }
-
-                public bool IsSide
-                {
-                    get
-                    {
-                        Calc();
-                        return siSide;
-                    }
-                }
-
-                public bool Position
-                {
-                    get
-                    {
-                        Calc();
-                        return pos;
-                    }
-                }
-
-                public double Step
-                {
-                    get
-                    {
-                        Calc();
-                        return step;
-                    }
-                }
-
-                public double Alpha
-                {
-                    get
-                    {
-                        Calc();
-                        return alpha;
-                    }
-                }
-
-                public Side(dsLines dsLines, int ID)
-                {
-                    this.dsLines = dsLines;
-                    this.Its_Id = ID;
-                }
-
-                private void Calc()
-                {
-                    dsLines.tbSideRow rws = dsLines.tbSide.FindByКод(ID);
-                    siSide = rws.Боковина;
-                    alpha = rws.Угол * Math.PI / 180;
-                    pos = rws.Положение;
-                    step = rws.Отступ;
-                }
-
-                public string Name
-                {
-                    get
-                    {
-                        string s = Position ? "К" : "Н";
-                        if (IsSide)
-                            s += String.Format("Б={0:N1}\u00B0", Alpha * 180 / Math.PI);
-                        else
-                            return "";
-                        return s;
-                    }
-                }
-
-                public Line Line
-                {
-                    get
-                    {
-                        return new Line(dsLines, null, dsLines.tbSide.FindByКод(ID).Код_линии);
-                    }
-                }
-            }
-        }
-
-        public class SplintSections
-        {
-            public enum SplintContourType
-            {
-                LeftLug = -1, RightLug = -2, PreCork = -3,
-                LeftEmbrasure = 1, RightEmbrasure = 2,
-                Cork = 3, InsideLine = 4, OutsideLine = 5
-            };
-
-            public static SplintContourType ReverseSplintContourType(SplintContourType SplintContourType)
-            {
-                return (SplintContourType)(-(int)SplintContourType);
-            }
-
-            public abstract class SplintContour
-            {
-                protected double l;
-                protected double alpha;
-                protected double phi;
-                protected SplintContourType type;
-
-                public double Length
-                {
-                    get
-                    {
-                        return l;
-                    }
-                }
-
-                public double Alpha
-                {
-                    get
-                    {
-                        return alpha;
-                    }
-                }
-
-                public double Phi
-                {
-                    get
-                    {
-                        return phi;
-                    }
-                }
-
-                public SplintContourType Type
-                {
-                    get
-                    {
-                        return type;
-                    }
-                }
-
-                public System.Drawing.Drawing2D.DashStyle DashStyle
-                {
-                    get
-                    {
-                        switch (Type)
-                        {
-                            case SplintContourType.Cork:
-                                return System.Drawing.Drawing2D.DashStyle.Solid;
-                            case SplintContourType.InsideLine:
-                                return System.Drawing.Drawing2D.DashStyle.Dot;
-                            case SplintContourType.OutsideLine:
-                                return System.Drawing.Drawing2D.DashStyle.Solid;
-                            case SplintContourType.LeftLug:
-                                return System.Drawing.Drawing2D.DashStyle.DashDot;
-                            case SplintContourType.RightLug:
-                                return System.Drawing.Drawing2D.DashStyle.DashDot;
-                            case SplintContourType.LeftEmbrasure:
-                                return System.Drawing.Drawing2D.DashStyle.DashDotDot;
-                            case SplintContourType.RightEmbrasure:
-                                return System.Drawing.Drawing2D.DashStyle.DashDotDot;
-                        }
-                        return System.Drawing.Drawing2D.DashStyle.Custom;
-                    }
-                }
-
-                public Pointer Finish(Pointer Start)
-                {
-                    return new Pointer(
-                        Start.X + Length * Math.Cos(Start.Phi + Alpha / 2) * sinx(Alpha / 2),
-                        Start.Y + Length * Math.Sin(Start.Phi + Alpha / 2) * sinx(Alpha / 2),
-                        Start.Phi + Alpha + Phi);
-                }
-
-                public abstract void Draw(Graphics Graphics, View View, Pointer Start, Pen Pen);
-
-                public SplintContour(double Length, double Alpha, double Phi, SplintContourType Type)
-                {
-                    l = Length;
-                    alpha = Alpha;
-                    phi = Phi;
-                    type = Type;
-                }
-            }
-
-            public class SplintLineContour: SplintContour
-            {
-                public SplintLineContour(double Length, double Phi, SplintContourType Type) :
-                    base(Length, 0, Phi, Type)
-                {
-                }
-
-
-                public override void Draw(Graphics Graphics, View View, Pointer Start, Pen Pen)
-                {
-                    Pen.DashStyle = DashStyle;
-                    PointF StartF = View.TranslateF(Start);
-                    PointF FinishF = View.TranslateF(this.Finish(Start));
-                    Graphics.DrawLine(Pen, StartF, FinishF);
-                }
-            }
-
-            public class SplintArcContour : SplintContour
-            {
-                public SplintArcContour(double Length, double Alpha, double Phi, SplintContourType Type) :
-                    base(Length, Alpha, Phi, Type)
-                {
-                }
-
-                public Pointer Center(Pointer Start)
-                {
-                    Pointer C = new Pointer();
-                    C.X = Start.X - Length / Alpha * Math.Sin(Start.Phi);
-                    C.Y = Start.Y + Length / Alpha * Math.Cos(Start.Phi);
-                    if (Alpha > 0)
-                        C.Phi = Math.PI / 2 - Start.Phi;
-                    else
-                        C.Phi = -Math.PI / 2 - Start.Phi;
-                    return C;
-
-                }
-
-                public Pointer Middle(Pointer Start)
-                {
-                    return new Pointer(
-                        Start.X + Length / 2 * Math.Cos(Start.Phi + Alpha / 4) * sinx(Alpha / 4),
-                        Start.Y + Length / 2 * Math.Sin(Start.Phi + Alpha / 4) * sinx(Alpha / 4),
-                        Start.Phi + Alpha / 2);
-                }
-
-                public double Radius
-                {
-                    get
-                    {
-                        return Math.Abs(Length / Alpha);
-                    }
-                }
-
-                public override void Draw(Graphics Graphics, View View, Pointer Start, Pen Pen)
-                {
-                    Pen.DashStyle = DashStyle;
-                    float R = (float)(Radius * View.Zoom);
-                    PointF C = View.TranslateF(Center(Start));
-                    RectangleF RectangleF = new RectangleF(C.X - R, C.Y - R, 2 * R, 2 * R);
-
-                    Graphics.DrawArc(Pen, RectangleF,
-                        (float)(View.Translate(Center((Start))).Phi * 180 / Math.PI),
-                        -(View.Mirrow ? -1 : 1) * (float)(Alpha * 180 / Math.PI));
-
-                }
-            }
-
-            public class SplintComponent : IEnumerable
-            {
-                private dsSplints dsSplints;
-                private dsLines dsLines;
-                private int ComponentId;
-                private SplintContourType starttype;
-                private double value;
-                private int numer;
-                private int LineId;
-
-                public int Id
-                {
-                    get
-                    {
-                        return ComponentId;
-                    }
-                }
-
-                public int Numer
-                {
-                    get
-                    {
-                        return numer;
-                    }
-                }
-
-                public SplintContourType StartType
-                {
-                    get
-                    {
-                        return starttype;
-                    }
-                }
-
-                public double Value
-                {
-                    get
-                    {
-                        return value;
-                    }
-                }
-
-                public string Name
-                {
-                    get
-                    {
-                        return dsSplints.tbComponents.FindByКод(Id).Название;
-                    }
-                }
-
-                public string FullName
-                {
-                    get
-                    {
-                        return String.Format("{0:G}. {1:G} [L={2:N2} \u03B2={3:N2}]",
-                            Numer, Name, Length, Value);
-                    }
-                }
-
-                public double Length
-                {
-                    get
-                    {
-                        double L = 0;
-                        foreach (SplintContour Contour in this)
-                            if (Contour.Type == SplintContourType.OutsideLine)
-                                L += Contour.Length;
-                        return L;
-                    }
-                }
-
-                public SplintComponent(dsSplints dsSplints, dsLines dsLines, int ComponentId,
-                    SplintContourType StartType, double Value, int Numer, int LineId)
-                {
-                    this.dsLines = dsLines;
-                    this.dsSplints = dsSplints;
-                    this.ComponentId = ComponentId;
-                    starttype = StartType;
-                    value = Value;
-                    numer = Numer;
-                    this.LineId = LineId;
-                }
-
-                public void Draw(Graphics Graphics, View View, Pointer Start, Pen Pen)
-                {
-                    foreach (SplintContour Contour in this)
-                    {
-                        Contour.Draw(Graphics, View, Start, Pen);
-                        Start = Contour.Finish(Start);
-                    }
-                }
-
-                public SplintContourType FinishType
-                {
-                    get
-                    {
-                        foreach (SplintContour Contour in this)
-                        {
-                            if (Contour.Type == StartType)
-                                continue;
-                            if (Contour.Type == SplintContourType.Cork ||
-                                Contour.Type == SplintContourType.LeftEmbrasure ||
-                                Contour.Type == SplintContourType.LeftLug ||
-                                Contour.Type == SplintContourType.RightEmbrasure ||
-                                Contour.Type == SplintContourType.RightLug)
-                                return Contour.Type;
-                        }
-                        return SplintContourType.PreCork;
-                    }
-                }
-
-                public Pointer Finish(Pointer Start)
-                {
-                    foreach (SplintContour Contour in this)
-                    {
-                        if (Contour.Type == FinishType)
-                        {
-                            Start = Contour.Finish(Start);
-                            Start.Phi += Math.PI - Contour.Phi;
-                            break;
-                        }
-                        Start = Contour.Finish(Start);
-                    }
-                    return Start;
-                }
-
-                public void FillNode(TreeNode nd)
-                {
-                    nd.Tag = this;
-                    nd.Text = FullName;
-                    nd.ImageKey = "Line";
-                    nd.SelectedImageKey = "Line";
-                }
-
-                public LineSections.Line Line
-                {
-                    get
-                    {
-                        return new LineSections.Line(dsLines, dsSplints, LineId);
-                    }
-                }
-
-                private RectangleF BorderWall(RectangleF RectangleF, PointF PointF)
-                {
-                    if (PointF.X < RectangleF.Left)
-                    {
-                        RectangleF.Width -= PointF.X - RectangleF.X;
-                        RectangleF.X = PointF.X;
-                    }
-                    if (PointF.X > RectangleF.Right)
-                        RectangleF.Width = PointF.X - RectangleF.X;
-                    if (PointF.Y < RectangleF.Top)
-                    {
-                        RectangleF.Height -= PointF.Y - RectangleF.Y;
-                        RectangleF.Y = PointF.Y;
-                    }
-                    if (PointF.Y > RectangleF.Bottom)
-                        RectangleF.Height = PointF.Y - RectangleF.Y;
-                    return RectangleF;
-
-                }
-
-                public RectangleF Border(View View, Pointer Start)
-                {
-                    RectangleF RectangleF = new RectangleF(
-                        (float)View.Translate(Start).X, (float)View.Translate(Start).Y, 1, 1);
-
-                    foreach (SplintContour Contour in this)
-                    {
-                        Start = Contour.Finish(Start);
-                        RectangleF = BorderWall(RectangleF, View.Translate(Start).PointF);
-                    }
-                    return RectangleF;
-                }
-
-
-                #region IEnumerable Members
-
-                public IEnumerator GetEnumerator()
-                {
-                    return new Enumerator(dsSplints, Id, StartType, Value);
-                }
-
-                #endregion
-
-                public class Enumerator : IEnumerator
-                {
-                    private int Index = -1;
-                    private dsSplints dsSplints;
-                    private SplintContourType StartType;
-                    private int ComponentId;
-                    private double Value;
-
-                    public bool MoveNext()
-                    {
-                        dsSplints.tbContourRow[] rc = (dsSplints.tbContourRow[])
-                            dsSplints.tbContour.Select("[Код компоненты]=" + ComponentId.ToString(), "[Номер] ASC");
-                        Index++;
-                        return Index < rc.Length;
-                    }
-
-                    public void Reset()
-                    {
-                        Index = -1;
-                    }
-
-                    public Enumerator(dsSplints dsSplints, int ComponentId, SplintContourType StartType, double Value)
-                    {
-                        this.dsSplints = dsSplints;
-                        this.StartType = StartType;
-                        this.ComponentId = ComponentId;
-                        this.Value = Value;
-                        Index = -1;
-                    }
-
-                    #region IEnumerator Members
-
-                    public object Current
-                    {
-                        get 
-                        {
-                            dsSplints.tbContourRow[] rc = (dsSplints.tbContourRow[])
-                                dsSplints.tbContour.Select("[Код компоненты]=" + ComponentId.ToString(), "[Номер] ASC");
-                            int mt = 0;
-                            
-                            foreach (dsSplints.tbContourRow rws in rc)
-                            {
-                                if (rws.Тип == (int)StartType)
-                                    break;
-                                ++mt;
-                            }
-                            
-                            dsSplints.tbContourRow rw = rc[(Index + mt) % rc.Length];
-
-                            double l = rw.L0 + rw.LK * Value;
-                            double alpha = (rw.Phi0 + rw.PhiK * Value) * Math.PI / 180;
-                            double phi  = (rw.Угол) * Math.PI / 180;
-                            if (Math.Abs(alpha) > 0.0001)
-                                return new SplintArcContour(l, alpha, phi, (SplintContourType)rw.Тип);
-                            return new SplintLineContour(l, phi, (SplintContourType)rw.Тип);
-                        }
-                    }
-
-                    #endregion
-                }
-            }
-        }
-
         public static int OrderId;
         public static int OrderType;
         public static int CorniceType;
         private static bool IsClose = false;
 
-        public TfMain(int OrderId, string ConnectionString)
+        public TfMain(int orderId, string connectionString)
         {
             InitializeComponent();
-            TfMain.OrderId = OrderId;
-            LocalService.ConnectionString = ConnectionString;
+            TfMain.OrderId = orderId;
+            LocalService.ConnectionString = connectionString;
 
-            DataTable tbOrder = LocalService.GetOrderInfo(OrderId).Tables[0];
+            DataTable tbOrder = LocalService.GetOrderInfo(orderId).Tables[0];
             if (tbOrder.Rows.Count <= 0)
             {
                 MessageBox.Show("Данного заказа не существует. Приложение будет закрыто!", "Внимание",
@@ -2320,7 +39,7 @@ namespace CorniceGraph
 
 
             dsLines.tbLine.Clear();
-            dsLines.tbLine.Load(LocalService.GetLinesList(OrderId).Tables[0].CreateDataReader());
+            dsLines.tbLine.Load(LocalService.GetLinesList(orderId).Tables[0].CreateDataReader());
 
             foreach (dsLines.tbLineRow rwl in dsLines.tbLine.Rows)
             {
@@ -2344,9 +63,9 @@ namespace CorniceGraph
             tb.Appearance = TabAppearance.FlatButtons;
             tb.ItemSize = new Size(0, 1);
 
-            Text += String.Format(" (Заказ №{0:G})", OrderId);
+            Text += String.Format(" (Заказ №{0:G})", orderId);
 
-            if (LocalService.OrderState(OrderId) != 0)
+            if (LocalService.OrderState(orderId) != 0)
             {
                 btRLine.Enabled = false;
                 btSave.Enabled = false;
@@ -2356,13 +75,13 @@ namespace CorniceGraph
                 Text += " - только просмотр";
             }
 
-            if (!LocalService.IsWallExists(OrderId))
+            if (!LocalService.IsWallExists(orderId))
                 return;
 
             try
             {
-                dsWall.tbWall.Load(LocalService.GetWallList(OrderId).Tables[0].CreateDataReader());
-                dsWall.tbWallDetail.Load(LocalService.GetWallDetail(OrderId).Tables[0].CreateDataReader());
+                dsWall.tbWall.Load(LocalService.GetWallList(orderId).Tables[0].CreateDataReader());
+                dsWall.tbWallDetail.Load(LocalService.GetWallDetail(orderId).Tables[0].CreateDataReader());
                 dsWall.AcceptChanges();
 
                 int i = 0;
@@ -2394,11 +113,11 @@ namespace CorniceGraph
                     }
                 }
 
-                dsWall.tbAgregate.Load(LocalService.GetAgregate(OrderId).Tables[0].CreateDataReader());
-                dsWall.tbMeasure.Load(LocalService.GetMeasure(OrderId).Tables[0].CreateDataReader());
+                dsWall.tbAgregate.Load(LocalService.GetAgregate(orderId).Tables[0].CreateDataReader());
+                dsWall.tbMeasure.Load(LocalService.GetMeasure(orderId).Tables[0].CreateDataReader());
 
                 dsWall.AcceptChanges();
-                dsLines.tbClearance.Load(LocalService.GetLineClearance(OrderId).Tables[0].CreateDataReader());
+                dsLines.tbClearance.Load(LocalService.GetLineClearance(orderId).Tables[0].CreateDataReader());
 
                 foreach (dsWall.tbWallRow rwwd in dsWall.tbWall)
                 {
@@ -2420,14 +139,14 @@ namespace CorniceGraph
                     dsLines.tbWallClearance.Rows.Add(rwwc);
                 }
 
-                dsLines.tbStartLine.Load(LocalService.GetLineStartPosition(OrderId).Tables[0].CreateDataReader());
-                dsLines.tbLineSections.Load(LocalService.GetCorniceLineSection(OrderId).Tables[0].CreateDataReader());
-                dsLines.tbSplintSections.Load(LocalService.GetLineSplint(OrderId).Tables[0].CreateDataReader());
-                dsLines.tbSide.Load(LocalService.GetCorniceSide(OrderId).Tables[0].CreateDataReader());
+                dsLines.tbStartLine.Load(LocalService.GetLineStartPosition(orderId).Tables[0].CreateDataReader());
+                dsLines.tbLineSections.Load(LocalService.GetCorniceLineSection(orderId).Tables[0].CreateDataReader());
+                dsLines.tbSplintSections.Load(LocalService.GetLineSplint(orderId).Tables[0].CreateDataReader());
+                dsLines.tbSide.Load(LocalService.GetCorniceSide(orderId).Tables[0].CreateDataReader());
 
                 dsLines.AcceptChanges();
                 DataRow rwv =
-                    LocalService.GetCorniceView(OrderId).Tables[0].Rows[0];
+                    LocalService.GetCorniceView(orderId).Tables[0].Rows[0];
 
 
                 btAutoSize_Click(null, null);
@@ -2627,9 +346,9 @@ namespace CorniceGraph
             }
         }
 
-        private View CurrentView()
+        private CanvasView CurrentView()
         {
-            return new View(
+            return new CanvasView(
                 Convert.ToDouble(edStartX.Value),
                 Convert.ToDouble(edStartY.Value),
                 Convert.ToDouble(edRotate.Value) * Math.PI / 180,
@@ -3054,7 +773,7 @@ namespace CorniceGraph
                     {
                         Pointer Start = Line.Start;
 
-                        foreach (SplintSections.SplintComponent Component in Line)
+                        foreach (SplintComponent Component in Line)
                         {
 
                             Pen Pen = PenBlackLine;
@@ -3064,10 +783,10 @@ namespace CorniceGraph
                                 if (tvCurve.SelectedNode.Tag is LineSections.Line &&
                                     (tvCurve.SelectedNode.Tag as LineSections.Line).ID == Line.ID)
                                     Pen = PenRedLine;
-                                if (tvCurve.SelectedNode.Tag is SplintSections.SplintComponent)
+                                if (tvCurve.SelectedNode.Tag is SplintComponent)
                                 {
-                                    SplintSections.SplintComponent LS =
-                                        (tvCurve.SelectedNode.Tag as SplintSections.SplintComponent);
+                                    SplintComponent LS =
+                                        (tvCurve.SelectedNode.Tag as SplintComponent);
                                     if (LS.Line.ID == Line.ID)
                                     {
                                         if (LS.Numer == Component.Numer)
@@ -3112,7 +831,7 @@ namespace CorniceGraph
 
         }
 
-        public static void DrawZoom(Graphics Graphics, View View, int Width, int Height)
+        public static void DrawZoom(Graphics Graphics, CanvasView View, int Width, int Height)
         {
             double M = 100 * View.Zoom;
             while (M > 0.8 * Width)
@@ -3126,7 +845,7 @@ namespace CorniceGraph
 
         }
 
-        public void DrawArrow(Graphics Graphics, View View, int Width, int Height)
+        public void DrawArrow(Graphics Graphics, CanvasView View, int Width, int Height)
         {
             Pen ZoomPen = new Pen(Color.Brown, 1);
             int LWidth = Width - 30;
@@ -3275,7 +994,7 @@ namespace CorniceGraph
                     foreach (LineSections.Section Section in Line)
                         Section.FillNode(ndLine.Nodes.Add(""));
                 else
-                    foreach (SplintSections.SplintComponent Compontent in Line)
+                    foreach (SplintComponent Compontent in Line)
                         Compontent.FillNode(ndLine.Nodes.Add(""));
                 
             }
@@ -3544,7 +1263,7 @@ namespace CorniceGraph
                 {
 
                     SplintSections.SplintContourType SplintContourType = SplintSections.SplintContourType.PreCork;
-                    foreach (SplintSections.SplintComponent SptintCompontent in Line)
+                    foreach (SplintComponent SptintCompontent in Line)
                         SplintContourType = SptintCompontent.FinishType;
 
                     if (SplintContourType!=SplintSections.SplintContourType.Cork)
@@ -3618,7 +1337,7 @@ namespace CorniceGraph
                 else
                 {
                     int i = 0;
-                    foreach (SplintSections.SplintComponent Compontent in Line)
+                    foreach (SplintComponent Compontent in Line)
                     {
                         int? LineSplintId = null;
                         Numer = ++i;
@@ -3709,7 +1428,7 @@ namespace CorniceGraph
                 else
                 {
                     Pointer Start = Line.Start;
-                    foreach (SplintSections.SplintComponent Component in Line)
+                    foreach (SplintComponent Component in Line)
                     {
                         Component.Draw(g, CurrentView(), Start, PenBlackLine);
                         Start = Component.Finish(Start);
@@ -3752,8 +1471,8 @@ namespace CorniceGraph
                 Line = tvCurve.SelectedNode.Tag as LineSections.Line;
             if (tvCurve.SelectedNode.Tag is LineSections.Section)
                 Line = (tvCurve.SelectedNode.Tag as LineSections.Section).Line;
-            if (tvCurve.SelectedNode.Tag is SplintSections.SplintComponent)
-                Line = (tvCurve.SelectedNode.Tag as SplintSections.SplintComponent).Line;
+            if (tvCurve.SelectedNode.Tag is SplintComponent)
+                Line = (tvCurve.SelectedNode.Tag as SplintComponent).Line;
 
             if (Line == null)
                 return;
@@ -3822,7 +1541,7 @@ namespace CorniceGraph
             if ((new WallSections.Walls(dsWall)).Count == 0)
                 return;
 
-            View View = CurrentView();
+            CanvasView View = CurrentView();
             WallSections.Walls Walls = new WallSections.Walls(dsWall);
 
             RectangleF RectangleF = new RectangleF
@@ -4013,15 +1732,15 @@ namespace CorniceGraph
             if (CorniceType == 3)
             {
 
-                if (tvCurve.SelectedNode.Tag is SplintSections.SplintComponent)
-                    Line = (tvCurve.SelectedNode.Tag as SplintSections.SplintComponent).Line;
+                if (tvCurve.SelectedNode.Tag is SplintComponent)
+                    Line = (tvCurve.SelectedNode.Tag as SplintComponent).Line;
                 
                 if (Line == null)
                     return;
 
 
                 SplintSections.SplintContourType SplintContourType = SplintSections.SplintContourType.PreCork;
-                foreach (SplintSections.SplintComponent SptintCompontent in Line)
+                foreach (SplintComponent SptintCompontent in Line)
                     SplintContourType = SptintCompontent.FinishType;
 
                 TfAddSplint f = new TfAddSplint() { Tag = this };
@@ -4065,8 +1784,8 @@ namespace CorniceGraph
 
                 foreach (TreeNode ndf in tvCurve.Nodes)
                     foreach (TreeNode nd in ndf.Nodes)
-                        if (nd.Tag is SplintSections.SplintComponent &&
-                            (nd.Tag as SplintSections.SplintComponent).Numer == rws.Номер)
+                        if (nd.Tag is SplintComponent &&
+                            (nd.Tag as SplintComponent).Numer == rws.Номер)
                             tvCurve.SelectedNode = nd;
 
                 tvCurve.Focus();
@@ -4091,15 +1810,15 @@ namespace CorniceGraph
             if (CorniceType == 3)
             {
 
-                if (tvCurve.SelectedNode.Tag is SplintSections.SplintComponent)
-                    Line = (tvCurve.SelectedNode.Tag as SplintSections.SplintComponent).Line;
+                if (tvCurve.SelectedNode.Tag is SplintComponent)
+                    Line = (tvCurve.SelectedNode.Tag as SplintComponent).Line;
 
                 if (Line == null)
                     return;
                 if (Line.Count <= 0)
                     return;
-                SplintSections.SplintComponent Compontent = null;
-                foreach (SplintSections.SplintComponent SplintCompontent in Line)
+                SplintComponent Compontent = null;
+                foreach (SplintComponent SplintCompontent in Line)
                     Compontent = SplintCompontent;
 
                 if (MessageBox.Show(
@@ -4134,11 +1853,11 @@ namespace CorniceGraph
 
             if (CorniceType == 3)
             {
-                if (!(tvCurve.SelectedNode.Tag is SplintSections.SplintComponent))
+                if (!(tvCurve.SelectedNode.Tag is SplintComponent))
                     return;
 
-                SplintSections.SplintComponent Component =
-                    (tvCurve.SelectedNode.Tag as SplintSections.SplintComponent);
+                SplintComponent Component =
+                    (tvCurve.SelectedNode.Tag as SplintComponent);
 
                 TfAddSplint f = new TfAddSplint() { Tag = this };
                 f.lcb.Enabled = false;
@@ -4163,8 +1882,8 @@ namespace CorniceGraph
 
                 foreach (TreeNode ndf in tvCurve.Nodes)
                     foreach (TreeNode nd in ndf.Nodes)
-                        if (nd.Tag is SplintSections.SplintComponent &&
-                            (nd.Tag as SplintSections.SplintComponent).Numer == Component.Numer)
+                        if (nd.Tag is SplintComponent &&
+                            (nd.Tag as SplintComponent).Numer == Component.Numer)
                             tvCurve.SelectedNode = nd;
 
                 tvCurve.Focus();
@@ -4187,5 +1906,826 @@ namespace CorniceGraph
 
 
 
+    }
+
+    public class LineSections
+    {
+        public enum LineSectionType { Line = 0, Arc = 1, Junct = 2 };
+
+        public abstract class Section
+        {
+            protected dsLines dsLines;
+            protected int Its_ID;
+            protected double alpha;
+            protected double length;
+
+
+            public abstract LineSectionType Type
+            {
+                get;
+            }
+
+            public int ID
+            {
+                get
+                {
+                    return Its_ID;
+                }
+            }
+
+            public double Alpha
+            {
+                get
+                {
+                    Calc();
+                    return alpha;
+                }
+            }
+
+            public double Length
+            {
+                get
+                {
+                    Calc();
+                    return length;
+                }
+            }
+
+            public Section(dsLines dsLines, int ID)
+            {
+                Its_ID = ID;
+                this.dsLines = dsLines;
+                Calc();
+            }
+
+            public abstract Pointer Finish(Pointer Start);
+
+            private void Calc()
+            {
+                dsLines.tbLineSectionsRow rw = (dsLines.tbLineSectionsRow)
+                    dsLines.tbLineSections.Select("[Код]=" + ID.ToString())[0];
+                length = rw.Длина;
+                alpha = rw.Угол * Math.PI / 180;
+            }
+
+            public void FillNode(TreeNode nd)
+            {
+                nd.Text = FullName;
+                nd.Tag = this;
+                nd.SelectedImageKey = Type.ToString();
+                nd.ImageKey = Type.ToString();
+            }
+
+            private int LineId
+            {
+                get
+                {
+                    return dsLines.tbLineSections.FindByКод(ID).Код_линии;
+                }
+            }
+
+            public int Numer
+            {
+                get
+                {
+                    return dsLines.tbLineSections.FindByКод(ID).Номер;
+                }
+            }
+
+            public Point StartPoint
+            {
+                get
+                {
+                    int N = dsLines.tbLineSections.Select
+                        (String.Format(
+                            "[Код линии]={0:G} AND [Номер]<={1:G}", LineId,
+                            dsLines.tbLineSections.FindByКод(ID).Номер)).Length;
+                    return new Point(dsLines, LineId, N);
+                }
+            }
+
+            public Point FinishPiont
+            {
+                get
+                {
+                    int N = dsLines.tbLineSections.Select
+                        (String.Format(
+                            "[Код линии]={0:G} AND [Номер]<={1:G}", LineId,
+                            dsLines.tbLineSections.FindByКод(ID).Номер)).Length;
+                    return new Point(dsLines, LineId, N + 1);
+                }
+            }
+
+            public abstract string Name
+            {
+                get;
+            }
+
+            public abstract string FullName
+            {
+                get;
+            }
+
+            public Line Line
+            {
+                get
+                {
+                    return new Line(dsLines, null, LineId);
+                }
+            }
+
+            public abstract void Draw(Graphics Graphics, Pen Pen, CanvasView View);
+
+            public abstract void DrawNumer(Graphics Graphics, CanvasView View, Font Font, Brush Brush);
+
+        }
+
+        public class JunctSection : Section
+        {
+            public override LineSectionType Type
+            {
+                get 
+                {
+                    return LineSectionType.Junct;
+                }
+            }
+
+            public override Pointer Finish(Pointer Start)
+            {
+                return new Pointer(Start.X, Start.Y, Start.Phi + Alpha);
+            }
+
+            public JunctSection(dsLines dsLines, int ID) :
+                base(dsLines, ID)
+            {
+            }
+
+            public override string Name
+            {
+                get
+                {
+                    return StartPoint.Numer.ToString();
+                }
+            }
+
+            public override string FullName
+            {
+                get
+                {
+                    return String.Format("{0:G} [\u03B1={1:N1}\u00B0]",
+                        Name, Alpha >= 0 ? 180 - Alpha * 180 / Math.PI : -180 - Alpha * 180 / Math.PI);
+
+                }
+
+            }
+
+            public override void Draw(Graphics Graphics, Pen Pen, CanvasView View)
+            {
+                Pen.Width += 2;
+                PointF PointF = View.TranslateF(StartPoint.Pointer);
+                Graphics.DrawLine(Pen, PointF.X - 5, PointF.Y - 5, PointF.X + 5, PointF.Y + 5);
+                Graphics.DrawLine(Pen, PointF.X - 5, PointF.Y + 5, PointF.X + 5, PointF.Y - 5);
+                Pen.Width -= 2;
+            }
+
+            public override void DrawNumer(Graphics Graphics, CanvasView View, Font Font, Brush Brush)
+            {
+            }
+        }
+
+        public abstract class LengthSection: Section
+        {
+
+            public override string Name
+            {
+                get
+                {
+                    return String.Format("{0:G}-{1:G}", StartPoint.Name, FinishPiont.Name);
+                }
+            }
+
+            public override string FullName
+            {
+                get
+                {
+                    return String.Format("{0:G} [L={1:N2}]", Name, Length);
+                }
+            }
+
+            public LengthSection(dsLines dsLines, int ID) :
+                base(dsLines, ID)
+            {
+            }
+
+            public override void DrawNumer(Graphics Graphics, CanvasView View, Font Font, Brush Brush)
+            {
+                StartPoint.Draw(Graphics, View, Font, Brush);
+                FinishPiont.Draw(Graphics, View, Font, Brush);
+            }
+
+        }
+
+        public class LineSection : LengthSection
+        {
+            public override LineSectionType Type
+            {
+                get
+                {
+                    return LineSectionType.Line;
+                }
+            }
+            public override Pointer Finish(Pointer Start)
+            {
+                return new Pointer(
+                    Start.X + Length * Math.Cos(Start.Phi),
+                    Start.Y + Length * Math.Sin(Start.Phi),
+                    Start.Phi);
+            }
+
+            public LineSection(dsLines dsLines, int ID) :
+                base(dsLines, ID)
+            {
+            }
+
+            public override void Draw(Graphics Graphics, Pen Pen, CanvasView View)
+            {
+                PointF StartF = View.TranslateF(StartPoint.Pointer);
+                PointF FinishF = View.TranslateF(FinishPiont.Pointer);
+                Graphics.DrawLine(Pen, StartF, FinishF);
+            }
+        }
+
+        public class ArcSection : LengthSection
+        {
+            public override LineSectionType Type
+            {
+                get
+                {
+                    return LineSectionType.Arc;
+                }
+            }
+
+            public override Pointer Finish(Pointer Start)
+            {
+                return new Pointer(
+                    Start.X + 2 * Length * Math.Cos(Start.Phi + Alpha / 2) * Math.Sin(Alpha / 2) / Alpha,
+                    Start.Y + 2 * Length * Math.Sin(Start.Phi + Alpha / 2) * Math.Sin(Alpha / 2) / Alpha,
+                    Start.Phi + Alpha);
+            }
+
+            public override string FullName
+            {
+                get
+                {
+                    return String.Format("{0:G} [L={1:N2} R={2:N2} \u03B1={3:N1}\u00B0]",
+                        Name, Length, Math.Abs(Radius), 
+                        Alpha > 0 ? 180 - Alpha * 180 / Math.PI : -180 - Alpha * 180 / Math.PI);
+                }
+            }
+
+            public double Radius
+            {
+                get
+                {
+                    return Math.Abs(Length / Alpha);
+                }
+            }
+
+            public ArcSection(dsLines dsLines, int ID) :
+                base(dsLines, ID)
+            {
+            }
+
+            public Pointer Center
+            {
+                get
+                {
+                    Pointer C = new Pointer();
+                    C.X = StartPoint.Pointer.X - Length / Alpha * Math.Sin(StartPoint.Pointer.Phi);
+                    C.Y = StartPoint.Pointer.Y + Length / Alpha * Math.Cos(StartPoint.Pointer.Phi);
+                        
+                    if (Alpha > 0)
+                        C.Phi = Math.PI / 2 - StartPoint.Pointer.Phi;
+                    else
+                        C.Phi = - Math.PI / 2 - StartPoint.Pointer.Phi;
+                    return C;
+                }
+            }
+
+            public override void Draw(Graphics Graphics, Pen Pen, CanvasView View)
+            {
+                float R = (float)(Radius * View.Zoom);
+                PointF C = View.TranslateF(Center);
+                RectangleF RectangleF = new RectangleF(C.X - R, C.Y - R, 2 * R, 2 * R);
+
+                Graphics.DrawArc(Pen, RectangleF,
+                    (float)(View.Translate(Center).Phi * 180 / Math.PI),
+                    -(View.Mirrow ? -1 : 1) * (float)(Alpha * 180 / Math.PI));
+
+            }
+        }
+
+        public static Section SectionByID(dsLines dsLines, int ID)
+        {
+            dsLines.tbLineSectionsRow rw = dsLines.tbLineSections.FindByКод(ID);
+            if (rw == null)
+                return null;
+            if (rw.Длина < 0.001)
+                return new JunctSection(dsLines, ID);
+            if (Math.Abs(rw.Угол) < 0.01)
+                return new LineSection(dsLines, ID);
+            return new ArcSection(dsLines, ID);
+        }
+
+        public class Line : IEnumerable
+        {
+            private dsLines dsLines;
+            private dsSplints dsSplints;
+
+            private int LineId;
+
+            public int Numer
+            {
+                get
+                {
+                    return dsLines.tbLine.FindByКод(LineId).Номер_линии;
+                }
+            }
+
+            public string Profile
+            {
+                get
+                {
+                    return dsLines.tbLine.FindByКод(LineId).Название;
+                }
+            }
+
+            public int ProfileId
+            {
+                get
+                {
+                    return dsLines.tbLine.FindByКод(LineId).Код_профиля;
+                }
+            }
+
+            public double Clearance
+            {
+                get
+                {
+                    return dsLines.tbLine.FindByКод(LineId).Отлет;
+                }
+            }
+
+            public string Name
+            {
+                get
+                {
+                    return String.Format("Линия-{0:G}",Numer);
+                }
+
+            }
+
+            public string FullName
+            {
+                get
+                {
+                    if (TfMain.CorniceType != 3)
+                    {
+                        string Side = "";
+                        if (FirstSide.IsSide)
+                            Side += " " + FirstSide.Name;
+                        if (LastSide.IsSide)
+                            Side += " " + LastSide.Name;
+
+                        return String.Format("{0:G} [L={1:N2} О=({2:N2} {3:N2}){4:G} C={5:N2}]",
+                            Name, Length, FirstSide.Step, FirstSide.Step, Side, Clearance);
+                    }
+                    return String.Format("{0:G}", Name);
+
+                }
+
+            }
+
+            public void FillNode(TreeNode nd)
+            {
+                nd.Text = FullName;
+                nd.Tag = this;
+                nd.SelectedImageKey = "curve";
+                nd.ImageKey = "curve";
+            }
+
+            #region IEnumerable Members
+
+            public IEnumerator GetEnumerator()
+            {
+                return new Enumerator(dsLines,dsSplints, LineId);
+            }
+
+            #endregion
+
+            public int ID
+            {
+                get
+                {
+                    return LineId;
+                }
+            }
+
+            public int Count
+            {
+                get
+                {
+                    int C=0;
+                    foreach (object Section in this)
+                        C++;
+                    return C;
+                }
+            }
+
+            public double Length
+            {
+                get
+                {
+                    double L = 0;
+                    if (TfMain.CorniceType != 3)
+                        foreach (Section Section in this)
+                            L += Section.Length;
+                    return L;
+                }
+            }
+
+            public Line(dsLines dsLines, dsSplints dsSplints, int ID)
+            {
+                this.dsLines = dsLines;
+                this.dsSplints = dsSplints;
+                LineId = ID;
+            }
+
+            public Pointer Start
+            {
+                get
+                {
+                    dsLines.tbStartLineRow rw = dsLines.tbStartLine.FindByКод(StartId);
+                    return new Pointer(rw.X, rw.Y, rw.Phi * Math.PI / 180);
+                }
+            }
+
+            public int StartId
+            {
+                get
+                {
+                    DataRow[] rc = dsLines.tbStartLine.Select("[Код линии]=" + ID.ToString());
+                    dsLines.tbStartLineRow rw = (dsLines.tbStartLineRow)rc[0];
+                    return rw.Код;
+                }
+            }
+            public double ClearanceByWall(WallSections.Wall Wall)
+            {
+                dsLines.tbClearanceRow rwc = (dsLines.tbClearanceRow)
+                    (dsLines.tbClearance.Select
+                        (String.Format("[Код стены]={0:G} AND [Код линии]={1:G}",
+                            Wall.ID, ID))[0]);
+                return rwc.Отлет;
+            }
+
+            public Side FirstSide
+            {
+                get
+                {
+                    dsLines.tbSideRow rws = (dsLines.tbSideRow)
+                        dsLines.tbSide.Select
+                            (String.Format("[Код линии]={0:G} AND [Положение]=0", ID))[0];
+                    return new Side(dsLines, rws.Код);
+                }
+            }
+
+            public Side LastSide
+            {
+                get
+                {
+                    dsLines.tbSideRow rws = (dsLines.tbSideRow)
+                        dsLines.tbSide.Select
+                            (String.Format("[Код линии]={0:G} AND [Положение]=1", ID))[0];
+                    return new Side(dsLines, rws.Код);
+                }
+            }
+
+            public class Enumerator : IEnumerator
+            {
+                #region IEnumerator Members
+                private int Index;
+                private int LineId;
+                private dsLines dsLines;
+                private dsSplints dsSplints;
+
+                public object Current
+                {
+                    get 
+                    {
+                        if (TfMain.CorniceType != 3)
+                        {
+                            DataRow[] rc = dsLines.tbLineSections.Select
+                                ("[Код линии]=" + LineId.ToString(), "[Номер] ASC");
+                            return SectionByID(dsLines, (rc[Index] as dsLines.tbLineSectionsRow).Код);
+                        }
+
+                        DataRow[] rcSplint = dsLines.tbSplintSections.Select
+                            ("[Код линии]=" + LineId.ToString(), "[Номер] ASC");
+                        SplintSections.SplintContourType StartType = SplintSections.SplintContourType.PreCork;
+                        SplintComponent SptintCompontent = null;
+                        for (int i = 0; i <= Index; i++)
+                        {
+                            StartType = SplintSections.ReverseSplintContourType(StartType);
+                            dsLines.tbSplintSectionsRow rw = (dsLines.tbSplintSectionsRow)rcSplint[i];
+                            SptintCompontent = new SplintComponent
+                                (dsSplints, dsLines, rw.Код_компоненты, StartType, 
+                                    rw.Значение, rw.Номер, LineId);
+                            StartType = SptintCompontent.FinishType;
+                        }
+
+                        return SptintCompontent;
+
+                    }
+                }
+
+                public bool MoveNext()
+                {
+                    ++Index;
+                    if (TfMain.CorniceType != 3)
+                        return Index < dsLines.tbLineSections.Select("[Код линии]=" + LineId.ToString()).Length;
+                    return Index < dsLines.tbSplintSections.Select("[Код линии]=" + LineId.ToString()).Length;
+                }
+
+                public void Reset()
+                {
+                    Index = -1;
+                }
+
+                public Enumerator(dsLines dsLines, dsSplints Splints, int LineId)
+                {
+                    this.dsLines = dsLines;
+                    this.LineId = LineId;
+                    this.dsSplints = Splints;
+                    Index = -1;
+                }
+
+                #endregion
+
+            }
+
+            public Section FirstSection
+            {
+                get
+                {
+                    foreach (Section FirstSection in this)
+                        return FirstSection;
+                    return null;
+                }
+            }
+
+            public Section LastSection
+            {
+                get
+                {
+                    Section L = null;
+                    foreach (Section FirstSection in this)
+                        L = FirstSection;
+                    return L;
+                }
+            }
+        }
+
+        public class Lines : IEnumerable
+        {
+            dsLines dsLines;
+            dsSplints dsSplints;
+
+            #region IEnumerable Members
+
+            public IEnumerator GetEnumerator()
+            {
+                return new Enumerator(dsLines, dsSplints);
+            }
+
+            #endregion
+
+            public Lines(dsLines dsLines, dsSplints dsSplints)
+            {
+                this.dsLines = dsLines;
+                this.dsSplints = dsSplints;
+            }
+
+            private class Enumerator : IEnumerator
+            {
+                int Index;
+                dsLines dsLines;
+                dsSplints dsSplints;
+
+                #region IEnumerator Members
+
+                public object Current
+                {
+                    get 
+                    {
+                        dsLines.tbLineRow rw = (dsLines.tbLineRow)
+                            dsLines.tbLine.Select("", "[Номер линии] ASC")[Index];
+                        return new Line(dsLines, dsSplints, rw.Код);
+                    }
+                }
+
+                public bool MoveNext()
+                {
+                    Index++;
+                    return Index < dsLines.tbLine.Rows.Count;
+                }
+
+                public void Reset()
+                {
+                    Index = -1;
+                }
+
+                public Enumerator(dsLines dsLines, dsSplints dsSplints)
+                {
+                    Index = -1;
+                    this.dsLines = dsLines;
+                    this.dsSplints = dsSplints;
+                }
+                #endregion
+            }
+
+        }
+
+        public class Point
+        {
+            private dsLines dsLines;
+            private int Its_LineId;
+
+            private int N;
+
+            public int Numer
+            {
+                get
+                {
+
+                    if (PrevSection == null)
+                        return 1;
+                    DataRow[] rc =
+                        dsLines.tbLineSections.Select(String.Format(
+                            "[Код линии]={0:G} AND [Номер]<={1:G} AND [Длина]>0.001",
+                            Line.ID, PrevSection.Numer), "[Номер] ASC");
+                    return rc.Length + 1;
+
+                }
+            }
+
+            public string Name
+            {
+                get
+                {
+                    return Numer.ToString();
+                }
+            }
+
+            public Point(dsLines dsLines, int LineId, int Numer)
+            {
+                this.dsLines=dsLines;
+                Its_LineId=LineId;
+                N=Numer;
+            }
+
+            public Section PrevSection
+            {
+                get
+                {
+                    DataRow[] rc =
+                        dsLines.tbLineSections.Select
+                            ("[Код линии]=" + Line.ID,"[Номер] ASC");
+                    if (N <= 1 || N > rc.Length + 1)
+                        return null;
+                    return SectionByID(dsLines, (rc[N - 2] as dsLines.tbLineSectionsRow).Код);
+                }
+            }
+
+            public Pointer Pointer
+            {
+                get
+                {
+                    if (PrevSection == null)
+                        return Line.Start;
+                    return PrevSection.Finish(PrevSection.StartPoint.Pointer);
+                }
+
+            }
+
+
+
+            public Line Line
+            {
+                get
+                {
+                    return new Line(dsLines, null, Its_LineId);
+                }
+            }
+
+            public void Draw(Graphics Graphics, CanvasView View, Font Font, Brush Brush)
+            {
+                PointF p = View.TranslateF(Pointer.PointF);
+                p.X += 0;
+                p.Y += 0;
+                Graphics.DrawString(Numer.ToString(), Font, Brush, p);
+            }
+
+        }
+
+        public class Side
+        {
+            protected dsLines dsLines;
+            protected int Its_Id;
+            protected bool siSide;
+            protected bool pos;
+            protected double size;
+            protected double alpha;
+            protected double step;
+
+            public int ID
+            {
+                get
+                {
+                    return Its_Id;
+                }
+            }
+
+            public bool IsSide
+            {
+                get
+                {
+                    Calc();
+                    return siSide;
+                }
+            }
+
+            public bool Position
+            {
+                get
+                {
+                    Calc();
+                    return pos;
+                }
+            }
+
+            public double Step
+            {
+                get
+                {
+                    Calc();
+                    return step;
+                }
+            }
+
+            public double Alpha
+            {
+                get
+                {
+                    Calc();
+                    return alpha;
+                }
+            }
+
+            public Side(dsLines dsLines, int ID)
+            {
+                this.dsLines = dsLines;
+                this.Its_Id = ID;
+            }
+
+            private void Calc()
+            {
+                dsLines.tbSideRow rws = dsLines.tbSide.FindByКод(ID);
+                siSide = rws.Боковина;
+                alpha = rws.Угол * Math.PI / 180;
+                pos = rws.Положение;
+                step = rws.Отступ;
+            }
+
+            public string Name
+            {
+                get
+                {
+                    string s = Position ? "К" : "Н";
+                    if (IsSide)
+                        s += String.Format("Б={0:N1}\u00B0", Alpha * 180 / Math.PI);
+                    else
+                        return "";
+                    return s;
+                }
+            }
+
+            public Line Line
+            {
+                get
+                {
+                    return new Line(dsLines, null, dsLines.tbSide.FindByКод(ID).Код_линии);
+                }
+            }
+        }
     }
 }

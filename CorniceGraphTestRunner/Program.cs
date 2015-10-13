@@ -15,7 +15,7 @@ namespace CorniceGraphTestRunner
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new CorniceGraph.TfMain(
-                1000,
+                4693,
                 ConfigurationManager.ConnectionStrings["ShopConnectionString"].ConnectionString));
         }
     }

@@ -36,8 +36,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -85,9 +85,13 @@
             this.tbLineBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tsCurve = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lbC = new System.Windows.Forms.Label();
             this.btSave = new System.Windows.Forms.Button();
             this.btRLine = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.tvCurve = new System.Windows.Forms.TreeView();
+            this.dbgClearanceCurve = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tbPicture = new System.Windows.Forms.ToolStrip();
             this.btSide = new System.Windows.Forms.ToolStripButton();
             this.btJunk = new System.Windows.Forms.ToolStripButton();
@@ -97,10 +101,6 @@
             this.btEdit = new System.Windows.Forms.ToolStripButton();
             this.dsWall = new CorniceGraph.Datasets.dsWall();
             this.dsSplints = new CorniceGraph.Datasets.dsSplints();
-            this.tvCurve = new System.Windows.Forms.TreeView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dbgClearanceCurve = new System.Windows.Forms.DataGridView();
-            this.lbC = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -125,10 +125,10 @@
             this.tsCurve.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dbgClearanceCurve)).BeginInit();
             this.tbPicture.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dsWall)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dsSplints)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dbgClearanceCurve)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -739,6 +739,14 @@
             this.groupBox3.TabIndex = 52;
             this.groupBox3.TabStop = false;
             // 
+            // lbC
+            // 
+            this.lbC.Location = new System.Drawing.Point(83, 16);
+            this.lbC.Name = "lbC";
+            this.lbC.Size = new System.Drawing.Size(148, 21);
+            this.lbC.TabIndex = 67;
+            this.lbC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // btSave
             // 
             this.btSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -775,6 +783,59 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(321, 514);
             this.panel1.TabIndex = 50;
+            // 
+            // tvCurve
+            // 
+            this.tvCurve.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tvCurve.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvCurve.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tvCurve.HideSelection = false;
+            this.tvCurve.HotTracking = true;
+            this.tvCurve.ImageIndex = 0;
+            this.tvCurve.ImageList = this.iml;
+            this.tvCurve.Location = new System.Drawing.Point(0, 25);
+            this.tvCurve.Name = "tvCurve";
+            this.tvCurve.SelectedImageIndex = 0;
+            this.tvCurve.Size = new System.Drawing.Size(319, 388);
+            this.tvCurve.TabIndex = 52;
+            this.tvCurve.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvCurve_AfterSelect);
+            this.tvCurve.DoubleClick += new System.EventHandler(this.tvCurve_DoubleClick);
+            // 
+            // dbgClearanceCurve
+            // 
+            this.dbgClearanceCurve.AllowUserToAddRows = false;
+            this.dbgClearanceCurve.AllowUserToDeleteRows = false;
+            this.dbgClearanceCurve.AllowUserToResizeRows = false;
+            this.dbgClearanceCurve.AutoGenerateColumns = false;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dbgClearanceCurve.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.dbgClearanceCurve.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dbgClearanceCurve.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1});
+            this.dbgClearanceCurve.DataSource = this.tbWallClearanceBindingSource;
+            this.dbgClearanceCurve.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dbgClearanceCurve.Location = new System.Drawing.Point(0, 413);
+            this.dbgClearanceCurve.Name = "dbgClearanceCurve";
+            this.dbgClearanceCurve.ReadOnly = true;
+            this.dbgClearanceCurve.RowHeadersVisible = false;
+            this.dbgClearanceCurve.Size = new System.Drawing.Size(319, 99);
+            this.dbgClearanceCurve.TabIndex = 51;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "Стена";
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle8;
+            this.dataGridViewTextBoxColumn1.HeaderText = "Стена";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
             // 
             // tbPicture
             // 
@@ -857,67 +918,6 @@
             this.dsSplints.DataSetName = "dsSplints";
             this.dsSplints.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
-            // tvCurve
-            // 
-            this.tvCurve.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tvCurve.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tvCurve.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tvCurve.HideSelection = false;
-            this.tvCurve.HotTracking = true;
-            this.tvCurve.ImageIndex = 0;
-            this.tvCurve.ImageList = this.iml;
-            this.tvCurve.Location = new System.Drawing.Point(0, 25);
-            this.tvCurve.Name = "tvCurve";
-            this.tvCurve.SelectedImageIndex = 0;
-            this.tvCurve.Size = new System.Drawing.Size(319, 388);
-            this.tvCurve.TabIndex = 52;
-            this.tvCurve.DoubleClick += new System.EventHandler(this.tvCurve_DoubleClick);
-            this.tvCurve.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvCurve_AfterSelect);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "Стена";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle8;
-            this.dataGridViewTextBoxColumn1.HeaderText = "Стена";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // dbgClearanceCurve
-            // 
-            this.dbgClearanceCurve.AllowUserToAddRows = false;
-            this.dbgClearanceCurve.AllowUserToDeleteRows = false;
-            this.dbgClearanceCurve.AllowUserToResizeRows = false;
-            this.dbgClearanceCurve.AutoGenerateColumns = false;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dbgClearanceCurve.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            this.dbgClearanceCurve.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dbgClearanceCurve.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1});
-            this.dbgClearanceCurve.DataSource = this.tbWallClearanceBindingSource;
-            this.dbgClearanceCurve.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dbgClearanceCurve.Location = new System.Drawing.Point(0, 413);
-            this.dbgClearanceCurve.Name = "dbgClearanceCurve";
-            this.dbgClearanceCurve.ReadOnly = true;
-            this.dbgClearanceCurve.RowHeadersVisible = false;
-            this.dbgClearanceCurve.Size = new System.Drawing.Size(319, 99);
-            this.dbgClearanceCurve.TabIndex = 51;
-            // 
-            // lbC
-            // 
-            this.lbC.Location = new System.Drawing.Point(83, 16);
-            this.lbC.Name = "lbC";
-            this.lbC.Size = new System.Drawing.Size(148, 21);
-            this.lbC.TabIndex = 67;
-            this.lbC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // TfMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -960,11 +960,11 @@
             this.groupBox3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dbgClearanceCurve)).EndInit();
             this.tbPicture.ResumeLayout(false);
             this.tbPicture.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dsWall)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dsSplints)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dbgClearanceCurve)).EndInit();
             this.ResumeLayout(false);
 
         }

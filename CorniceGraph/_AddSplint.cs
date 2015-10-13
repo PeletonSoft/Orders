@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using CorniceGraph.Datasets;
+using CorniceGraph.Logic;
 
 namespace CorniceGraph
 {
@@ -17,7 +18,7 @@ namespace CorniceGraph
             InitializeComponent();
         }
 
-        public TfMain.SplintSections.SplintContourType StartType;
+        public SplintSections.SplintContourType StartType;
 
         public void lcb_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -75,12 +76,12 @@ namespace CorniceGraph
 
         private void pn_Paint(object sender, PaintEventArgs e)
         {
-            TfMain.SplintSections.SplintComponent SplintCompontent =
-                new TfMain.SplintSections.SplintComponent(
+            SplintComponent SplintCompontent =
+                new SplintComponent(
                     (Tag as TfMain).dsSplints, (Tag as TfMain).dsLines, Convert.ToInt32(lcb.SelectedValue),
                     StartType, Convert.ToDouble(edValue.Value), 0, 0);
-            TfMain.View View = new TfMain.View(20, 20, 0, 200, true);
-            TfMain.Pointer Start = new TfMain.Pointer(0, 0, -Math.PI / 2);
+            CanvasView View = new CanvasView(20, 20, 0, 200, true);
+            Pointer Start = new Pointer(0, 0, -Math.PI / 2);
             View = View.AutoZoom(SplintCompontent.Border(View, Start), pn.Width, pn.Height, 0.15, 0.25);
             View = View.AutoStart(SplintCompontent.Border(View, Start), pn.Width, pn.Height);
             SplintCompontent.Draw(e.Graphics, View, Start, new Pen(Color.Black, 2));
