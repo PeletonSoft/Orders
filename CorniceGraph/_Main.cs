@@ -401,7 +401,7 @@ namespace CorniceGraph
         private void btAddLine_Click(object sender, EventArgs e)
         {
             TfAddLine f = new TfAddLine() { Tag = this, d = 0, theta = 0 };
-            int CurrNumer = -1;
+            int currNumer = -1;
 
             if (tv.SelectedNode == null)
             {
@@ -414,7 +414,7 @@ namespace CorniceGraph
                 f.theta = Wall.Theta;
                 f.d = Wall.Diameter;
                 f.edCorner.Value = Convert.ToDecimal(90);
-                CurrNumer = Wall.FinishPoint.SegnentNumer;
+                currNumer = Wall.FinishPoint.SegnentNumer;
             }
 
             if (f.d < 1e-6)
@@ -424,12 +424,12 @@ namespace CorniceGraph
                 return;
 
             foreach (dsWall.tbWallSegmentRow rwos in dsWall.tbWallSegment.Rows)
-                if (rwos.Номер >= CurrNumer)
+                if (rwos.Номер >= currNumer)
                     rwos.Номер += 3;
             dsWall.tbWallSegment.AcceptChanges();
 
             dsWall.tbWallSegmentRow rws = (dsWall.tbWallSegmentRow)dsWall.tbWallSegment.NewRow();
-            rws.Номер = ++CurrNumer;
+            rws.Номер = ++currNumer;
             rws.Длина = 0;
             rws.Угол = f.alpha * 180 / Math.PI;
             rws.Угол = rws.Угол < 0 ? -180 - rws.Угол : 180 - rws.Угол;
@@ -437,7 +437,7 @@ namespace CorniceGraph
             dsWall.tbWallSegment.AcceptChanges();
 
             rws = (dsWall.tbWallSegmentRow)dsWall.tbWallSegment.NewRow();
-            rws.Номер = ++CurrNumer;
+            rws.Номер = ++currNumer;
             rws.Длина = f.l;
             rws.Угол = 0;
             dsWall.tbWallSegment.Rows.Add(rws);
