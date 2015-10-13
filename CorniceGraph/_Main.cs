@@ -174,7 +174,13 @@ namespace CorniceGraph
             }
 
         }
-        
+
+        public override sealed string Text
+        {
+            get { return base.Text; }
+            set { base.Text = value; }
+        }
+
         public static double sinx(double x)
         {
             if (Math.Abs(x) < 0.01)
