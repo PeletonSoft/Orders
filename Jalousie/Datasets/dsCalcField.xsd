@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsCalcField" targetNamespace="http://tempuri.org/dsCalcField.xsd" xmlns:mstns="http://tempuri.org/dsCalcField.xsd" xmlns="http://tempuri.org/dsCalcField.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="Магазин00ConnectionString1" IsAppSettingsProperty="true" Modifier="Assembly" Name="Магазин00ConnectionString1 (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Jalousie.Properties.Settings.GlobalReference.Default.Магазин00ConnectionString1" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsCalcField" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsCalcField" msprop:Generator_UserDSName="dsCalcField">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="tbCalcField" msprop:Generator_UserTableName="tbCalcField" msprop:Generator_RowEvArgName="tbCalcFieldRowChangeEvent" msprop:Generator_TableVarName="tabletbCalcField" msprop:Generator_TablePropName="tbCalcField" msprop:Generator_RowDeletingName="tbCalcFieldRowDeleting" msprop:Generator_RowChangingName="tbCalcFieldRowChanging" msprop:Generator_RowDeletedName="tbCalcFieldRowDeleted" msprop:Generator_RowEvHandlerName="tbCalcFieldRowChangeEventHandler" msprop:Generator_TableClassName="tbCalcFieldDataTable" msprop:Generator_RowChangedName="tbCalcFieldRowChanged" msprop:Generator_RowClassName="tbCalcFieldRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" msprop:Generator_UserColumnName="Код" type="xs:int" />
+              <xs:element name="Код_x0020_структуры" msprop:Generator_ColumnVarNameInTable="columnКод_структуры" msprop:Generator_ColumnPropNameInRow="Код_структуры" msprop:Generator_ColumnPropNameInTable="Код_структурыColumn" msprop:Generator_UserColumnName="Код структуры" type="xs:int" />
+              <xs:element name="Условие" msprop:Generator_ColumnVarNameInTable="columnУсловие" msprop:Generator_ColumnPropNameInRow="Условие" msprop:Generator_ColumnPropNameInTable="УсловиеColumn" msprop:Generator_UserColumnName="Условие">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="500" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Значение" msprop:Generator_ColumnVarNameInTable="columnЗначение" msprop:Generator_ColumnPropNameInRow="Значение" msprop:Generator_ColumnPropNameInTable="ЗначениеColumn" msprop:Generator_UserColumnName="Значение">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="500" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Приоритет" msprop:Generator_ColumnVarNameInTable="columnПриоритет" msprop:Generator_ColumnPropNameInRow="Приоритет" msprop:Generator_ColumnPropNameInTable="ПриоритетColumn" msprop:Generator_UserColumnName="Приоритет" type="xs:int" />
+              <xs:element name="Внутренний" msprop:Generator_ColumnVarNameInTable="columnВнутренний" msprop:Generator_ColumnPropNameInRow="Внутренний" msprop:Generator_ColumnPropNameInTable="ВнутреннийColumn" msprop:Generator_UserColumnName="Внутренний" type="xs:boolean" />
+              <xs:element name="Активен" msprop:Generator_ColumnVarNameInTable="columnАктивен" msprop:Generator_ColumnPropNameInRow="Активен" msprop:Generator_ColumnPropNameInTable="АктивенColumn" msprop:Generator_UserColumnName="Активен" type="xs:boolean" />
+              <xs:element name="Описание" msprop:Generator_ColumnVarNameInTable="columnОписание" msprop:Generator_ColumnPropNameInRow="Описание" msprop:Generator_ColumnPropNameInTable="ОписаниеColumn" msprop:Generator_UserColumnName="Описание" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbCalcField" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

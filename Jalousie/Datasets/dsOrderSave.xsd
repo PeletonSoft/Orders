@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsOrderSave" targetNamespace="http://tempuri.org/dsOrderSave.xsd" xmlns:mstns="http://tempuri.org/dsOrderSave.xsd" xmlns="http://tempuri.org/dsOrderSave.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="Магазин2ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="Магазин2ConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Jalousie.Properties.Settings.GlobalReference.Default.Магазин2ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsOrderSave" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsOrderSave" msprop:Generator_UserDSName="dsOrderSave">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="tbPositions" msprop:Generator_UserTableName="tbPositions" msprop:Generator_RowEvArgName="tbPositionsRowChangeEvent" msprop:Generator_TableVarName="tabletbPositions" msprop:Generator_TablePropName="tbPositions" msprop:Generator_RowDeletingName="tbPositionsRowDeleting" msprop:Generator_RowChangingName="tbPositionsRowChanging" msprop:Generator_RowDeletedName="tbPositionsRowDeleted" msprop:Generator_RowEvHandlerName="tbPositionsRowChangeEventHandler" msprop:Generator_TableClassName="tbPositionsDataTable" msprop:Generator_RowChangedName="tbPositionsRowChanged" msprop:Generator_RowClassName="tbPositionsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" msprop:Generator_UserColumnName="Код" type="xs:int" />
+              <xs:element name="Количество" msprop:Generator_ColumnVarNameInTable="columnКоличество" msprop:Generator_ColumnPropNameInRow="Количество" msprop:Generator_ColumnPropNameInTable="КоличествоColumn" msprop:Generator_UserColumnName="Количество" type="xs:double" minOccurs="0" />
+              <xs:element name="Цена" msprop:Generator_ColumnVarNameInTable="columnЦена" msprop:Generator_ColumnPropNameInRow="Цена" msprop:Generator_ColumnPropNameInTable="ЦенаColumn" msprop:Generator_UserColumnName="Цена" type="xs:double" />
+              <xs:element name="Дата_x0020_отправки" msprop:Generator_ColumnVarNameInTable="columnДата_отправки" msprop:Generator_ColumnPropNameInRow="Дата_отправки" msprop:Generator_ColumnPropNameInTable="Дата_отправкиColumn" msprop:Generator_UserColumnName="Дата отправки" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Дата_x0020_получения" msprop:Generator_ColumnVarNameInTable="columnДата_получения" msprop:Generator_ColumnPropNameInRow="Дата_получения" msprop:Generator_ColumnPropNameInTable="Дата_полученияColumn" msprop:Generator_UserColumnName="Дата получения" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Скидка" msprop:Generator_ColumnVarNameInTable="columnСкидка" msprop:Generator_ColumnPropNameInRow="Скидка" msprop:Generator_ColumnPropNameInTable="СкидкаColumn" msprop:Generator_UserColumnName="Скидка" type="xs:double" default="0" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tbContent" msprop:Generator_UserTableName="tbContent" msprop:Generator_RowEvArgName="tbContentRowChangeEvent" msprop:Generator_TableVarName="tabletbContent" msprop:Generator_TablePropName="tbContent" msprop:Generator_RowDeletingName="tbContentRowDeleting" msprop:Generator_RowChangingName="tbContentRowChanging" msprop:Generator_RowDeletedName="tbContentRowDeleted" msprop:Generator_RowEvHandlerName="tbContentRowChangeEventHandler" msprop:Generator_TableClassName="tbContentDataTable" msprop:Generator_RowChangedName="tbContentRowChanged" msprop:Generator_RowClassName="tbContentRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" msprop:Generator_UserColumnName="Код" type="xs:int" />
+              <xs:element name="Код_x0020_позиции" msprop:Generator_ColumnVarNameInTable="columnКод_позиции" msprop:Generator_ColumnPropNameInRow="Код_позиции" msprop:Generator_ColumnPropNameInTable="Код_позицииColumn" msprop:Generator_UserColumnName="Код позиции" type="xs:int" />
+              <xs:element name="Код_x0020_структуры" msprop:Generator_ColumnVarNameInTable="columnКод_структуры" msprop:Generator_ColumnPropNameInRow="Код_структуры" msprop:Generator_ColumnPropNameInTable="Код_структурыColumn" msprop:Generator_UserColumnName="Код структуры" type="xs:int" />
+              <xs:element name="Целое" msprop:Generator_ColumnVarNameInTable="columnЦелое" msprop:Generator_ColumnPropNameInRow="Целое" msprop:Generator_ColumnPropNameInTable="ЦелоеColumn" msprop:Generator_UserColumnName="Целое" type="xs:int" default="0" />
+              <xs:element name="Дробное" msprop:Generator_ColumnVarNameInTable="columnДробное" msprop:Generator_ColumnPropNameInRow="Дробное" msprop:Generator_ColumnPropNameInTable="ДробноеColumn" msprop:Generator_UserColumnName="Дробное" type="xs:double" default="0" />
+              <xs:element name="Текстовое" msprop:Generator_ColumnVarNameInTable="columnТекстовое" msprop:Generator_ColumnPropNameInRow="Текстовое" msprop:Generator_ColumnPropNameInTable="ТекстовоеColumn" msprop:Generator_UserColumnName="Текстовое" default="">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="150" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Справочник" msprop:Generator_ColumnVarNameInTable="columnСправочник" msprop:Generator_ColumnPropNameInRow="Справочник" msprop:Generator_ColumnPropNameInTable="СправочникColumn" msprop:Generator_UserColumnName="Справочник" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbPositions" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+    <xs:unique name="tbContent_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbContent" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+  </xs:element>
+  <xs:annotation>
+    <xs:appinfo>
+      <msdata:Relationship name="FK_Жалюзи_заказы_позиции_структура_Жалюзи_заказы_позиции" msdata:parent="tbPositions" msdata:child="tbContent" msdata:parentkey="Код" msdata:childkey="Код_x0020_позиции" msprop:Generator_UserChildTable="tbContent" msprop:Generator_ChildPropName="GettbContentRows" msprop:Generator_UserRelationName="FK_Жалюзи_заказы_позиции_структура_Жалюзи_заказы_позиции" msprop:Generator_RelationVarName="relationFK_Жалюзи_заказы_позиции_структура_Жалюзи_заказы_позиции" msprop:Generator_UserParentTable="tbPositions" msprop:Generator_ParentPropName="tbPositionsRow" />
+    </xs:appinfo>
+  </xs:annotation>
+</xs:schema>

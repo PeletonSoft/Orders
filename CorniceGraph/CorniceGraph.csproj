@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{409B0B03-8A2C-441D-9ED5-8AECEF9F2D3E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CorniceGraph</RootNamespace>
+    <AssemblyName>CorniceGraph</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Datasets\dsLines.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsLines.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Datasets\dsSections.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsSections.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Datasets\dsSplints.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsSplints.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Datasets\dsWall.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsWall.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DBConvert.cs" />
+    <Compile Include="LocalService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="_AddArc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_AddArc.Designer.cs">
+      <DependentUpon>_AddArc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_AddJunct.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_AddJunct.Designer.cs">
+      <DependentUpon>_AddJunct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_AddLine.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_AddLine.Designer.cs">
+      <DependentUpon>_AddLine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_AddSplint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_AddSplint.Designer.cs">
+      <DependentUpon>_AddSplint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_DeleteCorner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_DeleteCorner.Designer.cs">
+      <DependentUpon>_DeleteCorner.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_DeleteWall.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_DeleteWall.Designer.cs">
+      <DependentUpon>_DeleteWall.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_EditSide.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_EditSide.Designer.cs">
+      <DependentUpon>_EditSide.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_Main.Designer.cs">
+      <DependentUpon>_Main.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Datasets\dsLines.xsc">
+      <DependentUpon>dsLines.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsLines.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsLines.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsLines.xss">
+      <DependentUpon>dsLines.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsSections.xsc">
+      <DependentUpon>dsSections.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsSections.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsSections.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsSections.xss">
+      <DependentUpon>dsSections.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsSplints.xsc">
+      <DependentUpon>dsSplints.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsSplints.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsSplints.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsSplints.xss">
+      <DependentUpon>dsSplints.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsWall.xsc">
+      <DependentUpon>dsWall.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsWall.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsWall.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsWall.xss">
+      <DependentUpon>dsWall.xsd</DependentUpon>
+    </None>
+    <EmbeddedResource Include="_AddArc.resx">
+      <DependentUpon>_AddArc.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_AddJunct.resx">
+      <DependentUpon>_AddJunct.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_AddLine.resx">
+      <DependentUpon>_AddLine.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_AddSplint.resx">
+      <DependentUpon>_AddSplint.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_DeleteCorner.resx">
+      <DependentUpon>_DeleteCorner.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_DeleteWall.resx">
+      <DependentUpon>_DeleteWall.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_EditSide.resx">
+      <DependentUpon>_EditSide.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_Main.resx">
+      <DependentUpon>_Main.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

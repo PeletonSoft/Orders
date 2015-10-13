@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsPrePayment" targetNamespace="http://tempuri.org/dsPrePayment.xsd" xmlns:mstns="http://tempuri.org/dsPrePayment.xsd" xmlns="http://tempuri.org/dsPrePayment.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="Магазин0ConnectionString" IsAppSettingsProperty="true" Modifier="Assembly" Name="Магазин0ConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Jalousie.Properties.Settings.GlobalReference.Default.Магазин0ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsPrePayment" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsPrePayment" msprop:Generator_UserDSName="dsPrePayment">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="tbPrepayment" msprop:Generator_UserTableName="tbPrepayment" msprop:Generator_RowEvArgName="tbPrepaymentRowChangeEvent" msprop:Generator_TableVarName="tabletbPrepayment" msprop:Generator_TablePropName="tbPrepayment" msprop:Generator_RowDeletingName="tbPrepaymentRowDeleting" msprop:Generator_RowChangingName="tbPrepaymentRowChanging" msprop:Generator_RowDeletedName="tbPrepaymentRowDeleted" msprop:Generator_RowEvHandlerName="tbPrepaymentRowChangeEventHandler" msprop:Generator_TableClassName="tbPrepaymentDataTable" msprop:Generator_RowChangedName="tbPrepaymentRowChanged" msprop:Generator_RowClassName="tbPrepaymentRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" msprop:Generator_UserColumnName="Код" type="xs:int" />
+              <xs:element name="Дата" msprop:Generator_ColumnVarNameInTable="columnДата" msprop:Generator_ColumnPropNameInRow="Дата" msprop:Generator_ColumnPropNameInTable="ДатаColumn" msprop:Generator_UserColumnName="Дата" type="xs:dateTime" />
+              <xs:element name="Сумма" msprop:Generator_ColumnVarNameInTable="columnСумма" msprop:Generator_ColumnPropNameInRow="Сумма" msprop:Generator_ColumnPropNameInTable="СуммаColumn" msprop:Generator_UserColumnName="Сумма" type="xs:float" />
+              <xs:element name="Карта" msprop:Generator_ColumnVarNameInTable="columnКарта" msprop:Generator_ColumnPropNameInRow="Карта" msprop:Generator_ColumnPropNameInTable="КартаColumn" msprop:Generator_UserColumnName="Карта" type="xs:boolean" minOccurs="0" />
+              <xs:element name="Безнал" msprop:Generator_ColumnVarNameInTable="columnБезнал" msprop:Generator_ColumnPropNameInRow="Безнал" msprop:Generator_ColumnPropNameInTable="БезналColumn" msprop:Generator_UserColumnName="Безнал" type="xs:boolean" />
+              <xs:element name="Возврат" msprop:Generator_ColumnVarNameInTable="columnВозврат" msprop:Generator_ColumnPropNameInRow="Возврат" msprop:Generator_ColumnPropNameInTable="ВозвратColumn" msprop:Generator_UserColumnName="Возврат" type="xs:boolean" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbPrepayment" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsCompleting" targetNamespace="http://tempuri.org/dsCompleting.xsd" xmlns:mstns="http://tempuri.org/dsCompleting.xsd" xmlns="http://tempuri.org/dsCompleting.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="Магазин00ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="Магазин00ConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Jalousie.Properties.Settings.GlobalReference.Default.Магазин00ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsCompleting" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsCompleting" msprop:Generator_UserDSName="dsCompleting">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="tbCompleting" msprop:Generator_UserTableName="tbCompleting" msprop:Generator_RowEvArgName="tbCompletingRowChangeEvent" msprop:Generator_TableVarName="tabletbCompleting" msprop:Generator_TablePropName="tbCompleting" msprop:Generator_RowDeletingName="tbCompletingRowDeleting" msprop:Generator_RowChangingName="tbCompletingRowChanging" msprop:Generator_RowDeletedName="tbCompletingRowDeleted" msprop:Generator_RowEvHandlerName="tbCompletingRowChangeEventHandler" msprop:Generator_TableClassName="tbCompletingDataTable" msprop:Generator_RowChangedName="tbCompletingRowChanged" msprop:Generator_RowClassName="tbCompletingRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" msprop:Generator_UserColumnName="Код" type="xs:int" />
+              <xs:element name="Название" msprop:Generator_ColumnVarNameInTable="columnНазвание" msprop:Generator_ColumnPropNameInRow="Название" msprop:Generator_ColumnPropNameInTable="НазваниеColumn" msprop:Generator_UserColumnName="Название">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tbDetail" msprop:Generator_UserTableName="tbDetail" msprop:Generator_RowEvArgName="tbDetailRowChangeEvent" msprop:Generator_TableVarName="tabletbDetail" msprop:Generator_TablePropName="tbDetail" msprop:Generator_RowDeletingName="tbDetailRowDeleting" msprop:Generator_RowChangingName="tbDetailRowChanging" msprop:Generator_RowDeletedName="tbDetailRowDeleted" msprop:Generator_RowEvHandlerName="tbDetailRowChangeEventHandler" msprop:Generator_TableClassName="tbDetailDataTable" msprop:Generator_RowChangedName="tbDetailRowChanged" msprop:Generator_RowClassName="tbDetailRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" msprop:Generator_UserColumnName="Код" type="xs:int" />
+              <xs:element name="Код_x0020_комплектующей" msprop:Generator_ColumnVarNameInTable="columnКод_комплектующей" msprop:Generator_ColumnPropNameInRow="Код_комплектующей" msprop:Generator_ColumnPropNameInTable="Код_комплектующейColumn" msprop:Generator_UserColumnName="Код комплектующей" type="xs:int" />
+              <xs:element name="Код_x0020_цвета" msprop:Generator_ColumnVarNameInTable="columnКод_цвета" msprop:Generator_ColumnPropNameInRow="Код_цвета" msprop:Generator_ColumnPropNameInTable="Код_цветаColumn" msprop:Generator_UserColumnName="Код цвета" type="xs:int" minOccurs="0" />
+              <xs:element name="Код_x0020_информации" msprop:Generator_ColumnVarNameInTable="columnКод_информации" msprop:Generator_ColumnPropNameInRow="Код_информации" msprop:Generator_ColumnPropNameInTable="Код_информацииColumn" msprop:Generator_UserColumnName="Код информации" type="xs:int" minOccurs="0" />
+              <xs:element name="Цена" msprop:Generator_ColumnVarNameInTable="columnЦена" msprop:Generator_ColumnPropNameInRow="Цена" msprop:Generator_ColumnPropNameInTable="ЦенаColumn" msprop:Generator_UserColumnName="Цена" type="xs:double" minOccurs="0" />
+              <xs:element name="Оптовая_x0020_цена" msprop:Generator_ColumnVarNameInTable="columnОптовая_цена" msprop:Generator_ColumnPropNameInRow="Оптовая_цена" msprop:Generator_ColumnPropNameInTable="Оптовая_ценаColumn" msprop:Generator_UserColumnName="Оптовая цена" type="xs:double" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tbColor" msprop:Generator_UserTableName="tbColor" msprop:Generator_RowEvArgName="tbColorRowChangeEvent" msprop:Generator_TableVarName="tabletbColor" msprop:Generator_TablePropName="tbColor" msprop:Generator_RowDeletingName="tbColorRowDeleting" msprop:Generator_RowChangingName="tbColorRowChanging" msprop:Generator_RowDeletedName="tbColorRowDeleted" msprop:Generator_RowEvHandlerName="tbColorRowChangeEventHandler" msprop:Generator_TableClassName="tbColorDataTable" msprop:Generator_RowChangedName="tbColorRowChanged" msprop:Generator_RowClassName="tbColorRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" msprop:Generator_UserColumnName="Код" type="xs:int" />
+              <xs:element name="Цвет" msprop:Generator_ColumnVarNameInTable="columnЦвет" msprop:Generator_ColumnPropNameInRow="Цвет" msprop:Generator_ColumnPropNameInTable="ЦветColumn" msprop:Generator_UserColumnName="Цвет">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Описание_x0020_цвета" msprop:Generator_ColumnVarNameInTable="columnОписание_цвета" msprop:Generator_ColumnPropNameInRow="Описание_цвета" msprop:Generator_ColumnPropNameInTable="Описание_цветаColumn" msprop:Generator_UserColumnName="Описание цвета" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Код_x0020_комплектующей" msprop:Generator_ColumnVarNameInTable="columnКод_комплектующей" msprop:Generator_ColumnPropNameInRow="Код_комплектующей" msprop:Generator_ColumnPropNameInTable="Код_комплектующейColumn" msprop:Generator_UserColumnName="Код комплектующей" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbCompleting" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+    <xs:unique name="tbDetail_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbDetail" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+    <xs:unique name="tbColor_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbColor" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsWall" targetNamespace="http://tempuri.org/dsWall.xsd" xmlns:mstns="http://tempuri.org/dsWall.xsd" xmlns="http://tempuri.org/dsWall.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsWall" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="dsWall" msprop:Generator_DataSetName="dsWall" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="tbWallSegment" msprop:Generator_UserTableName="tbWallSegment" msprop:Generator_RowDeletedName="tbWallSegmentRowDeleted" msprop:Generator_RowChangedName="tbWallSegmentRowChanged" msprop:Generator_RowClassName="tbWallSegmentRow" msprop:Generator_RowChangingName="tbWallSegmentRowChanging" msprop:Generator_RowEvArgName="tbWallSegmentRowChangeEvent" msprop:Generator_RowEvHandlerName="tbWallSegmentRowChangeEventHandler" msprop:Generator_TableClassName="tbWallSegmentDataTable" msprop:Generator_TableVarName="tabletbWallSegment" msprop:Generator_RowDeletingName="tbWallSegmentRowDeleting" msprop:Generator_TablePropName="tbWallSegment">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_UserColumnName="Код" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" type="xs:int" />
+              <xs:element name="Номер" msprop:Generator_UserColumnName="Номер" msprop:Generator_ColumnVarNameInTable="columnНомер" msprop:Generator_ColumnPropNameInRow="Номер" msprop:Generator_ColumnPropNameInTable="НомерColumn" type="xs:int" default="0" minOccurs="0" />
+              <xs:element name="Длина" msprop:Generator_UserColumnName="Длина" msprop:Generator_ColumnVarNameInTable="columnДлина" msprop:Generator_ColumnPropNameInRow="Длина" msprop:Generator_ColumnPropNameInTable="ДлинаColumn" type="xs:double" default="0" minOccurs="0" />
+              <xs:element name="Угол" msprop:Generator_UserColumnName="Угол" msprop:Generator_ColumnVarNameInTable="columnУгол" msprop:Generator_ColumnPropNameInRow="Угол" msprop:Generator_ColumnPropNameInTable="УголColumn" type="xs:double" default="0" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tbMeasure" msprop:Generator_UserTableName="tbMeasure" msprop:Generator_RowDeletedName="tbMeasureRowDeleted" msprop:Generator_RowChangedName="tbMeasureRowChanged" msprop:Generator_RowClassName="tbMeasureRow" msprop:Generator_RowChangingName="tbMeasureRowChanging" msprop:Generator_RowEvArgName="tbMeasureRowChangeEvent" msprop:Generator_RowEvHandlerName="tbMeasureRowChangeEventHandler" msprop:Generator_TableClassName="tbMeasureDataTable" msprop:Generator_TableVarName="tabletbMeasure" msprop:Generator_RowDeletingName="tbMeasureRowDeleting" msprop:Generator_TablePropName="tbMeasure">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_UserColumnName="Код" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" type="xs:int" />
+              <xs:element name="Координата" msprop:Generator_UserColumnName="Координата" msprop:Generator_ColumnVarNameInTable="columnКоордината" msprop:Generator_ColumnPropNameInRow="Координата" msprop:Generator_ColumnPropNameInTable="КоординатаColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="Измерение" msprop:Generator_UserColumnName="Измерение" msprop:Generator_ColumnVarNameInTable="columnИзмерение" msprop:Generator_ColumnPropNameInRow="Измерение" msprop:Generator_ColumnPropNameInTable="ИзмерениеColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="Код_x0020_агрегата" msprop:Generator_UserColumnName="Код агрегата" msprop:Generator_ColumnPropNameInRow="Код_агрегата" msprop:Generator_ColumnVarNameInTable="columnКод_агрегата" msprop:Generator_ColumnPropNameInTable="Код_агрегатаColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tbAgregate" msprop:Generator_UserTableName="tbAgregate" msprop:Generator_RowDeletedName="tbAgregateRowDeleted" msprop:Generator_RowChangedName="tbAgregateRowChanged" msprop:Generator_RowClassName="tbAgregateRow" msprop:Generator_RowChangingName="tbAgregateRowChanging" msprop:Generator_RowEvArgName="tbAgregateRowChangeEvent" msprop:Generator_RowEvHandlerName="tbAgregateRowChangeEventHandler" msprop:Generator_TableClassName="tbAgregateDataTable" msprop:Generator_TableVarName="tabletbAgregate" msprop:Generator_RowDeletingName="tbAgregateRowDeleting" msprop:Generator_TablePropName="tbAgregate">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_UserColumnName="Код" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInTable="КодColumn" type="xs:int" />
+              <xs:element name="Длина_x0020_базы" msprop:Generator_UserColumnName="Длина базы" msprop:Generator_ColumnPropNameInRow="Длина_базы" msprop:Generator_ColumnVarNameInTable="columnДлина_базы" msprop:Generator_ColumnPropNameInTable="Длина_базыColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="Высота_x0020_прогиба" msprop:Generator_UserColumnName="Высота прогиба" msprop:Generator_ColumnPropNameInRow="Высота_прогиба" msprop:Generator_ColumnVarNameInTable="columnВысота_прогиба" msprop:Generator_ColumnPropNameInTable="Высота_прогибаColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="Выпуклость" msprop:Generator_UserColumnName="Выпуклость" msprop:Generator_ColumnPropNameInRow="Выпуклость" msprop:Generator_ColumnVarNameInTable="columnВыпуклость" msprop:Generator_ColumnPropNameInTable="ВыпуклостьColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="Прогиб_x0020_вниз" msprop:Generator_UserColumnName="Прогиб вниз" msprop:Generator_ColumnPropNameInRow="Прогиб_вниз" msprop:Generator_ColumnVarNameInTable="columnПрогиб_вниз" msprop:Generator_ColumnPropNameInTable="Прогиб_внизColumn" type="xs:boolean" minOccurs="0" />
+              <xs:element name="Тип_x0020_апроксимации" msprop:Generator_UserColumnName="Тип апроксимации" msprop:Generator_ColumnPropNameInRow="Тип_апроксимации" msprop:Generator_ColumnVarNameInTable="columnТип_апроксимации" msprop:Generator_ColumnPropNameInTable="Тип_апроксимацииColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Высота_x0020_базы" msprop:Generator_UserColumnName="Высота базы" msprop:Generator_ColumnPropNameInRow="Высота_базы" msprop:Generator_ColumnVarNameInTable="columnВысота_базы" msprop:Generator_ColumnPropNameInTable="Высота_базыColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="Интервал_x0020_измерений" msprop:Generator_UserColumnName="Интервал измерений" msprop:Generator_ColumnPropNameInRow="Интервал_измерений" msprop:Generator_ColumnVarNameInTable="columnИнтервал_измерений" msprop:Generator_ColumnPropNameInTable="Интервал_измеренийColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="Центрирование" msprop:Generator_UserColumnName="Центрирование" msprop:Generator_ColumnPropNameInRow="Центрирование" msprop:Generator_ColumnVarNameInTable="columnЦентрирование" msprop:Generator_ColumnPropNameInTable="ЦентрированиеColumn" type="xs:boolean" minOccurs="0" />
+              <xs:element name="Часть_x0020_арки" msprop:Generator_UserColumnName="Часть арки" msprop:Generator_ColumnPropNameInRow="Часть_арки" msprop:Generator_ColumnVarNameInTable="columnЧасть_арки" msprop:Generator_ColumnPropNameInTable="Часть_аркиColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Название" msprop:Generator_UserColumnName="Название" msprop:Generator_ColumnPropNameInRow="Название" msprop:Generator_ColumnVarNameInTable="columnНазвание" msprop:Generator_ColumnPropNameInTable="НазваниеColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tbAggregateWall" msprop:Generator_UserTableName="tbAggregateWall" msprop:Generator_RowDeletedName="tbAggregateWallRowDeleted" msprop:Generator_RowChangedName="tbAggregateWallRowChanged" msprop:Generator_RowClassName="tbAggregateWallRow" msprop:Generator_RowChangingName="tbAggregateWallRowChanging" msprop:Generator_RowEvArgName="tbAggregateWallRowChangeEvent" msprop:Generator_RowEvHandlerName="tbAggregateWallRowChangeEventHandler" msprop:Generator_TableClassName="tbAggregateWallDataTable" msprop:Generator_TableVarName="tabletbAggregateWall" msprop:Generator_RowDeletingName="tbAggregateWallRowDeleting" msprop:Generator_TablePropName="tbAggregateWall">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_UserColumnName="Код" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInTable="КодColumn" type="xs:int" />
+              <xs:element name="Номер" msprop:Generator_UserColumnName="Номер" msprop:Generator_ColumnPropNameInRow="Номер" msprop:Generator_ColumnVarNameInTable="columnНомер" msprop:Generator_ColumnPropNameInTable="НомерColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Длина" msprop:Generator_UserColumnName="Длина" msprop:Generator_ColumnPropNameInRow="Длина" msprop:Generator_ColumnVarNameInTable="columnДлина" msprop:Generator_ColumnPropNameInTable="ДлинаColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="Угол" msprop:Generator_UserColumnName="Угол" msprop:Generator_ColumnPropNameInRow="Угол" msprop:Generator_ColumnVarNameInTable="columnУгол" msprop:Generator_ColumnPropNameInTable="УголColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="Код_x0020_агрегата" msprop:Generator_UserColumnName="Код агрегата" msprop:Generator_ColumnPropNameInRow="Код_агрегата" msprop:Generator_ColumnVarNameInTable="columnКод_агрегата" msprop:Generator_ColumnPropNameInTable="Код_агрегатаColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tbWall" msprop:Generator_UserTableName="tbWall" msprop:Generator_RowDeletedName="tbWallRowDeleted" msprop:Generator_RowChangedName="tbWallRowChanged" msprop:Generator_RowClassName="tbWallRow" msprop:Generator_RowChangingName="tbWallRowChanging" msprop:Generator_RowEvArgName="tbWallRowChangeEvent" msprop:Generator_RowEvHandlerName="tbWallRowChangeEventHandler" msprop:Generator_TableClassName="tbWallDataTable" msprop:Generator_TableVarName="tabletbWall" msprop:Generator_RowDeletingName="tbWallRowDeleting" msprop:Generator_TablePropName="tbWall">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_UserColumnName="Код" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" type="xs:int" />
+              <xs:element name="Номер" msprop:Generator_UserColumnName="Номер" msprop:Generator_ColumnVarNameInTable="columnНомер" msprop:Generator_ColumnPropNameInRow="Номер" msprop:Generator_ColumnPropNameInTable="НомерColumn" type="xs:int" default="0" minOccurs="0" />
+              <xs:element name="Угол" msprop:Generator_UserColumnName="Угол" msprop:Generator_ColumnVarNameInTable="columnУгол" msprop:Generator_ColumnPropNameInRow="Угол" msprop:Generator_ColumnPropNameInTable="УголColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="Код_x0020_сегмента" msprop:Generator_UserColumnName="Код сегмента" msprop:Generator_ColumnPropNameInRow="Код_сегмента" msprop:Generator_ColumnVarNameInTable="columnКод_сегмента" msprop:Generator_ColumnPropNameInTable="Код_сегментаColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tbWallDetail" msprop:Generator_UserTableName="tbWallDetail" msprop:Generator_RowDeletedName="tbWallDetailRowDeleted" msprop:Generator_RowChangedName="tbWallDetailRowChanged" msprop:Generator_RowClassName="tbWallDetailRow" msprop:Generator_RowChangingName="tbWallDetailRowChanging" msprop:Generator_RowEvArgName="tbWallDetailRowChangeEvent" msprop:Generator_RowEvHandlerName="tbWallDetailRowChangeEventHandler" msprop:Generator_TableClassName="tbWallDetailDataTable" msprop:Generator_TableVarName="tabletbWallDetail" msprop:Generator_RowDeletingName="tbWallDetailRowDeleting" msprop:Generator_TablePropName="tbWallDetail">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_UserColumnName="Код" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" type="xs:int" />
+              <xs:element name="Номер" msprop:Generator_UserColumnName="Номер" msprop:Generator_ColumnVarNameInTable="columnНомер" msprop:Generator_ColumnPropNameInRow="Номер" msprop:Generator_ColumnPropNameInTable="НомерColumn" type="xs:int" default="0" minOccurs="0" />
+              <xs:element name="Код_x0020_стены" msprop:Generator_UserColumnName="Код стены" msprop:Generator_ColumnVarNameInTable="columnКод_стены" msprop:Generator_ColumnPropNameInRow="Код_стены" msprop:Generator_ColumnPropNameInTable="Код_стеныColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Длина" msprop:Generator_UserColumnName="Длина" msprop:Generator_ColumnPropNameInRow="Длина" msprop:Generator_ColumnVarNameInTable="columnДлина" msprop:Generator_ColumnPropNameInTable="ДлинаColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="Угол" msprop:Generator_UserColumnName="Угол" msprop:Generator_ColumnPropNameInRow="Угол" msprop:Generator_ColumnVarNameInTable="columnУгол" msprop:Generator_ColumnPropNameInTable="УголColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="Код_x0020_сегмента" msprop:Generator_UserColumnName="Код сегмента" msprop:Generator_ColumnPropNameInRow="Код_сегмента" msprop:Generator_ColumnVarNameInTable="columnКод_сегмента" msprop:Generator_ColumnPropNameInTable="Код_сегментаColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbWallSegment" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+    <xs:unique name="tbMeasure_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbMeasure" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+    <xs:unique name="tbAgregate_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbAgregate" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+    <xs:unique name="tbAggregateWall_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbAggregateWall" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+    <xs:unique name="tbWall_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbWall" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+    <xs:unique name="tbWallDetail_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbWallDetail" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+  </xs:element>
+  <xs:annotation>
+    <xs:appinfo>
+      <msdata:Relationship name="tbAgregate_tbMeasure" msdata:parent="tbAgregate" msdata:child="tbMeasure" msdata:parentkey="Код" msdata:childkey="Код_x0020_агрегата" msprop:Generator_UserRelationName="tbAgregate_tbMeasure" msprop:Generator_RelationVarName="relationtbAgregate_tbMeasure" msprop:Generator_UserChildTable="tbMeasure" msprop:Generator_UserParentTable="tbAgregate" msprop:Generator_ParentPropName="tbAgregateRow" msprop:Generator_ChildPropName="GettbMeasureRows" />
+      <msdata:Relationship name="tbAgregate_tbAggregateWall" msdata:parent="tbAgregate" msdata:child="tbAggregateWall" msdata:parentkey="Код" msdata:childkey="Код_x0020_агрегата" msprop:Generator_UserRelationName="tbAgregate_tbAggregateWall" msprop:Generator_RelationVarName="relationtbAgregate_tbAggregateWall" msprop:Generator_UserChildTable="tbAggregateWall" msprop:Generator_UserParentTable="tbAgregate" msprop:Generator_ParentPropName="tbAgregateRow" msprop:Generator_ChildPropName="GettbAggregateWallRows" />
+      <msdata:Relationship name="tbWall_tbWallDetail" msdata:parent="tbWall" msdata:child="tbWallDetail" msdata:parentkey="Код" msdata:childkey="Код_x0020_стены" msprop:Generator_UserRelationName="tbWall_tbWallDetail" msprop:Generator_RelationVarName="relationtbWall_tbWallDetail" msprop:Generator_UserChildTable="tbWallDetail" msprop:Generator_UserParentTable="tbWall" msprop:Generator_ParentPropName="tbWallRow" msprop:Generator_ChildPropName="GettbWallDetailRows" />
+      <msdata:Relationship name="tbWallSegment_tbWallDetail" msdata:parent="tbWallSegment" msdata:child="tbWallDetail" msdata:parentkey="Код" msdata:childkey="Код_x0020_сегмента" msprop:Generator_UserRelationName="tbWallSegment_tbWallDetail" msprop:Generator_RelationVarName="relationtbWallSegment_tbWallDetail" msprop:Generator_UserChildTable="tbWallDetail" msprop:Generator_UserParentTable="tbWallSegment" msprop:Generator_ParentPropName="tbWallSegmentRow" msprop:Generator_ChildPropName="GettbWallDetailRows" />
+    </xs:appinfo>
+  </xs:annotation>
+</xs:schema>

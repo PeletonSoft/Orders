@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsDictionary" targetNamespace="http://tempuri.org/dsDictionary.xsd" xmlns:mstns="http://tempuri.org/dsDictionary.xsd" xmlns="http://tempuri.org/dsDictionary.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="Магазин2ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="Магазин2ConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Jalousie.Properties.Settings.GlobalReference.Default.Магазин2ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsDictionary" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsDictionary" msprop:Generator_UserDSName="dsDictionary">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="tbDictionary" msprop:Generator_UserTableName="tbDictionary" msprop:Generator_RowEvArgName="tbDictionaryRowChangeEvent" msprop:Generator_TableVarName="tabletbDictionary" msprop:Generator_TablePropName="tbDictionary" msprop:Generator_RowDeletingName="tbDictionaryRowDeleting" msprop:Generator_RowChangingName="tbDictionaryRowChanging" msprop:Generator_RowDeletedName="tbDictionaryRowDeleted" msprop:Generator_RowEvHandlerName="tbDictionaryRowChangeEventHandler" msprop:Generator_TableClassName="tbDictionaryDataTable" msprop:Generator_RowChangedName="tbDictionaryRowChanged" msprop:Generator_RowClassName="tbDictionaryRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" msprop:Generator_UserColumnName="Код" type="xs:int" />
+              <xs:element name="Название" msprop:Generator_ColumnVarNameInTable="columnНазвание" msprop:Generator_ColumnPropNameInRow="Название" msprop:Generator_ColumnPropNameInTable="НазваниеColumn" msprop:Generator_UserColumnName="Название">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Описание" msprop:Generator_ColumnVarNameInTable="columnОписание" msprop:Generator_ColumnPropNameInRow="Описание" msprop:Generator_ColumnPropNameInTable="ОписаниеColumn" msprop:Generator_UserColumnName="Описание" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Код_x0020_типа_x0020_данных" msprop:Generator_ColumnVarNameInTable="columnКод_типа_данных" msprop:Generator_ColumnPropNameInRow="Код_типа_данных" msprop:Generator_ColumnPropNameInTable="Код_типа_данныхColumn" msprop:Generator_UserColumnName="Код типа данных" type="xs:int" />
+              <xs:element name="Внешний" msprop:Generator_ColumnVarNameInTable="columnВнешний" msprop:Generator_ColumnPropNameInRow="Внешний" msprop:Generator_ColumnPropNameInTable="ВнешнийColumn" msprop:Generator_UserColumnName="Внешний" type="xs:boolean" default="false" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tbTypes" msprop:Generator_UserTableName="tbTypes" msprop:Generator_RowEvArgName="tbTypesRowChangeEvent" msprop:Generator_TableVarName="tabletbTypes" msprop:Generator_TablePropName="tbTypes" msprop:Generator_RowDeletingName="tbTypesRowDeleting" msprop:Generator_RowChangingName="tbTypesRowChanging" msprop:Generator_RowDeletedName="tbTypesRowDeleted" msprop:Generator_RowEvHandlerName="tbTypesRowChangeEventHandler" msprop:Generator_TableClassName="tbTypesDataTable" msprop:Generator_RowChangedName="tbTypesRowChanged" msprop:Generator_RowClassName="tbTypesRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" msprop:Generator_UserColumnName="Код" type="xs:int" />
+              <xs:element name="Тип" msprop:Generator_ColumnVarNameInTable="columnТип" msprop:Generator_ColumnPropNameInRow="Тип" msprop:Generator_ColumnPropNameInTable="ТипColumn" msprop:Generator_UserColumnName="Тип">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Справочник" msprop:Generator_ColumnVarNameInTable="columnСправочник" msprop:Generator_ColumnPropNameInRow="Справочник" msprop:Generator_ColumnPropNameInTable="СправочникColumn" msprop:Generator_UserColumnName="Справочник" type="xs:boolean" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tbContent" msprop:Generator_UserTableName="tbContent" msprop:Generator_RowEvArgName="tbContentRowChangeEvent" msprop:Generator_TableVarName="tabletbContent" msprop:Generator_TablePropName="tbContent" msprop:Generator_RowDeletingName="tbContentRowDeleting" msprop:Generator_RowChangingName="tbContentRowChanging" msprop:Generator_RowDeletedName="tbContentRowDeleted" msprop:Generator_RowEvHandlerName="tbContentRowChangeEventHandler" msprop:Generator_TableClassName="tbContentDataTable" msprop:Generator_RowChangedName="tbContentRowChanged" msprop:Generator_RowClassName="tbContentRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" msprop:Generator_UserColumnName="Код" type="xs:int" />
+              <xs:element name="Код_x0020_справочника" msprop:Generator_ColumnVarNameInTable="columnКод_справочника" msprop:Generator_ColumnPropNameInRow="Код_справочника" msprop:Generator_ColumnPropNameInTable="Код_справочникаColumn" msprop:Generator_UserColumnName="Код справочника" type="xs:int" />
+              <xs:element name="Активен" msprop:Generator_ColumnVarNameInTable="columnАктивен" msprop:Generator_ColumnPropNameInRow="Активен" msprop:Generator_ColumnPropNameInTable="АктивенColumn" msprop:Generator_UserColumnName="Активен" type="xs:boolean" default="true" />
+              <xs:element name="Целое" msprop:Generator_ColumnVarNameInTable="columnЦелое" msprop:Generator_ColumnPropNameInRow="Целое" msprop:Generator_ColumnPropNameInTable="ЦелоеColumn" msprop:Generator_UserColumnName="Целое" type="xs:int" default="0" />
+              <xs:element name="Дробное" msprop:Generator_ColumnVarNameInTable="columnДробное" msprop:Generator_ColumnPropNameInRow="Дробное" msprop:Generator_ColumnPropNameInTable="ДробноеColumn" msprop:Generator_UserColumnName="Дробное" type="xs:double" default="0" />
+              <xs:element name="Текстовое" msprop:Generator_ColumnVarNameInTable="columnТекстовое" msprop:Generator_ColumnPropNameInRow="Текстовое" msprop:Generator_ColumnPropNameInTable="ТекстовоеColumn" msprop:Generator_UserColumnName="Текстовое" default="">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="150" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Внешний" msprop:Generator_ColumnVarNameInTable="columnВнешний" msprop:Generator_ColumnPropNameInRow="Внешний" msprop:Generator_ColumnPropNameInTable="ВнешнийColumn" msprop:Generator_UserColumnName="Внешний" type="xs:boolean" default="false" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbDictionary" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+    <xs:unique name="tbTypes_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbTypes" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+    <xs:unique name="tbContent_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbContent" />
+      <xs:field xpath="mstns:Код_x0020_справочника" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+  </xs:element>
+  <xs:annotation>
+    <xs:appinfo>
+      <msdata:Relationship name="tbTypes_tbDictionary" msdata:parent="tbTypes" msdata:child="tbDictionary" msdata:parentkey="Код" msdata:childkey="Код_x0020_типа_x0020_данных" msprop:Generator_UserChildTable="tbDictionary" msprop:Generator_ChildPropName="GettbDictionaryRows" msprop:Generator_UserRelationName="tbTypes_tbDictionary" msprop:Generator_ParentPropName="tbTypesRow" msprop:Generator_RelationVarName="relationtbTypes_tbDictionary" msprop:Generator_UserParentTable="tbTypes" />
+      <msdata:Relationship name="tbDictionary_tbContent" msdata:parent="tbDictionary" msdata:child="tbContent" msdata:parentkey="Код" msdata:childkey="Код_x0020_справочника" msprop:Generator_UserChildTable="tbContent" msprop:Generator_ChildPropName="GettbContentRows" msprop:Generator_UserRelationName="tbDictionary_tbContent" msprop:Generator_ParentPropName="tbDictionaryRow" msprop:Generator_RelationVarName="relationtbDictionary_tbContent" msprop:Generator_UserParentTable="tbDictionary" />
+    </xs:appinfo>
+  </xs:annotation>
+</xs:schema>

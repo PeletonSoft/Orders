@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Магазин00" Class="JalousieLinqDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.Жалюзи_бланки" Member="Жалюзи_бланкиs">
+    <Type Name="Жалюзи_бланки">
+      <Column Name="Код" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[Код фирмы]" Member="Код_фирмы" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Код типа]" Member="Код_типа" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Описание" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="[Первая позиция]" Member="Первая_позиция" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Максимум позиций]" Member="Максимум_позиций" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Предварительный бланк]" Member="Предварительный_бланк" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="[Номер заказа]" Member="Номер_заказа" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Дата" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Клиент" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Телефон" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Установщик" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Сумма" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Предоплата" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="[Срок исполнения]" Member="Срок_исполнения" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Цена" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="Количество" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="Скидка" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="Активен" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="[Название магазина]" Member="Название_магазина" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="[Телефон магазина]" Member="Телефон_магазина" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Дополнительно" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Реквизиты" Type="System.String" DbType="NVarChar(10) NULL" CanBeNull="false" />
+      <Association Name="Жалюзи_бланки_Жалюзи_бланки_структура" Member="Жалюзи_бланки_структураs" ThisKey="Код" OtherKey="Код_бланка" Type="Жалюзи_бланки_структура" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Жалюзи_бланки_структура" Member="Жалюзи_бланки_структураs">
+    <Type Name="Жалюзи_бланки_структура">
+      <Column Name="Код" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="[Код бланка]" Member="Код_бланка" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Краткий обзор]" Member="Краткий_обзор" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Номер" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Поле" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="[Код типа данных]" Member="Код_типа_данных" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Надпись" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Ячейка" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="Формат" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="[Код выравнивания]" Member="Код_выравнивания" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Целое" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Дробное" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Текстовое" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="[Код справочника]" Member="Код_справочника" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Справочник" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Ширина" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Только чтение]" Member="Только_чтение" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Невидим" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Жалюзи_бланки_структура_Жалюзи_заказы_позиции_структура" Member="Жалюзи_заказы_позиции_структураs" ThisKey="Код" OtherKey="Код_структуры" Type="Жалюзи_заказы_позиции_структура" />
+      <Association Name="Жалюзи_бланки_структура_Жалюзи_бланки_вывод" Member="Жалюзи_бланки_выводs" ThisKey="Код" OtherKey="Код_структуры" Type="Жалюзи_бланки_вывод" />
+      <Association Name="Жалюзи_бланки_Жалюзи_бланки_структура" Member="Жалюзи_бланки" ThisKey="Код_бланка" OtherKey="Код" Type="Жалюзи_бланки" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Жалюзи_заказы_позиции" Member="Жалюзи_заказы_позицииs">
+    <Type Name="Жалюзи_заказы_позиции">
+      <Column Name="Код" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="[Код заказа]" Member="Код_заказа" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Количество" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Цена" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Скидка" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="[Дата отправки]" Member="Дата_отправки" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="[Дата получения]" Member="Дата_получения" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="[Код информации]" Member="Код_информации" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Передан" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="[Дата передачи]" Member="Дата_передачи" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Заказано" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Себестоимость" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Готово" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="[Код исполнителя]" Member="Код_исполнителя" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Жалюзи_заказы_позиции_Жалюзи_заказы_позиции_структура" Member="Жалюзи_заказы_позиции_структураs" ThisKey="Код" OtherKey="Код_позиции" Type="Жалюзи_заказы_позиции_структура" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Жалюзи_заказы_позиции_структура" Member="Жалюзи_заказы_позиции_структураs">
+    <Type Name="Жалюзи_заказы_позиции_структура">
+      <Column Name="Код" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="[Код позиции]" Member="Код_позиции" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Код структуры]" Member="Код_структуры" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Целое" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Дробное" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Текстовое" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="Справочник" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Жалюзи_бланки_структура_Жалюзи_заказы_позиции_структура" Member="Жалюзи_бланки_структура" ThisKey="Код_структуры" OtherKey="Код" Type="Жалюзи_бланки_структура" IsForeignKey="true" />
+      <Association Name="Жалюзи_заказы_позиции_Жалюзи_заказы_позиции_структура" Member="Жалюзи_заказы_позиции" ThisKey="Код_позиции" OtherKey="Код" Type="Жалюзи_заказы_позиции" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Жалюзи_все_справочники" Member="Жалюзи_все_справочникиs">
+    <Type Name="Жалюзи_все_справочники">
+      <Column Name="Код" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Название" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Описание" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="[Код типа данных]" Member="Код_типа_данных" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Внешний" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Жалюзи_все_справочники_содержание" Member="Жалюзи_все_справочники_содержаниеs">
+    <Type Name="Жалюзи_все_справочники_содержание">
+      <Column Name="Код" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Код справочника]" Member="Код_справочника" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Активен" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Целое" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Дробное" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Текстовое" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
+      <Column Name="Внешний" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Жалюзи_бланки_вывод" Member="Жалюзи_бланки_выводs">
+    <Type Name="Жалюзи_бланки_вывод">
+      <Column Name="Код" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Значение" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="Замена" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="[Код структуры]" Member="Код_структуры" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Жалюзи_бланки_структура_Жалюзи_бланки_вывод" Member="Жалюзи_бланки_структура" ThisKey="Код_структуры" OtherKey="Код" Type="Жалюзи_бланки_структура" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.Отчеты_жалюзи_заголовок" Method="Отчеты_жалюзи_заголовок" IsComposable="true">
+    <Parameter Name="OrderId" Parameter="orderId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="Отчеты_жалюзи_заголовокResult">
+      <Column Name="Код" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Дата" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="[Срок выполнения]" Member="Срок_выполнения" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Дополнительно" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="Безнал" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ФИО" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Телефон" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Установщик" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="[Код бланка]" Member="Код_бланка" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Дата готовности]" Member="Дата_готовности" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Статус" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Сумма" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Предоплата" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Остаток" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="[Первая позиция]" Member="Первая_позиция" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Предварительный бланк ячейка]" Member="Предварительный_бланк_ячейка" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="[Номер заказа ячейка]" Member="Номер_заказа_ячейка" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="[Дата ячейка]" Member="Дата_ячейка" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="[Клиент ячейка]" Member="Клиент_ячейка" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="[Телефон ячейка]" Member="Телефон_ячейка" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="[Установщик ячейка]" Member="Установщик_ячейка" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="[Сумма ячейка]" Member="Сумма_ячейка" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="[Предоплата ячейка]" Member="Предоплата_ячейка" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="[Срок исполнения ячейка]" Member="Срок_исполнения_ячейка" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="[Количество столбец]" Member="Количество_столбец" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="[Скидка столбец]" Member="Скидка_столбец" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="[Цена столбец]" Member="Цена_столбец" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="[Дополнительно ячейка]" Member="Дополнительно_ячейка" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="[Магазин ячейка]" Member="Магазин_ячейка" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="[Телефон магазина ячейка]" Member="Телефон_магазина_ячейка" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="[Реквизиты ячейка]" Member="Реквизиты_ячейка" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="[Магазин-название]" Member="Магазин_название" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="[Магазин-телефон]" Member="Магазин_телефон" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Реквизиты" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+</Database>

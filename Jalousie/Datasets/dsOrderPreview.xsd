@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsOrderPreview" targetNamespace="http://tempuri.org/dsBlankShortPreview.xsd" xmlns:mstns="http://tempuri.org/dsBlankShortPreview.xsd" xmlns="http://tempuri.org/dsBlankShortPreview.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="Магазин2ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="Магазин2ConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Jalousie.Properties.Settings.GlobalReference.Default.Магазин2ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsOrderPreview" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsOrderPreview" msprop:Generator_UserDSName="dsOrderPreview">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="tbBlank" msprop:Generator_UserTableName="tbBlank" msprop:Generator_RowEvArgName="tbBlankRowChangeEvent" msprop:Generator_TableVarName="tabletbBlank" msprop:Generator_TablePropName="tbBlank" msprop:Generator_RowDeletingName="tbBlankRowDeleting" msprop:Generator_RowChangingName="tbBlankRowChanging" msprop:Generator_RowDeletedName="tbBlankRowDeleted" msprop:Generator_RowEvHandlerName="tbBlankRowChangeEventHandler" msprop:Generator_TableClassName="tbBlankDataTable" msprop:Generator_RowChangedName="tbBlankRowChanged" msprop:Generator_RowClassName="tbBlankRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" msprop:Generator_UserColumnName="Код" type="xs:int" />
+              <xs:element name="Количество" msprop:Generator_ColumnVarNameInTable="columnКоличество" msprop:Generator_ColumnPropNameInRow="Количество" msprop:Generator_ColumnPropNameInTable="КоличествоColumn" msprop:Generator_UserColumnName="Количество" type="xs:double" minOccurs="0" />
+              <xs:element name="Цена" msprop:Generator_ColumnVarNameInTable="columnЦена" msprop:Generator_ColumnPropNameInRow="Цена" msprop:Generator_ColumnPropNameInTable="ЦенаColumn" msprop:Generator_UserColumnName="Цена" type="xs:double" />
+              <xs:element name="Дата_x0020_отправки" msprop:Generator_ColumnVarNameInTable="columnДата_отправки" msprop:Generator_ColumnPropNameInRow="Дата_отправки" msprop:Generator_ColumnPropNameInTable="Дата_отправкиColumn" msprop:Generator_UserColumnName="Дата отправки" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Дата_x0020_получения" msprop:Generator_ColumnVarNameInTable="columnДата_получения" msprop:Generator_ColumnPropNameInRow="Дата_получения" msprop:Generator_ColumnPropNameInTable="Дата_полученияColumn" msprop:Generator_UserColumnName="Дата получения" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Скидка" msprop:Generator_ColumnVarNameInTable="columnСкидка" msprop:Generator_ColumnPropNameInRow="Скидка" msprop:Generator_ColumnPropNameInTable="СкидкаColumn" msprop:Generator_UserColumnName="Скидка" type="xs:double" default="0" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbBlank" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

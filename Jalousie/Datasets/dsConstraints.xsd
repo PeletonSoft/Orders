@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsConstraints" targetNamespace="http://tempuri.org/dsConstraints.xsd" xmlns:mstns="http://tempuri.org/dsConstraints.xsd" xmlns="http://tempuri.org/dsConstraints.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="Магазин2ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="Магазин2ConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Jalousie.Properties.Settings.GlobalReference.Default.Магазин2ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsConstraints" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsConstraints" msprop:Generator_UserDSName="dsConstraints">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="tbConstraints" msprop:Generator_TableClassName="tbConstraintsDataTable" msprop:Generator_RowEvArgName="tbConstraintsRowChangeEvent" msprop:Generator_TableVarName="tabletbConstraints" msprop:Generator_TablePropName="tbConstraints" msprop:Generator_RowDeletingName="tbConstraintsRowDeleting" msprop:Generator_RowChangingName="tbConstraintsRowChanging" msprop:Generator_RowDeletedName="tbConstraintsRowDeleted" msprop:Generator_RowEvHandlerName="tbConstraintsRowChangeEventHandler" msprop:Generator_RowChangedName="tbConstraintsRowChanged" msprop:Generator_UserTableName="tbConstraints" msprop:Generator_RowClassName="tbConstraintsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" msprop:Generator_UserColumnName="Код" type="xs:int" />
+              <xs:element name="Код_x0020_бланка" msprop:Generator_ColumnVarNameInTable="columnКод_бланка" msprop:Generator_ColumnPropNameInRow="Код_бланка" msprop:Generator_ColumnPropNameInTable="Код_бланкаColumn" msprop:Generator_UserColumnName="Код бланка" type="xs:int" />
+              <xs:element name="Ограничение" msprop:Generator_ColumnVarNameInTable="columnОграничение" msprop:Generator_ColumnPropNameInRow="Ограничение" msprop:Generator_ColumnPropNameInTable="ОграничениеColumn" msprop:Generator_UserColumnName="Ограничение">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="4000" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Сообщение" msprop:Generator_ColumnVarNameInTable="columnСообщение" msprop:Generator_ColumnPropNameInRow="Сообщение" msprop:Generator_ColumnPropNameInTable="СообщениеColumn" msprop:Generator_UserColumnName="Сообщение">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Описание" msprop:Generator_ColumnVarNameInTable="columnОписание" msprop:Generator_ColumnPropNameInRow="Описание" msprop:Generator_ColumnPropNameInTable="ОписаниеColumn" msprop:Generator_UserColumnName="Описание">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Приоритет" msprop:Generator_ColumnVarNameInTable="columnПриоритет" msprop:Generator_ColumnPropNameInRow="Приоритет" msprop:Generator_ColumnPropNameInTable="ПриоритетColumn" msprop:Generator_UserColumnName="Приоритет" type="xs:int" />
+              <xs:element name="Активен" msprop:Generator_ColumnVarNameInTable="columnАктивен" msprop:Generator_ColumnPropNameInRow="Активен" msprop:Generator_ColumnPropNameInTable="АктивенColumn" msprop:Generator_UserColumnName="Активен" type="xs:boolean" />
+              <xs:element name="Тип_x0020_выражения" msprop:Generator_ColumnVarNameInTable="columnТип_выражения" msprop:Generator_ColumnPropNameInRow="Тип_выражения" msprop:Generator_ColumnPropNameInTable="Тип_выраженияColumn" msprop:Generator_UserColumnName="Тип выражения" type="xs:int" minOccurs="0" />
+              <xs:element name="Операция" msprop:Generator_ColumnVarNameInTable="columnОперация" msprop:Generator_ColumnPropNameInRow="Операция" msprop:Generator_ColumnPropNameInTable="ОперацияColumn" msprop:Generator_UserColumnName="Операция" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tbExpressionType" msprop:Generator_TableClassName="tbExpressionTypeDataTable" msprop:Generator_TableVarName="tabletbExpressionType" msprop:Generator_RowChangedName="tbExpressionTypeRowChanged" msprop:Generator_TablePropName="tbExpressionType" msprop:Generator_RowDeletingName="tbExpressionTypeRowDeleting" msprop:Generator_RowChangingName="tbExpressionTypeRowChanging" msprop:Generator_RowEvHandlerName="tbExpressionTypeRowChangeEventHandler" msprop:Generator_RowDeletedName="tbExpressionTypeRowDeleted" msprop:Generator_RowClassName="tbExpressionTypeRow" msprop:Generator_UserTableName="tbExpressionType" msprop:Generator_RowEvArgName="tbExpressionTypeRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" msprop:Generator_UserColumnName="Код" type="xs:int" minOccurs="0" />
+              <xs:element name="Название" msprop:Generator_ColumnVarNameInTable="columnНазвание" msprop:Generator_ColumnPropNameInRow="Название" msprop:Generator_ColumnPropNameInTable="НазваниеColumn" msprop:Generator_UserColumnName="Название" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tbOperations" msprop:Generator_TableClassName="tbOperationsDataTable" msprop:Generator_TableVarName="tabletbOperations" msprop:Generator_RowChangedName="tbOperationsRowChanged" msprop:Generator_TablePropName="tbOperations" msprop:Generator_RowDeletingName="tbOperationsRowDeleting" msprop:Generator_RowChangingName="tbOperationsRowChanging" msprop:Generator_RowEvHandlerName="tbOperationsRowChangeEventHandler" msprop:Generator_RowDeletedName="tbOperationsRowDeleted" msprop:Generator_RowClassName="tbOperationsRow" msprop:Generator_UserTableName="tbOperations" msprop:Generator_RowEvArgName="tbOperationsRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Код" msprop:Generator_ColumnVarNameInTable="columnКод" msprop:Generator_ColumnPropNameInRow="Код" msprop:Generator_ColumnPropNameInTable="КодColumn" msprop:Generator_UserColumnName="Код" type="xs:int" minOccurs="0" />
+              <xs:element name="Название" msprop:Generator_ColumnVarNameInTable="columnНазвание" msprop:Generator_ColumnPropNameInRow="Название" msprop:Generator_ColumnPropNameInTable="НазваниеColumn" msprop:Generator_UserColumnName="Название" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tbConstraints" />
+      <xs:field xpath="mstns:Код" />
+    </xs:unique>
+  </xs:element>
+  <xs:annotation>
+    <xs:appinfo>
+      <msdata:Relationship name="tbConstraints_tbExpressionType" msdata:parent="tbConstraints" msdata:child="tbExpressionType" msdata:parentkey="Тип_x0020_выражения" msdata:childkey="Код" msprop:Generator_UserChildTable="tbExpressionType" msprop:Generator_ChildPropName="GettbExpressionTypeRows" msprop:Generator_UserRelationName="tbConstraints_tbExpressionType" msprop:Generator_ParentPropName="tbConstraintsRow" msprop:Generator_RelationVarName="relationtbConstraints_tbExpressionType" msprop:Generator_UserParentTable="tbConstraints" />
+    </xs:appinfo>
+  </xs:annotation>
+</xs:schema>

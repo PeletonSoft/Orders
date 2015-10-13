@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Магазин00" Class="ClientDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.Заказы_покупатель" Member="Customers">
+    <Type Name="Customer">
+      <Column Name="Код" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ФИО" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Телефон" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="[Основной телефон]" Member="Основной_телефон" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Активен" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Заказы_покупатель_маски_замены" Member="Replaces">
+    <Type Name="Replace">
+      <Column Name="Код" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Приоритет" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Маска" Type="System.String" DbType="NVarChar(4000) NOT NULL" CanBeNull="false" />
+      <Column Name="Замена" Type="System.String" DbType="NVarChar(4000) NOT NULL" CanBeNull="false" />
+      <Column Name="Тип" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Function Name="dbo.Заказы_покупатель_маска" Method="Заказы_покупатель_маска" IsComposable="true">
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="NVarChar(30)" />
+    <Return Type="System.String" />
+  </Function>
+  <Function Name="dbo.RegExMatch" Method="RegExMatch" IsComposable="true">
+    <Parameter Name="Pattern" Parameter="pattern" Type="System.String" DbType="NVarChar(1000)" />
+    <Parameter Name="Subject" Parameter="subject" Type="System.String" DbType="NVarChar(1000)" />
+    <ElementType Name="RegExMatchResult">
+      <Column Name="MatchNumber" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GroupName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CaptureNumber" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+</Database>

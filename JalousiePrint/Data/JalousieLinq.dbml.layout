@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 12.875" name="JalousieLinq">
+  <DataContextMoniker Name="/JalousieLinqDataContext" />
+  <nestedChildShapes>
+    <classShape Id="a2aca80f-fd46-47c3-ac21-b0be175c06dd" absoluteBounds="0.875, 0.5, 2, 4.5474471028645826">
+      <DataClassMoniker Name="/JalousieLinqDataContext/Жалюзи_бланки" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b9b94025-14a3-4b34-aeae-baf5f8a988f4" absoluteBounds="0.89000000000000012, 0.96, 1.9700000000000002, 3.987447102864583" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="12ec6f8c-5307-4e3b-8e48-c174b0ac4e67" absoluteBounds="3.875, 0.875, 2.875, 3.7257104492187496">
+      <DataClassMoniker Name="/JalousieLinqDataContext/Жалюзи_бланки_структура" />
+      <nestedChildShapes>
+        <elementListCompartment Id="61a51d58-7a02-4e29-9595-4385b3d7ceb8" absoluteBounds="3.89, 1.335, 2.8449999999999998, 3.16571044921875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.875 : 2.73785522460937); (3.875 : 2.73785522460937)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/JalousieLinqDataContext/Жалюзи_бланки/Жалюзи_бланки_Жалюзи_бланки_структура" />
+      <nodes>
+        <classShapeMoniker Id="a2aca80f-fd46-47c3-ac21-b0be175c06dd" />
+        <classShapeMoniker Id="12ec6f8c-5307-4e3b-8e48-c174b0ac4e67" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="baa994ef-91c3-40b6-8ffb-6465fc1419c4" absoluteBounds="0.5, 5.75, 2, 3.0683211263020831">
+      <DataClassMoniker Name="/JalousieLinqDataContext/Жалюзи_заказы_позиции" />
+      <nestedChildShapes>
+        <elementListCompartment Id="8513dcb3-fb9f-47de-b8d2-085cbebbc3ad" absoluteBounds="0.515, 6.21, 1.9700000000000002, 2.508321126302083" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a4140a86-3f5b-4a43-87c7-e0485250b836" absoluteBounds="3.25, 5.625, 2.875, 1.9178898111979166">
+      <DataClassMoniker Name="/JalousieLinqDataContext/Жалюзи_заказы_позиции_структура" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a40fcb79-483e-429c-9e74-5717df471482" absoluteBounds="3.265, 6.085, 2.8449999999999998, 1.3578898111979165" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(5 : 4.60071044921875); (5 : 5.625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/JalousieLinqDataContext/Жалюзи_бланки_структура/Жалюзи_бланки_структура_Жалюзи_заказы_позиции_структура" />
+      <nodes>
+        <classShapeMoniker Id="12ec6f8c-5307-4e3b-8e48-c174b0ac4e67" />
+        <classShapeMoniker Id="a4140a86-3f5b-4a43-87c7-e0485250b836" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.5 : 6.64644490559896); (3.25 : 6.64644490559896)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/JalousieLinqDataContext/Жалюзи_заказы_позиции/Жалюзи_заказы_позиции_Жалюзи_заказы_позиции_структура" />
+      <nodes>
+        <classShapeMoniker Id="baa994ef-91c3-40b6-8ffb-6465fc1419c4" />
+        <classShapeMoniker Id="a4140a86-3f5b-4a43-87c7-e0485250b836" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="aa91d2e6-3f2c-4e9b-9feb-02d77c8de9dd" absoluteBounds="0.875, 9.5, 2, 1.5891951497395831">
+      <DataClassMoniker Name="/JalousieLinqDataContext/Жалюзи_все_справочники" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2618c285-84bd-4056-b4c1-8cfab410f052" absoluteBounds="0.89, 9.96, 1.9700000000000002, 1.0291951497395833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ed757482-5965-4718-b6c1-8547adb528bc" absoluteBounds="3.375, 8.875, 2, 1.9178898111979166">
+      <DataClassMoniker Name="/JalousieLinqDataContext/Жалюзи_все_справочники_содержание" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3d706819-13ce-4b11-894f-3fc2815eaf9f" absoluteBounds="3.39, 9.335, 1.9700000000000002, 1.3578898111979165" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="6b74c2a4-5f48-4839-b16a-1a043adfbf2c" absoluteBounds="3.75, 11.25, 2, 1.4248478190104168">
+      <DataClassMoniker Name="/JalousieLinqDataContext/Жалюзи_бланки_вывод" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7a949baa-8bfc-4fc9-af1d-506980234b31" absoluteBounds="3.765, 11.71, 1.9700000000000002, 0.86484781901041674" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(6.46875 : 4.60071044921875); (6.46875 : 11.9624239095052); (5.75 : 11.9624239095052)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/JalousieLinqDataContext/Жалюзи_бланки_структура/Жалюзи_бланки_структура_Жалюзи_бланки_вывод" />
+      <nodes>
+        <classShapeMoniker Id="12ec6f8c-5307-4e3b-8e48-c174b0ac4e67" />
+        <classShapeMoniker Id="6b74c2a4-5f48-4839-b16a-1a043adfbf2c" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

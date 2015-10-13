@@ -1,0 +1,621 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A57FF867-C58D-4325-A2A4-ECA4D5DA2B84}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Jalousie</RootNamespace>
+    <AssemblyName>Jalousie</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Jalousie.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Datasets\dsAdvPrice.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsAdvPrice.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Datasets\dsBlanks.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsBlanks.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Datasets\dsBlankStructure.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsBlankStructure.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Datasets\dsCalcField.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsCalcField.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Datasets\dsCompleting.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsCompleting.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Datasets\dsConstraints.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsConstraints.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Datasets\dsDictionary.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsDictionary.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Datasets\dsOrderCalculation.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsOrderCalculation.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Datasets\dsOrderContent.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsOrderContent.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Datasets\dsOrderEdit.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsOrderEdit.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Datasets\dsOrderPreview.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsOrderPreview.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Datasets\dsOrders.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsOrders.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Datasets\dsOrderSave.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsOrderSave.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Datasets\dsPrePayment.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsPrePayment.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DBConvert.cs" />
+    <Compile Include="LocalService.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\ExternalSettings.cs" />
+    <Compile Include="_AdvPrice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_AdvPrice.Designer.cs">
+      <DependentUpon>_AdvPrice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_BlanksList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_BlanksList.Designer.cs">
+      <DependentUpon>_BlanksList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_BlankStructure.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_BlankStructure.Designer.cs">
+      <DependentUpon>_BlankStructure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_BlankStructureCalcField.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_BlankStructureCalcField.Designer.cs">
+      <DependentUpon>_BlankStructureCalcField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_BlankStructureOutput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_BlankStructureOutput.Designer.cs">
+      <DependentUpon>_BlankStructureOutput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_CompletingPrice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_CompletingPrice.Designer.cs">
+      <DependentUpon>_CompletingPrice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Constraints.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_Constraints.Designer.cs">
+      <DependentUpon>_Constraints.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Dictionary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_Dictionary.Designer.cs">
+      <DependentUpon>_Dictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_DictionaryContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_DictionaryContent.Designer.cs">
+      <DependentUpon>_DictionaryContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_EditAdvPrice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_EditAdvPrice.Designer.cs">
+      <DependentUpon>_EditAdvPrice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_EditBlanksList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_EditBlanksList.Designer.cs">
+      <DependentUpon>_EditBlanksList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_EditBlankStructure.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_EditBlankStructure.Designer.cs">
+      <DependentUpon>_EditBlankStructure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_EditBlankStructureOutput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_EditBlankStructureOutput.Designer.cs">
+      <DependentUpon>_EditBlankStructureOutput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_EditCalcField.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_EditCalcField.Designer.cs">
+      <DependentUpon>_EditCalcField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_EditConstraints.cs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_EditConstraints.cs.Designer.cs">
+      <DependentUpon>_EditConstraints.cs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_EditFirmsList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_EditFirmsList.Designer.cs">
+      <DependentUpon>_EditFirmsList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_EditOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_EditOrder.Designer.cs">
+      <DependentUpon>_EditOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_EditOrderTitle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_EditOrderTitle.Designer.cs">
+      <DependentUpon>_EditOrderTitle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_EditTypesList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_EditTypesList.Designer.cs">
+      <DependentUpon>_EditTypesList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_FirmsList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_FirmsList.Designer.cs">
+      <DependentUpon>_FirmsList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_InsertDictionary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_InsertDictionary.Designer.cs">
+      <DependentUpon>_InsertDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_InsertOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_InsertOrder.Designer.cs">
+      <DependentUpon>_InsertOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_Login.Designer.cs">
+      <DependentUpon>_Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_Main.Designer.cs">
+      <DependentUpon>_Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_OrderCalculation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_OrderCalculation.Designer.cs">
+      <DependentUpon>_OrderCalculation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_OrderFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_OrderFile.Designer.cs">
+      <DependentUpon>_OrderFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_OrderPreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_OrderPreview.Designer.cs">
+      <DependentUpon>_OrderPreview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_OrderView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_OrderView.Designer.cs">
+      <DependentUpon>_OrderView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_PrePayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_PrePayment.Designer.cs">
+      <DependentUpon>_PrePayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_TimeTableInstall.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_TimeTableInstall.Designer.cs">
+      <DependentUpon>_TimeTableInstall.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_TypesList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_TypesList.Designer.cs">
+      <DependentUpon>_TypesList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_UpdateDictionary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_UpdateDictionary.Designer.cs">
+      <DependentUpon>_UpdateDictionary.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="_AdvPrice.resx">
+      <DependentUpon>_AdvPrice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_BlanksList.resx">
+      <DependentUpon>_BlanksList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_BlankStructure.resx">
+      <DependentUpon>_BlankStructure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_BlankStructureCalcField.resx">
+      <DependentUpon>_BlankStructureCalcField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_BlankStructureOutput.resx">
+      <DependentUpon>_BlankStructureOutput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_CompletingPrice.resx">
+      <DependentUpon>_CompletingPrice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_Constraints.resx">
+      <DependentUpon>_Constraints.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_Dictionary.resx">
+      <DependentUpon>_Dictionary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_DictionaryContent.resx">
+      <DependentUpon>_DictionaryContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_EditAdvPrice.resx">
+      <DependentUpon>_EditAdvPrice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_EditBlanksList.resx">
+      <DependentUpon>_EditBlanksList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_EditBlankStructure.resx">
+      <DependentUpon>_EditBlankStructure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_EditBlankStructureOutput.resx">
+      <DependentUpon>_EditBlankStructureOutput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_EditCalcField.resx">
+      <DependentUpon>_EditCalcField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_EditFirmsList.resx">
+      <DependentUpon>_EditFirmsList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_EditOrder.resx">
+      <DependentUpon>_EditOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_EditOrderTitle.resx">
+      <DependentUpon>_EditOrderTitle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_EditTypesList.resx">
+      <DependentUpon>_EditTypesList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_FirmsList.resx">
+      <DependentUpon>_FirmsList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_InsertDictionary.resx">
+      <DependentUpon>_InsertDictionary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_InsertOrder.resx">
+      <DependentUpon>_InsertOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_Login.resx">
+      <DependentUpon>_Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_Main.resx">
+      <DependentUpon>_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_OrderCalculation.resx">
+      <DependentUpon>_OrderCalculation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_OrderFile.resx">
+      <DependentUpon>_OrderFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_OrderPreview.resx">
+      <DependentUpon>_OrderPreview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_OrderView.resx">
+      <DependentUpon>_OrderView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_PrePayment.resx">
+      <DependentUpon>_PrePayment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_TypesList.resx">
+      <DependentUpon>_TypesList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_UpdateDictionary.resx">
+      <DependentUpon>_UpdateDictionary.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="..\..\Secure\JalousieSettings.config">
+      <Link>JalousieSettings.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Secure\JalousieConnection.config">
+      <Link>JalousieConnection.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Datasets\dsAdvPrice.xsc">
+      <DependentUpon>dsAdvPrice.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsAdvPrice.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsAdvPrice.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsAdvPrice.xss">
+      <DependentUpon>dsAdvPrice.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsBlanks.xsc">
+      <DependentUpon>dsBlanks.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsBlanks.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsBlanks.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsBlanks.xss">
+      <DependentUpon>dsBlanks.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsBlankStructure.xsc">
+      <DependentUpon>dsBlankStructure.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsBlankStructure.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsBlankStructure.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsBlankStructure.xss">
+      <DependentUpon>dsBlankStructure.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsCalcField.xsc">
+      <DependentUpon>dsCalcField.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsCalcField.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsCalcField.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsCalcField.xss">
+      <DependentUpon>dsCalcField.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsCompleting.xsc">
+      <DependentUpon>dsCompleting.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsCompleting.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsCompleting.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsCompleting.xss">
+      <DependentUpon>dsCompleting.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsConstraints.xsc">
+      <DependentUpon>dsConstraints.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsConstraints.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsConstraints.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsConstraints.xss">
+      <DependentUpon>dsConstraints.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsDictionary.xsc">
+      <DependentUpon>dsDictionary.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsDictionary.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsDictionary.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsDictionary.xss">
+      <DependentUpon>dsDictionary.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsOrderCalculation.xsc">
+      <DependentUpon>dsOrderCalculation.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsOrderCalculation.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsOrderCalculation.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsOrderCalculation.xss">
+      <DependentUpon>dsOrderCalculation.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsOrderContent.xsc">
+      <DependentUpon>dsOrderContent.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsOrderContent.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsOrderContent.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsOrderContent.xss">
+      <DependentUpon>dsOrderContent.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsOrderEdit.xsc">
+      <DependentUpon>dsOrderEdit.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsOrderEdit.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsOrderEdit.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsOrderEdit.xss">
+      <DependentUpon>dsOrderEdit.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsOrderPreview.xsc">
+      <DependentUpon>dsOrderPreview.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsOrderPreview.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsOrderPreview.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsOrderPreview.xss">
+      <DependentUpon>dsOrderPreview.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsOrders.xsc">
+      <DependentUpon>dsOrders.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsOrders.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsOrders.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsOrders.xss">
+      <DependentUpon>dsOrders.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsOrderSave.xsc">
+      <DependentUpon>dsOrderSave.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsOrderSave.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsOrderSave.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsOrderSave.xss">
+      <DependentUpon>dsOrderSave.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsPrePayment.xsc">
+      <DependentUpon>dsPrePayment.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsPrePayment.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsPrePayment.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Datasets\dsPrePayment.xss">
+      <DependentUpon>dsPrePayment.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Clients\Clients.csproj">
+      <Project>{27d4d5d1-d796-4ef4-b60e-042bbaba947e}</Project>
+      <Name>Clients</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataGridViewDictionaryElements\DataGridViewDictionaryElements.csproj">
+      <Project>{e4431ed7-0eb2-4c0d-be09-b8359b687c05}</Project>
+      <Name>DataGridViewDictionaryElements</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JalousiePrint\JalousiePrint.csproj">
+      <Project>{58408382-0226-4cd7-8f0d-022a0a5971c2}</Project>
+      <Name>JalousiePrint</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Jalousie.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

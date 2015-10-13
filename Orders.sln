@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clients", "Clients\Clients.csproj", "{27D4D5D1-D796-4EF4-B60E-042BBABA947E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGridViewDictionaryElements", "DataGridViewDictionaryElements\DataGridViewDictionaryElements.csproj", "{E4431ED7-0EB2-4C0D-BE09-B8359B687C05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JalousiePrint", "JalousiePrint\JalousiePrint.csproj", "{58408382-0226-4CD7-8F0D-022A0A5971C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jalousie", "Jalousie\Jalousie.csproj", "{A57FF867-C58D-4325-A2A4-ECA4D5DA2B84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorniceGraph", "CorniceGraph\CorniceGraph.csproj", "{409B0B03-8A2C-441D-9ED5-8AECEF9F2D3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorniceGraphTestRunner", "CorniceGraphTestRunner\CorniceGraphTestRunner.csproj", "{3BC73A5E-22D8-49A6-84BC-4365B94C1C83}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{27D4D5D1-D796-4EF4-B60E-042BBABA947E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27D4D5D1-D796-4EF4-B60E-042BBABA947E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27D4D5D1-D796-4EF4-B60E-042BBABA947E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27D4D5D1-D796-4EF4-B60E-042BBABA947E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4431ED7-0EB2-4C0D-BE09-B8359B687C05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4431ED7-0EB2-4C0D-BE09-B8359B687C05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4431ED7-0EB2-4C0D-BE09-B8359B687C05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4431ED7-0EB2-4C0D-BE09-B8359B687C05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58408382-0226-4CD7-8F0D-022A0A5971C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58408382-0226-4CD7-8F0D-022A0A5971C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58408382-0226-4CD7-8F0D-022A0A5971C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58408382-0226-4CD7-8F0D-022A0A5971C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A57FF867-C58D-4325-A2A4-ECA4D5DA2B84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A57FF867-C58D-4325-A2A4-ECA4D5DA2B84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A57FF867-C58D-4325-A2A4-ECA4D5DA2B84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A57FF867-C58D-4325-A2A4-ECA4D5DA2B84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{409B0B03-8A2C-441D-9ED5-8AECEF9F2D3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{409B0B03-8A2C-441D-9ED5-8AECEF9F2D3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{409B0B03-8A2C-441D-9ED5-8AECEF9F2D3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{409B0B03-8A2C-441D-9ED5-8AECEF9F2D3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BC73A5E-22D8-49A6-84BC-4365B94C1C83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BC73A5E-22D8-49A6-84BC-4365B94C1C83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BC73A5E-22D8-49A6-84BC-4365B94C1C83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BC73A5E-22D8-49A6-84BC-4365B94C1C83}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
