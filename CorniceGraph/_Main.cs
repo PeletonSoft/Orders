@@ -171,7 +171,7 @@ namespace CorniceGraph
             catch
             {
                 int SelectedId = 0;
-                UpdateTV(ref SelectedId);
+                UpdateTreeView(ref SelectedId);
                 pnWall.Invalidate();
             }
 
@@ -318,7 +318,7 @@ namespace CorniceGraph
             
         }
 
-        private void UpdateTV(ref int SelectedId)
+        private void UpdateTreeView(ref int SelectedId)
         {
             CheckWall(ref SelectedId);
             tv.Nodes.Clear();
@@ -401,7 +401,7 @@ namespace CorniceGraph
             dsWall.tbWallSegment.AcceptChanges();
             int SelectedId = rws.Код;
 
-            UpdateTV(ref SelectedId);
+            UpdateTreeView(ref SelectedId);
 
             TreeNode nss = tv.SelectedNode;
 
@@ -469,7 +469,7 @@ namespace CorniceGraph
                 SelectedId = rws.Код;
             }
 
-            UpdateTV(ref SelectedId);
+            UpdateTreeView(ref SelectedId);
 
             TreeNode nss = tv.SelectedNode;
 
@@ -508,7 +508,7 @@ namespace CorniceGraph
                     
                     dsWall.tbWallSegment.FindByКод(Section.ID).Delete();
                     dsWall.tbWallSegment.AcceptChanges();
-                    UpdateTV(ref SelectedId);
+                    UpdateTreeView(ref SelectedId);
                     MessageBox.Show("Выделенная дуга была успешно удалена.",
                         "Успешное удаление", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     break;
@@ -525,7 +525,7 @@ namespace CorniceGraph
 
                     dsWall.tbWallSegment.FindByКод(Section.ID).Delete();
                     dsWall.tbWallSegment.AcceptChanges();
-                    UpdateTV(ref SelectedId);
+                    UpdateTreeView(ref SelectedId);
                     MessageBox.Show("Выделенная прямая была успешно удалена.",
                         "Успешное удаление", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     break;
@@ -552,7 +552,7 @@ namespace CorniceGraph
 
                     dsWall.tbWallSegment.AcceptChanges();
 
-                    UpdateTV(ref SelectedId);
+                    UpdateTreeView(ref SelectedId);
                     MessageBox.Show("Выделенная стена была успешно удалена.",
                         "Успешное удаление", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     break;
@@ -582,7 +582,7 @@ namespace CorniceGraph
                     dsWall.tbWallSegment.FindByКод(Corner.ID).Delete();
                     dsWall.tbWallSegment.AcceptChanges();
 
-                    UpdateTV(ref SelectedId);
+                    UpdateTreeView(ref SelectedId);
                     MessageBox.Show("Выделенный угол был успешно удален.",
                         "Успешное удаление", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     break;
@@ -620,7 +620,7 @@ namespace CorniceGraph
                         (rws[1] as dsWall.tbWallSegmentRow).Номер;
                     (rws[1] as dsWall.tbWallSegmentRow).Номер = TempNumer;
                     dsWall.tbWallSegment.AcceptChanges();
-                    UpdateTV(ref SelectedId);
+                    UpdateTreeView(ref SelectedId);
                 }
             }
             if (tv.Nodes.Count > 0 && tv.SelectedNode == null)
@@ -655,7 +655,7 @@ namespace CorniceGraph
                         (rws[1] as dsWall.tbWallSegmentRow).Номер;
                     (rws[1] as dsWall.tbWallSegmentRow).Номер = TempNumer;
                     dsWall.tbWallSegment.AcceptChanges();
-                    UpdateTV(ref SelectedId);
+                    UpdateTreeView(ref SelectedId);
                 }
             }
             if (tv.Nodes.Count > 0 && tv.SelectedNode == null)
@@ -1562,7 +1562,7 @@ namespace CorniceGraph
                 tb.SelectedTab = tsWall;
                 tb.Selecting += tb_Selecting;
                 int SelectedId = 0;
-                UpdateTV(ref SelectedId);
+                UpdateTreeView(ref SelectedId);
             }
             pnWall.Invalidate();
             
@@ -1583,7 +1583,7 @@ namespace CorniceGraph
             tb.SelectedTab = tsWall;
             tb.Selecting += tb_Selecting;
             int SelectedId = 0;
-            UpdateTV(ref SelectedId);
+            UpdateTreeView(ref SelectedId);
             pnWall.Invalidate();
 
         }
