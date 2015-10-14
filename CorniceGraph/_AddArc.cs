@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using CorniceGraph.Datasets;
 using CorniceGraph.Logic;
@@ -195,8 +191,7 @@ namespace CorniceGraph
                     (Tag as TfMain).dsWall.tbAgregate.Rows.Add(rw);
                     (Tag as TfMain).dsWall.tbAgregate.AcceptChanges();
                     tbAgregateBindingSource.Position = tbAgregateBindingSource.Find("Код", rw.Код);
-                    tbMeasureBindingSource.Filter = String.Format
-                        ("[Код агрегата]={0:G}", rw.Код);
+                    tbMeasureBindingSource.Filter = $"[Код агрегата]={rw.Код:G}";
                     rbExistSize.Enabled = true;
                     rbExistSize.Checked = true;
                     cbMeasure.Checked = true;
@@ -228,7 +223,7 @@ namespace CorniceGraph
                         x = -i * d;
                         rwm = (dsWall.tbMeasureRow)(Tag as TfMain).dsWall.tbMeasure.NewRow();
                         rwm.Координата = x;
-                        rwm.Измерение = ArcYByX(lambda, mu, x / L) * L + T;
+                        rwm.Измерение = MathEx.ArcYByX(lambda, mu, x / L) * L + T;
                         rwm.Код_агрегата = AgregateId;
                         (Tag as TfMain).dsWall.tbMeasure.Rows.Add(rwm);
 
@@ -236,7 +231,7 @@ namespace CorniceGraph
                         {
                             rwm = (dsWall.tbMeasureRow)(Tag as TfMain).dsWall.tbMeasure.NewRow();
                             rwm.Координата = -x;
-                            rwm.Измерение = ArcYByX(lambda, mu, x / L) * L + T;
+                            rwm.Измерение = MathEx.ArcYByX(lambda, mu, x / L) * L + T;
                             rwm.Код_агрегата = AgregateId;
                             (Tag as TfMain).dsWall.tbMeasure.Rows.Add(rwm);
                         }
@@ -249,7 +244,7 @@ namespace CorniceGraph
                         x = i * d;
                         rwm = (dsWall.tbMeasureRow)(Tag as TfMain).dsWall.tbMeasure.NewRow();
                         rwm.Координата = x;
-                        rwm.Измерение = ArcYByX(lambda, mu, x / L - 1) * L + T;
+                        rwm.Измерение = MathEx.ArcYByX(lambda, mu, x / L - 1) * L + T;
                         rwm.Код_агрегата = AgregateId;
                         (Tag as TfMain).dsWall.tbMeasure.Rows.Add(rwm);
                     }
@@ -283,7 +278,7 @@ namespace CorniceGraph
             double mu = Convert.ToDouble(tbCurve.Value) / 100;
 
             double psi, c, C;
-            CalcArc(lambda, mu, out psi, out C, out c);
+            MathEx.CalcArc(lambda, mu, out psi, out C, out c);
 
             dsWall.tbAggregateWallRow rw;
             int AgregateId =
@@ -376,12 +371,18 @@ namespace CorniceGraph
             {
                 if (NewAggregate == 0)
                     return;
-                string sFilter = String.Format("[Код агрегата]={0:G}", NewAggregate);
+                string sFilter = $"[Код агрегата]={NewAggregate:G}";
 
-                foreach (DataRow rw in (Tag as TfMain).dsWall.tbMeasure.Select(sFilter))
+                foreach (var rw in (Tag as TfMain).dsWall.tbMeasure.Select(sFilter))
+                {
                     rw.Delete();
+                }
+
                 foreach (DataRow rw in (Tag as TfMain).dsWall.tbAggregateWall.Select(sFilter))
+                {
                     rw.Delete();
+                }
+
                 (Tag as TfMain).dsWall.AcceptChanges();
                 (Tag as TfMain).dsWall.tbAgregate.FindByКод(NewAggregate).Delete();
                 (Tag as TfMain).dsWall.AcceptChanges();
@@ -397,7 +398,7 @@ namespace CorniceGraph
             double mu = Convert.ToDouble(tbCurve.Value) / 100;
 
             double psi, c, C;
-            CalcArc(lambda, mu, out psi, out C, out c);
+            MathEx.CalcArc(lambda, mu, out psi, out C, out c);
 
             double stWidth = 0.1;
             double stHeight = 0.1;
@@ -444,7 +445,7 @@ namespace CorniceGraph
                     for (int j = 0; j <= 100; j++)
                     {
                         double x = (double)j / 100;
-                        double y = ArcYByX(lambda, mu, x);
+                        double y = MathEx.ArcYByX(lambda, mu, x);
                         double ye = (1 - lambda)*Math.Sqrt(1-x*x);
                         max = Math.Max(max, Math.Abs(y - ye));
                     }
@@ -544,50 +545,6 @@ namespace CorniceGraph
             pnMeasurePreview.Invalidate();
         }
 
-        public static double ArcYByX(double lambda, double mu, double x)
-        {
-            if (x < 0)
-                x = -x;
-            if (x > 1 - 1e-6)
-                return 0;
-            if (lambda < 0)
-                return ArcXByY(lambda / (lambda - 1), mu, x / (1 - lambda)) * (1 - lambda);
-            if (lambda < 1e-6)
-                return Math.Sqrt(1 - x * x);
-            if (lambda > 1 - 1e-6)
-                return 0;
-            if (mu < 1e-6)
-                return x < lambda ? (1-lambda) : Math.Sqrt(2 * x * lambda + 1 - 2 * lambda - x * x);
-
-            double H = (1 - lambda);
-            double r = (1 - mu) * (1 - lambda);
-            double R = (2 * mu + lambda * lambda - 2 * mu * lambda) / (2 * mu * (1 - lambda));
-            double p = R * (1 - r) / (R - r);
-            return x < p ? Math.Sqrt(R * R - x * x) + H - R : Math.Sqrt(r * r - (x - (1 - r)) * (x - (1 - r)));
-        }
-
-        public static double ArcXByY(double lambda, double mu, double y)
-        {
-            if (y < 0)
-                y = -y;
-            if (y > 1 - lambda + 1e-6)
-                return 0;
-            if (lambda < 0)
-                return ArcYByX(lambda / (lambda - 1), mu, y / (1 - lambda)) * (1 - lambda);
-            if (lambda < 1e-6)
-                return Math.Sqrt(1 - y * y);
-            if (lambda > 1 - 1e-6)
-                return 0;
-            if (mu < 1e-6)
-                return lambda + Math.Sqrt((1 - lambda) * (1 - lambda) - y * y);
-
-            double H = (1 - lambda);
-            double r = (1 - mu) * (1 - lambda);
-            double R = (2 * mu + lambda * lambda - 2 * mu * lambda) / (2 * mu * (1 - lambda));
-            double py = r * (R - H) / (R - r);
-            return y > py ? Math.Sqrt(R * R - (y - H + R) * (y - H + R)) : (1 - r) + Math.Sqrt(r * r - y * y);
-
-        }
         private void pnDataPreview_Paint(object sender, PaintEventArgs e)
         {
             double L = Convert.ToDouble(edLength.Value) / 2;
@@ -672,50 +629,6 @@ namespace CorniceGraph
 
         }
 
-        public static void CalcArc(double lambda, double mu, out double psi, out double C, out double c)
-        {
-            if (lambda < 0)
-            {
-                double tpsi, tc, tC;
-                CalcArc(lambda/(lambda-1), mu, out tpsi, out tC, out tc);
-                psi = Math.PI / 2 - tpsi;
-                C = tc * (1 - lambda);
-                c = tC * (1 - lambda);
-                return;
-            }
-
-            if (lambda < 1e-6)
-            {
-                psi = Math.PI / 2;
-                C = Math.PI / 2;
-                c = 0;
-                return;
-            }
-
-            if (lambda > 1 - 1e-6)
-            {
-                psi = 0;
-                C = 1;
-                c = 0;
-                return;
-            }
-
-            if (mu < 1e-6)
-            {
-                C = lambda;
-                psi = 0;
-                c = Math.PI * (1 - lambda) / 2;
-                return;
-            }
-
-            psi = Math.Atan
-                (2 * (lambda + mu - mu * lambda) * mu * (1 - lambda) /
-                (lambda * (2 * mu + lambda - 2 * mu * lambda)));
-            C = psi * (2 * mu + lambda * lambda - 2 * mu * lambda) / (2 * mu * (1 - lambda));
-            c = (1 - mu) * (1 - lambda) * (Math.PI / 2 - psi);
-            return;
-        }
-
         private void rbApproximateMax_CheckedChanged(object sender, EventArgs e)
         {
             double L = Convert.ToDouble(edLength.Value) / 2;
@@ -744,7 +657,7 @@ namespace CorniceGraph
                         continue;
 
                     double x = (rw.Координата - S) / L;
-                    double y = ArcYByX(lambda, mu, x);
+                    double y = MathEx.ArcYByX(lambda, mu, x);
                     double yr = (rw.Измерение - T) / L;
 
                     max = Math.Max(max, Math.Abs(y - yr));
@@ -788,7 +701,7 @@ namespace CorniceGraph
             double mu = Convert.ToDouble(tbCurve.Value) / 100;
 
             double psi, c, C;
-            CalcArc(lambda, mu, out psi, out C, out c);
+            MathEx.CalcArc(lambda, mu, out psi, out C, out c);
 
             double stWidth = 0.1;
             double stHeight = 0.1;
@@ -841,7 +754,7 @@ namespace CorniceGraph
             double mu = Convert.ToDouble(tbCurve.Value) / 100;
 
             double psi, c, C;
-            CalcArc(lambda, mu, out psi, out C, out c);
+            MathEx.CalcArc(lambda, mu, out psi, out C, out c);
 
             double stWidth = 0.1;
             double stHeight = 0.1;
@@ -933,8 +846,7 @@ namespace CorniceGraph
             rbResultAll.Checked = rw.Часть_арки == 0;
             rbResultRight.Checked = rw.Часть_арки == 1;
             rbTypeCustom.Checked = true;
-            tbMeasureBindingSource.Filter = String.Format
-                ("[Код агрегата]={0:G}", rw.Код);
+            tbMeasureBindingSource.Filter = $"[Код агрегата]={rw.Код:G}";
 
         }
 

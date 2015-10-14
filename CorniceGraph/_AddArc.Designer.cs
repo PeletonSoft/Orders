@@ -880,7 +880,7 @@
             // 
             // pnDataPreview
             // 
-            this.pnDataPreview.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.pnDataPreview.BackColor = System.Drawing.SystemColors.Window;
             this.pnDataPreview.Location = new System.Drawing.Point(295, 28);
             this.pnDataPreview.Name = "pnDataPreview";
             this.pnDataPreview.Size = new System.Drawing.Size(486, 410);
@@ -1211,8 +1211,8 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Вставка нового контура арки";
-            this.Shown += new System.EventHandler(this.TfAddArc_Shown);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TfAddArc_FormClosing);
+            this.Shown += new System.EventHandler(this.TfAddArc_Shown);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
