@@ -3,15 +3,16 @@ using System.Collections;
 using System.Drawing;
 using System.Windows.Forms;
 using CorniceGraph.Datasets;
+using CorniceGraph.Logic.Line;
 
-namespace CorniceGraph.Logic
+namespace CorniceGraph.Logic.Splint
 {
     public class SplintComponent : IEnumerable
     {
         private dsSplints dsSplints;
         private dsLines dsLines;
         private int ComponentId;
-        private SplintSections.SplintContourType starttype;
+        private SplintContourType starttype;
         private double value;
         private int numer;
         private int LineId;
@@ -32,7 +33,7 @@ namespace CorniceGraph.Logic
             }
         }
 
-        public SplintSections.SplintContourType StartType
+        public SplintContourType StartType
         {
             get
             {
@@ -70,15 +71,15 @@ namespace CorniceGraph.Logic
             get
             {
                 double L = 0;
-                foreach (SplintSections.SplintContour Contour in this)
-                    if (Contour.Type == SplintSections.SplintContourType.OutsideLine)
+                foreach (SplintContour Contour in this)
+                    if (Contour.Type == SplintContourType.OutsideLine)
                         L += Contour.Length;
                 return L;
             }
         }
 
         public SplintComponent(dsSplints dsSplints, dsLines dsLines, int ComponentId,
-            SplintSections.SplintContourType StartType, double Value, int Numer, int LineId)
+            SplintContourType StartType, double Value, int Numer, int LineId)
         {
             this.dsLines = dsLines;
             this.dsSplints = dsSplints;
@@ -91,35 +92,35 @@ namespace CorniceGraph.Logic
 
         public void Draw(Graphics Graphics, CanvasView View, Pointer Start, Pen Pen)
         {
-            foreach (SplintSections.SplintContour Contour in this)
+            foreach (SplintContour Contour in this)
             {
                 Contour.Draw(Graphics, View, Start, Pen);
                 Start = Contour.Finish(Start);
             }
         }
 
-        public SplintSections.SplintContourType FinishType
+        public SplintContourType FinishType
         {
             get
             {
-                foreach (SplintSections.SplintContour Contour in this)
+                foreach (SplintContour Contour in this)
                 {
                     if (Contour.Type == StartType)
                         continue;
-                    if (Contour.Type == SplintSections.SplintContourType.Cork ||
-                        Contour.Type == SplintSections.SplintContourType.LeftEmbrasure ||
-                        Contour.Type == SplintSections.SplintContourType.LeftLug ||
-                        Contour.Type == SplintSections.SplintContourType.RightEmbrasure ||
-                        Contour.Type == SplintSections.SplintContourType.RightLug)
+                    if (Contour.Type == SplintContourType.Cork ||
+                        Contour.Type == SplintContourType.LeftEmbrasure ||
+                        Contour.Type == SplintContourType.LeftLug ||
+                        Contour.Type == SplintContourType.RightEmbrasure ||
+                        Contour.Type == SplintContourType.RightLug)
                         return Contour.Type;
                 }
-                return SplintSections.SplintContourType.PreCork;
+                return SplintContourType.PreCork;
             }
         }
 
         public Pointer Finish(Pointer Start)
         {
-            foreach (SplintSections.SplintContour Contour in this)
+            foreach (SplintContour Contour in this)
             {
                 if (Contour.Type == FinishType)
                 {
@@ -140,11 +141,11 @@ namespace CorniceGraph.Logic
             nd.SelectedImageKey = "Line";
         }
 
-        public LineSections.Line Line
+        public Line.Line Line
         {
             get
             {
-                return new LineSections.Line(dsLines, dsSplints, LineId);
+                return new Line.Line(dsLines, dsSplints, LineId);
             }
         }
 
@@ -173,7 +174,7 @@ namespace CorniceGraph.Logic
             RectangleF RectangleF = new RectangleF(
                 (float)View.Translate(Start).X, (float)View.Translate(Start).Y, 1, 1);
 
-            foreach (SplintSections.SplintContour Contour in this)
+            foreach (SplintContour Contour in this)
             {
                 Start = Contour.Finish(Start);
                 RectangleF = BorderWall(RectangleF, View.Translate(Start).PointF);
@@ -195,7 +196,7 @@ namespace CorniceGraph.Logic
         {
             private int Index = -1;
             private dsSplints dsSplints;
-            private SplintSections.SplintContourType StartType;
+            private SplintContourType StartType;
             private int ComponentId;
             private double Value;
 
@@ -212,7 +213,7 @@ namespace CorniceGraph.Logic
                 Index = -1;
             }
 
-            public Enumerator(dsSplints dsSplints, int ComponentId, SplintSections.SplintContourType StartType, double Value)
+            public Enumerator(dsSplints dsSplints, int ComponentId, SplintContourType StartType, double Value)
             {
                 this.dsSplints = dsSplints;
                 this.StartType = StartType;
@@ -244,8 +245,8 @@ namespace CorniceGraph.Logic
                     double alpha = (rw.Phi0 + rw.PhiK * Value) * Math.PI / 180;
                     double phi = (rw.Угол) * Math.PI / 180;
                     if (Math.Abs(alpha) > 0.0001)
-                        return new SplintSections.SplintArcContour(l, alpha, phi, (SplintSections.SplintContourType)rw.Тип);
-                    return new SplintSections.SplintLineContour(l, phi, (SplintSections.SplintContourType)rw.Тип);
+                        return new SplintArcContour(l, alpha, phi, (SplintContourType)rw.Тип);
+                    return new SplintLineContour(l, phi, (SplintContourType)rw.Тип);
                 }
             }
 

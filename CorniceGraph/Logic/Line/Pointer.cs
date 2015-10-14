@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
 
-namespace CorniceGraph.Logic
+namespace CorniceGraph.Logic.Line
 {
     public class Pointer
     {

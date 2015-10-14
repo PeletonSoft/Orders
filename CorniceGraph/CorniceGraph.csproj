@@ -62,13 +62,40 @@
       <DependentUpon>dsWall.xsd</DependentUpon>
     </Compile>
     <Compile Include="DBConvert.cs" />
+    <Compile Include="Logic\DrawEx.cs" />
+    <Compile Include="Logic\Line\ArcSection.cs" />
+    <Compile Include="Logic\Line\JunctSection.cs" />
+    <Compile Include="Logic\Line\LengthSection.cs" />
+    <Compile Include="Logic\Line\Line.cs" />
+    <Compile Include="Logic\Line\Lines.cs" />
+    <Compile Include="Logic\Line\LineSection.cs" />
+    <Compile Include="Logic\Line\LineSections.cs" />
     <Compile Include="LocalService.cs" />
-    <Compile Include="Logic\Pointer.cs" />
-    <Compile Include="Logic\SplintComponent.cs" />
-    <Compile Include="Logic\SplintSections.cs" />
-    <Compile Include="Logic\WallSection.cs" />
+    <Compile Include="Logic\Line\LineSectionType.cs" />
+    <Compile Include="Logic\Line\Point.cs" />
+    <Compile Include="Logic\Line\Pointer.cs" />
+    <Compile Include="Logic\Line\Section.cs" />
+    <Compile Include="Logic\Line\Side.cs" />
+    <Compile Include="Logic\MathEx.cs" />
+    <Compile Include="Logic\Splint\SplintArcContour.cs" />
+    <Compile Include="Logic\Splint\SplintComponent.cs" />
+    <Compile Include="Logic\Splint\SplintContour.cs" />
+    <Compile Include="Logic\Splint\SplintContourType.cs" />
+    <Compile Include="Logic\Splint\SplintLineContour.cs" />
+    <Compile Include="Logic\Splint\SplintSections.cs" />
+    <Compile Include="Logic\Wall\LengthWallSection.cs" />
+    <Compile Include="Logic\Wall\Wall.cs" />
+    <Compile Include="Logic\Wall\WallArc.cs" />
+    <Compile Include="Logic\Wall\WallCorner.cs" />
+    <Compile Include="Logic\Wall\WallLine.cs" />
+    <Compile Include="Logic\Wall\WallPartSection.cs" />
+    <Compile Include="Logic\Wall\WallPoint.cs" />
+    <Compile Include="Logic\Wall\Walls.cs" />
+    <Compile Include="Logic\Wall\WallSection.cs" />
+    <Compile Include="Logic\Wall\WallSections.cs" />
+    <Compile Include="Logic\Wall\WallType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Logic\CanvasView.cs" />
+    <Compile Include="Logic\Line\CanvasView.cs" />
     <Compile Include="_AddArc.cs">
       <SubType>Form</SubType>
     </Compile>

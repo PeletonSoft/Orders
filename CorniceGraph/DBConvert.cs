@@ -3,24 +3,24 @@
 namespace DBConverting
 {
 
-    public class DBConvert
+    public static class DBConvert
     {
-        public static object ToDBObject(int? Value)
+        public static object ToDBObject(this int? Value)
         {
             return Value == null ? DBNull.Value : (object)Value;
         }
 
-        public static object ToDBObject(int Value)
+        public static object ToDBObject(this int Value)
         {
             return (object)Value;
         }
 
-        public static object ToDBObject(bool? Value)
+        public static object ToDBObject(this bool? Value)
         {
             return Value == null ? DBNull.Value : (object)Value;
         }
 
-        public static object ToDBObject(bool Value)
+        public static object ToDBObject(this bool Value)
         {
             return (object)Value;
         }
@@ -62,7 +62,7 @@ namespace DBConverting
 
         public static bool ToBool(object Value)
         {
-            return Value == DBNull.Value ? false : (bool)Value;
+            return Value != DBNull.Value && (bool)Value;
         }
 
         public static bool? ToQBool(object Value)

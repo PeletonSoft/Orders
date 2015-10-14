@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using CorniceGraph.Datasets;
 using CorniceGraph.Logic;
+using CorniceGraph.Logic.Line;
+using CorniceGraph.Logic.Splint;
 
 namespace CorniceGraph
 {
@@ -18,7 +20,7 @@ namespace CorniceGraph
             InitializeComponent();
         }
 
-        public SplintSections.SplintContourType StartType;
+        public SplintContourType StartType;
 
         public void lcb_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -85,7 +87,7 @@ namespace CorniceGraph
             View = View.AutoZoom(SplintCompontent.Border(View, Start), pn.Width, pn.Height, 0.15, 0.25);
             View = View.AutoStart(SplintCompontent.Border(View, Start), pn.Width, pn.Height);
             SplintCompontent.Draw(e.Graphics, View, Start, new Pen(Color.Black, 2));
-            TfMain.DrawZoom(e.Graphics, View, pn.Width, pn.Height);
+            DrawEx.DrawZoom(e.Graphics, View, pn.Width, pn.Height);
         }
 
         private void btOk_Click(object sender, EventArgs e)

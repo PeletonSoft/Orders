@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using CorniceGraph.Datasets;
+using CorniceGraph.Logic;
 
 namespace CorniceGraph
 {
@@ -411,9 +412,9 @@ namespace CorniceGraph
             Pen P = new Pen(Color.Black);
             P.Width = 3;
 
-            TfMain.DrawSection(e.Graphics, P, x, y, phi, k * c * L, -psi + Math.PI / 2, out x, out y, out phi);
-            TfMain.DrawSection(e.Graphics, P, x, y, phi, 2* k * C * L, 2 * psi, out x, out y, out phi);
-            TfMain.DrawSection(e.Graphics, P, x, y, phi, k * c * L, -psi + Math.PI / 2, out x, out y, out phi);
+            DrawEx.DrawSection(e.Graphics, P, x, y, phi, k * c * L, -psi + Math.PI / 2, out x, out y, out phi);
+            DrawEx.DrawSection(e.Graphics, P, x, y, phi, 2* k * C * L, 2 * psi, out x, out y, out phi);
+            DrawEx.DrawSection(e.Graphics, P, x, y, phi, k * c * L, -psi + Math.PI / 2, out x, out y, out phi);
 
             P.Dispose();
 
@@ -804,9 +805,9 @@ namespace CorniceGraph
             Pen P = new Pen(Color.Black);
             P.Width = 3;
 
-            TfMain.DrawSection(e.Graphics, P, x, y, phi, k * c * L, -psi + Math.PI / 2, out x, out y, out phi);
-            TfMain.DrawSection(e.Graphics, P, x, y, phi, 2 * k * C * L, 2 * psi, out x, out y, out phi);
-            TfMain.DrawSection(e.Graphics, P, x, y, phi, k * c * L, -psi + Math.PI / 2, out x, out y, out phi);
+            DrawEx.DrawSection(e.Graphics, P, x, y, phi, k * c * L, -psi + Math.PI / 2, out x, out y, out phi);
+            DrawEx.DrawSection(e.Graphics, P, x, y, phi, 2 * k * C * L, 2 * psi, out x, out y, out phi);
+            DrawEx.DrawSection(e.Graphics, P, x, y, phi, k * c * L, -psi + Math.PI / 2, out x, out y, out phi);
 
             P.Color = Color.Red;
             P.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
@@ -892,13 +893,13 @@ namespace CorniceGraph
 
             if (!rbResultRight.Checked && !cbDown.Checked || !rbResultLeft.Checked && cbDown.Checked)
             {
-                TfMain.DrawSection(e.Graphics, P, x, y, phi, k * c * L, -psi + Math.PI / 2, out x, out y, out phi);
-                TfMain.DrawSection(e.Graphics, P, x, y, phi, k * C * L, psi, out x, out y, out phi);
+                DrawEx.DrawSection(e.Graphics, P, x, y, phi, k * c * L, -psi + Math.PI / 2, out x, out y, out phi);
+                DrawEx.DrawSection(e.Graphics, P, x, y, phi, k * C * L, psi, out x, out y, out phi);
             }
             if (!rbResultRight.Checked && cbDown.Checked || !rbResultLeft.Checked && !cbDown.Checked)
             {
-                TfMain.DrawSection(e.Graphics, P, x, y, phi, k * C * L, psi, out x, out y, out phi);
-                TfMain.DrawSection(e.Graphics, P, x, y, phi, k * c * L, -psi + Math.PI / 2, out x, out y, out phi);
+                DrawEx.DrawSection(e.Graphics, P, x, y, phi, k * C * L, psi, out x, out y, out phi);
+                DrawEx.DrawSection(e.Graphics, P, x, y, phi, k * c * L, -psi + Math.PI / 2, out x, out y, out phi);
             }
 
             P.Dispose();
